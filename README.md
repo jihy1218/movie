@@ -69,18 +69,17 @@ cnema
 
 | 관번호 오토키 (OnetoMany) | cno |
 | --- | --- |
+| 관 이름(String) | cname |
 | 좌석활성화여부(String) | cactive |
 | 시네마타입(String) | ctype |
 | 시네마가격(String) | cprice |
-| 시간 (OnetoMany) | tno |
 
 movie
 
-| 영화번호 오토키 (OnetoMany) | mno |
+| 영화번호 오토키 (OnetoMany) | mvno |
 | --- | --- |
-| 영화아이디(API) | mid |
-| 영화이미지(String) | mimg |
-| 리플번호 (ManytoOne) | rno |
+| 영화아이디(API) | mvid |
+| 영화이미지(String) | mvimg |
 
 date
 
@@ -90,7 +89,6 @@ date
 | 시간(String)  | dtime |
 | 영화번호(ManytoOne) | mno |
 | 관번호(ManytoOne) | cno |
-| 예매번호(OnetoMany) | tno |
 
 ticketing
 
@@ -107,6 +105,7 @@ reply
 | 리플내용(String) | rcontents |
 | 평점(int) 0~5  | rgrade |
 | 맴버번호(ManytoOne) | mno |
+| 영화번호 (ManytoOne) | mvno |
 ## 7. 컨트롤러 구조도
 ![영화관프로젝트](https://user-images.githubusercontent.com/91528966/150746516-3a9f3987-b746-484f-a003-1332d6bcb860.jpg)
 
