@@ -1,4 +1,6 @@
 package movie.domain.Entity.Movie;
 
-public interface MovieRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface MovieRepository extends JpaRepository<MovieEntity,Integer> {
 }

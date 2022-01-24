@@ -1,4 +1,6 @@
 package movie.domain.Entity.Cnema;
 
-public interface CnemaRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface CnemaRepository extends JpaRepository<CnemaEntity,Integer> {
 }

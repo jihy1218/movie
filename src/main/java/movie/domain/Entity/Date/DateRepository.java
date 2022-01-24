@@ -1,4 +1,6 @@
 package movie.domain.Entity.Date;
 
-public interface DateRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface DateRepository extends JpaRepository<DateEntity,Integer> {
 }

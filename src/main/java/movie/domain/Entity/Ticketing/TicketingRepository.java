@@ -1,4 +1,6 @@
 package movie.domain.Entity.Ticketing;
 
-public interface TicketingRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface TicketingRepository extends JpaRepository<TicketingEntity,Integer> {
 }
