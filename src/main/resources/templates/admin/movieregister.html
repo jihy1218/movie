@@ -6,6 +6,30 @@
 </head>
 <body>
 <div th:replace="header.html::header"></div><!--헤더-->
+<script th:src = "@{/js/admin.js}"></script>
+
+    <h3>영화 등록</h3>
+<!--    <div th:each="movie : ${movielist}">-->
+<!--        <button th:text="${movie.movieNm}" th:value="${movie.movieCd}"></button>-->
+<!--    </div>-->
+    <div class="container">
+        <form id="form" action="/admin/moviewritecontroller" method="post" enctype="multipart/form-data">
+            <div>
+                <select name="mvid" id="mvid" >
+                    <option >영화선택</option>
+                    <option th:each="movie : ${movielist}" th:text="${movie.movieNm}" th:value="${movie.movieCd}"></option>
+                </select>
+            </div>
+            <div>
+                썸네일<input type="file" name="mvimg">
+            </div>
+            <div>
+                <button type="button" onclick="moviewrite()">등록</button>
+            </div>
+        </form>
+    </div>
+
+
 <div th:replace="footer.html::footer"></div><!--푸터-->
 </body>
 </html>
