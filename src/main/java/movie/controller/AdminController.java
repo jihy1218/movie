@@ -86,7 +86,8 @@ public class AdminController {
             String filename = file.getOriginalFilename();
             String uuidfile = uuid.toString()+"_"+filename.replaceAll("_","-");
             if(!file.getOriginalFilename().equals("")){
-                String dir = "C:\\Users\\505\\Desktop\\movie\\src\\main\\resources\\static\\poster";
+                //String dir = "C:\\Users\\505\\Desktop\\movie\\src\\main\\resources\\static\\poster"; 민욱이 주소
+                String dir = "C:\\Users\\505\\Desktop\\Spring\\movie\\src\\main\\resources\\static\\foster";
                 String filepath = dir+"\\" + uuidfile;
                 file.transferTo(new File((filepath)));
             }else{
@@ -104,7 +105,7 @@ public class AdminController {
         return "1";
     }
 
-    @GetMapping("/movielist")
+/*    @GetMapping("/movielist")
     public String movielist(Model model){
         List<MovieDto> list = movieService.getmovielist();
         for(MovieDto temp : list){
@@ -131,7 +132,7 @@ public class AdminController {
 
 
         return "admin/movielist";
-    }
+    }*/
 
 
 }
