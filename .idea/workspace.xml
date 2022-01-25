@@ -4,12 +4,6 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c8d3017d-f0d3-49d0-9e51-f0e01d7c1429" name="Changes" comment="dsdsd">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/member/ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/member/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/member/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/member/myinfo.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/member/myinfo.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/member/signup.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/member/signup.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,12 +28,10 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$" value="mw" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -57,15 +49,17 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="project.propCompiler" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\505\Desktop\Spring\movie\src\main\resources\static\css" />
+      <recent name="C:\Users\505\Desktop\Spring\movie\src\main\resources\static\img" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\505\Desktop\Spring\movie\src\main\resources\static\css" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Spring Boot.Appstart">
     <configuration name="Appstart" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="movie.Appstart" />
       <module name="springweb.main" />
@@ -79,6 +73,20 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="Appstart" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="springweb.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="movie.Appstart" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="UPDATE_ACTION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.Appstart" />
+      <item itemvalue="Spring Boot.Appstart" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Appstart" />
@@ -94,6 +102,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1642755725607</updated>
+      <workItem from="1643091517434" duration="3067000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <created>1643009522179</created>
@@ -103,21 +112,10 @@
       <updated>1643009522179</updated>
     </task>
     <task id="LOCAL-00002" summary="initial commit">
-      <created>1643092178567</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1643092178567</updated>
-    </task>
-    <task id="LOCAL-00003" summary="dsdsd">
-      <created>1643092227608</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1643092227609</updated>
-    </task>
-    <option name="localTasksCounter" value="4" />
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -132,7 +130,5 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="initial commit" />
-    <MESSAGE value="dsdsd" />
-    <option name="LAST_COMMIT_MESSAGE" value="dsdsd" />
   </component>
 </project>
