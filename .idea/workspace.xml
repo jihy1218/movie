@@ -4,27 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c8d3017d-f0d3-49d0-9e51-f0e01d7c1429" name="Changes" comment="initial commit">
-      <change afterPath="$PROJECT_DIR$/src/main/java/movie/domain/Dto/MovieDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/movie/domain/Entity/Member/MemberEntity.java" afterDir="false" />
+    <list default="true" id="c8d3017d-f0d3-49d0-9e51-f0e01d7c1429" name="Changes" comment="dsdsd">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/member/ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/movie/controller/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/movie/controller/AdminController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/movie/controller/MovieController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/movie/controller/MovieController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/movie/domain/Entity/Cnema/CnemaEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/movie/domain/Entity/Cnema/CnemaEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/movie/domain/Entity/Cnema/CnemaRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/movie/domain/Entity/Cnema/CnemaRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/movie/domain/Entity/Date/DateEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/movie/domain/Entity/Date/DateEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/movie/domain/Entity/Date/DateRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/movie/domain/Entity/Date/DateRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/movie/domain/Entity/Member/MemberEntiry.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/movie/domain/Entity/Member/MemberRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/movie/domain/Entity/Member/MemberRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/movie/domain/Entity/Movie/MovieEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/movie/domain/Entity/Movie/MovieEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/movie/domain/Entity/Movie/MovieRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/movie/domain/Entity/Movie/MovieRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/movie/domain/Entity/Movie/ReplyEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/movie/domain/Entity/Movie/ReplyEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/movie/domain/Entity/Movie/ReplyRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/movie/domain/Entity/Movie/ReplyRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/movie/domain/Entity/Ticketing/TicketingEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/movie/domain/Entity/Ticketing/TicketingEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/movie/domain/Entity/Ticketing/TicketingRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/movie/domain/Entity/Ticketing/TicketingRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/header.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/header.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/main.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/main.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/member/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/member/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/member/myinfo.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/member/myinfo.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/member/signup.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/member/signup.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,13 +27,18 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="HTML File" />
         <option value="Interface" />
         <option value="Class" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="mw" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -67,7 +57,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../summer" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="project.propCompiler" />
   </component>
   <component name="RecentsManager">
@@ -92,6 +82,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.Appstart" />
+        <item itemvalue="Application.Appstart" />
       </list>
     </recent_temporary>
   </component>
@@ -111,7 +102,21 @@
       <option name="project" value="LOCAL" />
       <updated>1643009522179</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="initial commit">
+      <created>1643092178567</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1643092178567</updated>
+    </task>
+    <task id="LOCAL-00003" summary="dsdsd">
+      <created>1643092227608</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1643092227609</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -127,6 +132,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="initial commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="initial commit" />
+    <MESSAGE value="dsdsd" />
+    <option name="LAST_COMMIT_MESSAGE" value="dsdsd" />
   </component>
 </project>
