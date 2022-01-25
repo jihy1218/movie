@@ -2,11 +2,84 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Title</title>
+    <link th:href="@{/css/calendar.css}" rel="stylesheet">
 </head>
 <body>
- 영화선택 날짜 선택 시간 선택
  <div th:replace="header.html::header"></div><!--헤더-->
+ 영화선택 날짜 선택 시간 선택
+ <div class="container">
+     <div class="row">
+         <div class="col-md-6" style="height: 700px; border: lightpink solid 3px; border-radius: 9%; overflow: auto; margin-right:15px;" >
+             <div class="row">
+                 <div class="col-md-5 m-4">
+                    <div class="card" style=" border: lightpink solid 3px; border-radius: 10%;overflow: hidden">
+                        <img class="card-top" src="/foster/gwangsu.jpg" max-width="100%">
+                        <div class="card-body">
+                            <p class="card-text">해적 : 도깨비 깃발</p>
+                            <hr>
+                            <p class="item p-1">
+                                장르 어드벤쳐, 액션, 코미디<br>
+                                한국 2022.01.26 개봉125분<br>
+                                감독 김정훈<br>
+                                출연 강하늘, 한효주, 이광수, <br>권상우, 채수빈, 오세훈, 김성오
+                        </div>
+                    </div>
+                 </div>
+                 <div class="col-md-5 m-4">
+                     <div class="card" style=" border: lightpink solid 3px; border-radius: 15%;overflow: hidden">
+                         <img class="card-top" src="/foster/gwangsu.jpg" max-width="100%">
+                         <div class="card-body">
+                             <p class="card-text">해적 : 도깨비 깃발</p>
+                             <hr>
+                             <p class="item p-1">
+                                 장르 어드벤쳐, 액션, 코미디<br>
+                                 한국 2022.01.26 개봉125분<br>
+                                 감독 김정훈<br>
+                                 출연 강하늘, 한효주, 이광수, <br>권상우, 채수빈, 오세훈, 김성오
+                         </div>
+                     </div>
+                 </div>
+             </div>
+             <div class="row">
+                 <div class="col-md-5 m-4">
+                     <div class="card" style=" border: lightpink solid 3px; border-radius: 15%;overflow: hidden">
+                         <img class="card-top" src="/foster/gwangsu.jpg" max-width="100%">
+                         <div class="card-body">
+                             <p class="card-text">해적 : 도깨비 깃발</p>
+                             <hr>
+                             <p class="item p-1">
+                                 장르 어드벤쳐, 액션, 코미디<br>
+                                 한국 2022.01.26 개봉125분<br>
+                                 감독 김정훈<br>
+                                 출연 강하늘, 한효주, 이광수, <br>권상우, 채수빈, 오세훈, 김성오
+                         </div>
+                     </div>
+                 </div>
+                 <div class="col-md-5 m-4">
+                     <div class="card" style=" border: lightpink solid 3px; border-radius: 15%;overflow: hidden">
+                         <img class="card-top" src="/foster/gwangsu.jpg" max-width="100%">
+                         <div class="card-body">
+                             <p class="card-text">해적 : 도깨비 깃발</p>
+                             <hr>
+                             <p class="item p-1">
+                                 장르 어드벤쳐, 액션, 코미디<br>
+                                 한국 2022.01.26 개봉125분<br>
+                                 감독 김정훈<br>
+                                 출연 강하늘, 한효주, 이광수, <br>권상우, 채수빈, 오세훈, 김성오
+                         </div>
+                     </div>
+                 </div>
+             </div>
+         </div>
+         <div class="col-md-5"  style="height: 700px; border: lightpink solid 3px; border-radius: 9%; overflow: auto;">
+             <div id="calendar" style="height: 300px;"></div>
+         </div>
+     </div>
+ </div>
+ <script th:src="@{/js/calendar.js}"></script>
  <div th:replace="footer.html::footer"></div><!--푸터-->
 </body>
 </html>
