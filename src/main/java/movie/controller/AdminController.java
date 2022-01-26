@@ -1,6 +1,7 @@
 package movie.controller;
 
 import movie.domain.Dto.MovieDto;
+import movie.domain.Dto.MovieinfoDto;
 import movie.service.MovieService;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -86,7 +87,7 @@ public class AdminController {
             String filename = file.getOriginalFilename();
             String uuidfile = uuid.toString()+"_"+filename.replaceAll("_","-");
             if(!file.getOriginalFilename().equals("")){
-                //String dir = "C:\\Users\\505\\Desktop\\movie\\src\\main\\resources\\static\\poster"; 민욱이 주소
+                //String dir = "C:\\Users\\505\\Desktop\\movie\\src\\main\\resources\\static\\poster"; //민욱이 주소
                 String dir = "C:\\Users\\505\\Desktop\\Spring\\movie\\src\\main\\resources\\static\\foster";
                 String filepath = dir+"\\" + uuidfile;
                 file.transferTo(new File((filepath)));
@@ -105,34 +106,60 @@ public class AdminController {
         return "1";
     }
 
-/*    @GetMapping("/movielist")
-    public String movielist(Model model){
+    @GetMapping("/movielist")
+    public String movielist(Model model) {
         List<MovieDto> list = movieService.getmovielist();
-        for(MovieDto temp : list){
-            String urlpa = "https://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?key=7e83198258b5dd58ff5ca336a95ff5e8&movieCd="+temp.getMno();
-            try {
-                URL url = new URL(urlpa);
-                BufferedReader bf = new BufferedReader( new InputStreamReader(  url.openStream() , "UTF-8") );
-                String result = bf.readLine();
-                JSONParser jsonParser = new JSONParser();
-                JSONObject jsonObject = (JSONObject)jsonParser.parse(result);
-                JSONObject jsonObject2 = (JSONObject) jsonObject.get("movieInfoResult");
-                JSONArray jsonArray = (JSONArray) jsonObject2.get("movieInfo");
-                System.out.println( jsonArray.toString() );
-                for( int i = 0 ; i<jsonArray.size() ; i++ ) {
-                    JSONObject content = (JSONObject) jsonArray.get(i);
-                    System.out.println( content.get("movieNm") );
+        List<MovieinfoDto> movieDtos = new ArrayList<>();
+        JSONArray jsonArray = new JSONArray();
+
+            for(MovieDto temp : list){
+                String urlpa = "https://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?key=7e83198258b5dd58ff5ca336a95ff5e8&movieCd="+temp.getMvid();
+                try {
+                    URL url = new URL(urlpa);
+                    BufferedReader bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
+                    String result = bf.readLine();
+                    JSONParser jsonParser = new JSONParser();
+                    JSONObject jsonObject = (JSONObject) jsonParser.parse(result);
+                    JSONObject jsonObject2 = (JSONObject) jsonObject.get("movieInfoResult");
+                    JSONObject jsonObject3 = (JSONObject) jsonObject2.get("movieInfo");
+                    JSONArray nations = (JSONArray) jsonObject3.get("nations");
+                    JSONObject nation = (JSONObject)nations.get(0);
+                    JSONArray genresJS = (JSONArray)  jsonObject3.get("genres");
+                    JSONObject genres = (JSONObject)genresJS.get(0);
+                    JSONArray directorsJS = (JSONArray)  jsonObject3.get("directors");
+                    JSONObject directors = (JSONObject)directorsJS.get(0);
+                    JSONArray actorsJSON = (JSONArray) jsonObject3.get("actors");
+                    JSONArray companysJS = (JSONArray) jsonObject3.get("companys");
+                    JSONObject companys = (JSONObject)companysJS.get(0);
+
+                    JSONArray auditsJS = (JSONArray) jsonObject3.get("audits");
+                    JSONObject audits = (JSONObject)auditsJS.get(0);
+                    String actors = "" ;
+                    for(int i = 0; i<actorsJSON.size(); i++){
+                        JSONObject abc = (JSONObject)actorsJSON.get(i);
+                        actors += abc.get("peopleNm")+",";
+                    }
+                    System.out.println(actors);
+                    MovieinfoDto movieDto = MovieinfoDto.builder()
+                            .movieNm((String)jsonObject3.get("movieNm"))
+                            .showTm(Integer.parseInt((String)jsonObject3.get("showTm")))
+                            .openDt((String)jsonObject3.get("openDt"))
+                            .nations((String) nation.get("nationNm"))
+                            .genres((String)genres.get("genreNm"))
+                            .directors((String)directors.get("peopleNm"))
+                            .actors(actors)
+                            .companyNm((String)companys.get("companyNm"))
+                            .watchGradeNm((String)audits.get("watchGradeNm"))
+                            .build();
+
+                    movieDtos.add(movieDto);
+                } catch (Exception e) {
                 }
-
-                model.addAttribute("movielist",jsonArray);
-            } catch (Exception e) {
             }
-
-        }
-
-
+        System.out.println(movieDtos.toString());
+            model.addAttribute("movieinfo" , movieDtos);
         return "admin/movielist";
-    }*/
+    }
 
 
 }

@@ -10,9 +10,13 @@
 
     <h3>무비리스트</h3>
     <div class="content">
-        <table class="table" th:each="movie : ${movielist}">
+        <table class="table" th:each="movie : ${movieinfo}">
             <tr>
-                <td th:text="${movie.mvid}"></td><td></td>
+                <td th:text="${movie.movieNm}"></td><td th:text="${movie.showTm}"></td>
+                <td th:text="${movie.openDt}"></td><td th:text="${movie.nations}"></td>
+                <td th:text="${movie.genres}"></td><td th:text="${movie.directors}"></td>
+                <td th:text="${movie.actors}"></td><td th:text="${movie.companyNm}"></td>
+                <td th:text="${movie.watchGradeNm}"></td>
             </tr>
         </table>
     </div>
