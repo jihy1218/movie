@@ -12,4 +12,8 @@ public class MovieController {
     public String ticketing(){
         return "movie/ticketingdate";
     }
+
+    @GetMapping("/ticketingseat")
+    public  String ticketingseat(){return "movie/ticketingseat";}
+
 }

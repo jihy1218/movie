@@ -75,7 +75,31 @@
              </div>
          </div>
          <div class="col-md-5"  style="height: 700px; border: lightpink solid 3px; border-radius: 9%; overflow: auto;">
-             <div id="calendar" style="height: 300px;"></div>
+             <form class="mt-3">
+                 <select id="monthselect" class="form-select">
+                     <option value="1">1월</option>
+                     <option value="2">2월</option>
+                     <option value="3">3월</option>
+                     <option value="4">4월</option>
+                     <option value="5">5월</option>
+                     <option value="6">6월</option>
+                     <option value="7">7월</option>
+                     <option value="8">8월</option>
+                 </select>
+                 <input type="button" value="클릭" onclick="monthselect();">
+             </form>
+             <div id="calendar" class="mt-3" style="height: 300px;"></div>
+             <br><br><br>
+             <div class="text-center" style="overflow: auto; height: 100px;">
+                 <button class="col-md-5 btn mb-2" style="background-color: mediumturquoise">2관 11:00~13:10 </button>
+                 <button class="col-md-5 btn mb-2" style="background-color: mediumturquoise">2관 13:30~15:40 </button>
+                 <button class="col-md-5 btn mb-2" style="background-color: mediumturquoise">7관 17:00~19:10 </button>
+                 <button class="col-md-5 btn mb-2" style="background-color: mediumturquoise">7관 20:00~22:10 </button>
+                 <button class="col-md-5 btn mb-2" style="background-color: mediumturquoise">7관 20:00~22:10 </button>
+                 <button class="col-md-5 btn mb-2" style="background-color: mediumturquoise">7관 20:00~22:10 </button>
+             </div>
+             <a th:href="@{/movie/ticketingseat}"><button class="col-md-6 offset-3 btn btn-success mt-2">좌석선택</button></a>
+             <button class="col-md-6 offset-3 btn btn-danger mt-2">RESET</button>
          </div>
      </div>
  </div>
