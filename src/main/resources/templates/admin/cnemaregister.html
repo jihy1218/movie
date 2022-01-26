@@ -9,11 +9,13 @@
 
     <h3>관등록</h3>
     <div class="container">
-        <div th:each="list : ${list}">
-            <div th:text="${list}">
-
-            </div>
-
+        <div>
+            <span th:each="list : ${list}">
+                <button  th:value="${list}" th:text="${list}">
+                </button>
+                <br th:if="${list}=='1.3'">
+<!--                <br th:if=${#strings.listSplit(list,',')[0]==3}">-->
+            </span>
         </div>
     </div>
 
