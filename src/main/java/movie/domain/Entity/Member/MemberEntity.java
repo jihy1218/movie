@@ -34,6 +34,7 @@ public class MemberEntity extends BaseTimeEntity {
     private String msex;
     @Column(name="mage")  // 나이
     private String mage;
+
     @OneToMany(mappedBy = "memberEntityReply", cascade = CascadeType.ALL) // 댓글리스트
     private List<ReplyEntity> replyEntities = new ArrayList<>();
     @OneToMany(mappedBy = "memberEntityTicket" , cascade = CascadeType.ALL) // 티켓 리스트
