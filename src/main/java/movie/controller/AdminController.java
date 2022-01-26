@@ -87,8 +87,8 @@ public class AdminController {
             String filename = file.getOriginalFilename();
             String uuidfile = uuid.toString()+"_"+filename.replaceAll("_","-");
             if(!file.getOriginalFilename().equals("")){
-                String dir = "C:\\Users\\505\\Desktop\\movie\\src\\main\\resources\\static\\poster"; //민욱이 주소
-                //String dir = "C:\\Users\\505\\Desktop\\Spring\\movie\\src\\main\\resources\\static\\foster";
+                //String dir = "C:\\Users\\505\\Desktop\\movie\\src\\main\\resources\\static\\poster"; //민욱이 주소
+                String dir = "C:\\Users\\505\\Desktop\\Spring\\movie\\src\\main\\resources\\static\\foster";
                 String filepath = dir+"\\" + uuidfile;
                 file.transferTo(new File((filepath)));
             }else{
