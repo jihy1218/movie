@@ -54,6 +54,7 @@ function sample4_execDaumPostcode() {
        }).open();
 }
 /* 다음주소 api end */
+/*회원가입 유효성 검사*/
 
 $(function(){
     //아이디 유효성 검사
@@ -72,7 +73,7 @@ $(function(){
             if(result==1){
                 $("#idcheck").html("현재 사용중인 아이디 입니다.");
             }else{
-                $("#idcheck").html("사용 가능합니다");
+                $("#idcheck").html("사용가능");
             }
         }
        });
@@ -80,11 +81,11 @@ $(function(){
     });//키보드 이벤트 함수end
 
 
-   /* //패스워드 유효성검사
+   //패스워드 유효성검사
     $("#mpassword").keyup(function(){
         var pwj = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[~!@#$%^&*()+|=])[A-Za-z\d~!@#$%^&*()+|=]{8,15}$/;
         // 영대소문자+숫자+특수문자[ !@#$%^&*()+|= ] 8~15포함
-        var mpassword = $("mpassword").val();
+        var mpassword = $("#mpassword").val();
         if(!pwj.test(mpassword)){
             $("#passwordcheck").html("영대소문자+숫자+특수문자[ !@#$%^&*()+|= ] 8~15포함")
         }else {
@@ -96,16 +97,17 @@ $(function(){
     $("#mpasswordconfirm").keyup(function(){
         var pwj = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[~!@#$%^&*()+|=])[A-Za-z\d~!@#$%^&*()+|=]{8,16}$/;
                        // 숫자', '문자', '특수문자' 무조건 1개 이상, 비밀번호 '최소 8자에서 최대 16자'까지 허용
-                       var mpassword=$("mpassword").val();
-                       var mpasswordconfirm = $("mpasswordconfirm").val();
+                       var mpassword = $("#mpassword").val();
+                       var mpasswordconfirm = $("#mpasswordconfirm").val();
                         if(!pwj.test(mpasswordconfirm)){
                             $("#passwordcheck").html("숫자', '문자', '특수문자' 포함 , '최소 8문자~16글자 허용.");
-                        }else if(mpassword ! = mpasswordconfirm){
+                        }else if(mpassword != mpasswordconfirm){
                             $("#passwordcheck").html("서로 패스워드가 다릅니다");
                         }else{
                             $("#passwordcheck").html("사용가능");
                         }
     });//키보드 이벤트 함수 end
+
     //이름 유효성검사
     $("#mname").keyup(function(){
         var namej = /^[A-Za-z가-힣]{1,15}$/;
@@ -121,7 +123,7 @@ $(function(){
     $("#mphone").keyup(function(){
          var phonej = /^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$/; // 연락처
          var mphone = $("#mphone").val();
-         if(!phonej.test(phone)){
+         if(!phonej.test(mphone)){
             $("#phonecheck").html("01x-xxxx-xxxx 형식으로 입력해주세요");
          }else{
             $("#phonecheck").html("사용가능");
@@ -150,32 +152,36 @@ $(function(){
             });// ajax함수 end
          }
     });//키보드 이벤트 함수 end
-    //주소에 / 입력제한
-    $("#sample4_postcode").keyup(function(){
-        var address1 = $("#sample4_postcode").val();
-        if( address1.indexof("/") !=-1){$("#addresscheck").html("주소에 '/' 특수문자 포함 불가");return false;}
-        if(address1 !=null) {$("#addresscheck").html("사용가능");}
-    });
-    $("#sample4_roadAddress").keyup(function(){
-            var address2 = $("#sample4_roadAddress").val();
-            if( address2.indexof("/") !=-1){$("#addresscheck").html("주소에 '/' 특수문자 포함 불가");return false;}
-            if(address2 !=null) {$("#addresscheck").html("사용가능");}
-        });
-    $("#sample4_jibunAddress").keyup(function(){
-            var address3 = $("#sample4_jibunAddress").val();
-            if( address3.indexof("/") !=-1){$("#addresscheck").html("주소에 '/' 특수문자 포함 불가");return false;}
-            if(address2 !=null) {$("#addresscheck").html("사용가능");}
-        });
-    $("#sample4_detailAddress").keyup(function(){
-                var address4 = $("#sample4_detailAddress").val();
-                if( address4.indexof("/") !=-1){$("#addresscheck").html("주소에 '/' 특수문자 포함 불가");return false;}
-                if(address2 !=null) {$("#addresscheck").html("사용가능");}
+
+  // 주소에 / 입력 제한
+          $("#sample4_postcode").keyup( function(){
+                 var address1 = $("#sample4_postcode").val();
+                 if(  address1.indexOf("/") != -1 ){ $("#addresscheck").html(" 주소에 '/' 특수문자 포함 불가 "); return false;   }
+                 if( address1 != null ) {  $("#addresscheck").html("사용가능"); }
+          });
+          $("#sample4_roadAddress").keyup( function(){
+                   var address2 = $("#sample4_roadAddress").val();
+                     if(  address2.indexOf("/") != -1 ){  $("#addresscheck").html("주소에 '/' 특수문자 포함 불가 "); return false;     }
+                     if( address2 != null ) {  $("#addresscheck").html("사용가능"); }
+          });
+          $("#sample4_jibunAddress").keyup( function(){
+                   var address3 = $("#sample4_jibunAddress").val();
+                     if(  address3.indexOf("/") != -1 ){  $("#addresscheck").html(" 주소에  '/' 특수문자 포함 불가 "); return false;     }
+                     if( address3 != null ) {  $("#addresscheck").html("사용가능"); }
             });
+          $("#sample4_detailAddress").keyup( function(){
+                    var address4 = $("#sample4_detailAddress").val();
+                      if(  address4.indexOf("/") != -1 ){ $("#addresscheck").html("주소에  '/' 특수문자 포함 불가 "); return false;     }
+                     if( address4 != null ) {  $("#addresscheck").html("사용가능"); }
+           });
 
     //전 부 체크
-    $("submit1").click(function(){
-    //만약에  약관동의서 사용할거면  여기에다가  체크 박스 아이디 넣어서 하면될듯
-    if($("#idcheck").html() !="사용가능"){
+    $("#submit1").click(function(){
+     if( ! $('input[name=signupsign]').is(":checked") ) {
+       alert(" 회원가입 약관 동의시 회원가입이 가능합니다 . ");
+     }else if( ! $('input[name=infosign]').is(":checked") ) {
+       alert(" 개인정보처리방침 동의시 회원가입이 가능합니다 . ");
+    }else if($("#idcheck").html() !="사용가능"){
         alert("아이디가 불가능합니다 .");
     }else if($("#passwordcheck").html() !="사용가능"){
         alert("패스워드 불가능합니다 .");
@@ -192,5 +198,32 @@ $(function(){
          }
 
 
-    });*/
+    });
 });
+/*회원가입 유효성 검사끝*/
+/*로그인*/
+function login(){
+        var mid = $("#login_mid").val();
+        var mpassword = $("#login_mpassword").val();
+        var memberdto = { "mid" : mid  , "mpassword" : mpassword  };
+
+        $.ajax({
+        url: "/member/logincontroller",
+        data: Json.Stringfy(memberdto),
+        method: "post",
+        contentType: "application/json",
+        success: function(result){
+        if(result==1){
+          location.href="/"
+        }else{
+            $("#loginfailmsg").html("아이디 혹은 비밀번호가 다릅니다.");
+        }
+     }
+
+   });
+}
+
+/*로그인 끝*/
+
+
+

@@ -45,6 +45,16 @@ public class MemberController {
 
         return "member/signup";
     }
+    //회원가입페이지 연결
+    @GetMapping("/member/myinfo")
+    public String myinfo() {
+
+        return "member/myinfo";
+    }
+
+
+
+
     //회원가입
     @PostMapping("/member/signupcontroller")
     public String signupcontroller(MemberDto memberDto,
@@ -59,7 +69,7 @@ public class MemberController {
         return "member/login";
     }
     //아이디 중복체크
-    @PostMapping("/member/idcheck")
+    @GetMapping("/member/idcheck")
     @ResponseBody
     public String idcheck(@RequestParam("mid") String mid){
         boolean result = memberService.idcheck(mid);
@@ -72,7 +82,7 @@ public class MemberController {
     //이메일 중복체크
     @GetMapping("/member/emailcheck")
     @ResponseBody
-    public String emailcheck(@RequestParam("m_email")String mid){
+    public String emailcheck(@RequestParam("memail")String mid){
         boolean result = memberService.emailcheck(mid);
         if(result){
             return "1";
@@ -81,5 +91,14 @@ public class MemberController {
             return "2";
         }
     }
+
+  /*  //로그인                         <-------1월27 로그인 메소드드
+   @PostMapping("/member/logincontroller")
+    @ResponseBody
+    public String logincontroller(@ResponseBody MemberDto memberDto){
+
+
+
+    }*/
 
 }//class end
