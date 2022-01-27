@@ -88,6 +88,7 @@ public class AdminController {
         return "1";
     }
 
+
     @GetMapping("/movielist")
     public String movielist(Model model) {
         List<MovieinfoDto> movieDtos = movieService.getmovieinfo();
