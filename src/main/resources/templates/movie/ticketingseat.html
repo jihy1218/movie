@@ -26,9 +26,10 @@
          <div style="margin-top: 10px; height: 500px; "><!--자리깔기-->
              <button class="btn" style="background-color: springgreen; border-radius: 30%;">A1</button>
              <button class="btn" style="background-color: orangered; border-radius: 30%;">A2</button>
-             <button class="btn" style="background-color: darkgray; border-radius: 30%;">A3</button>
+             <button class="btn" style="background-color: darkgray; border-radius: 30%;">A3</button><br>
          </div>
          <button class="btn btn-success" data-bs-target="#paymentmodal" data-bs-toggle="modal">결제하기</button>
+         <a  th:href="@{/movie/ticketingdate}"><button class="btn btn-danger" data-bs-target="#paymentmodal" data-bs-toggle="modal">뒤로가기</button></a>
      </div>
  </div>
  <div class="modal fade" tabindex="-1" role="dialog" id="paymentmodal" data-bs-backdrop="static" >
