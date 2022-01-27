@@ -90,6 +90,12 @@ public class AdminController {
         JSONObject jsonObject=movieService.getmovieinfoselec(mvid);
 
         return jsonObject;
+
+    @GetMapping("/movielist")
+    public String movielist(Model model) {
+        List<MovieinfoDto> movieDtos = movieService.getmovieinfo();
+            model.addAttribute("movieinfo" , movieDtos);
+        return "admin/movielist";
     }
 
 

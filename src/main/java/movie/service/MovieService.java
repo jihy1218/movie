@@ -148,6 +148,7 @@ public class MovieService {
                         .genres((String)genres.get("genreNm"))
                         .directors((String)directors.get("peopleNm"))
                         .actors(actors)
+                        .mvid(temp.getMvid())
                         .companyNm((String)companys.get("companyNm"))
                         .watchGradeNm((String)audits.get("watchGradeNm"))
                         .build();
@@ -157,6 +158,51 @@ public class MovieService {
             }
         }
         return movieDtos;
+    }
+    //영화상세정보api
+    public JSONObject getmovieinfoselect(String mvid){
+        JSONObject jsonObject0 = new JSONObject();
+        String urlpa = "https://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?key=7e83198258b5dd58ff5ca336a95ff5e8&movieCd="+mvid;
+        try {
+            URL url = new URL(urlpa);
+            BufferedReader bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
+            String result = bf.readLine();
+            JSONParser jsonParser = new JSONParser();
+            JSONObject jsonObject = (JSONObject) jsonParser.parse(result);
+            JSONObject jsonObject2 = (JSONObject) jsonObject.get("movieInfoResult");
+            JSONObject jsonObject3 = (JSONObject) jsonObject2.get("movieInfo");
+            JSONArray nations = (JSONArray) jsonObject3.get("nations");
+            JSONObject nation = (JSONObject)nations.get(0);
+            JSONArray genresJS = (JSONArray)  jsonObject3.get("genres");
+            JSONObject genres = (JSONObject)genresJS.get(0);
+            JSONArray directorsJS = (JSONArray)  jsonObject3.get("directors");
+            JSONObject directors = (JSONObject)directorsJS.get(0);
+            JSONArray actorsJSON = (JSONArray) jsonObject3.get("actors");
+            JSONArray companysJS = (JSONArray) jsonObject3.get("companys");
+            JSONObject companys = (JSONObject)companysJS.get(0);
+
+            JSONArray auditsJS = (JSONArray) jsonObject3.get("audits");
+            JSONObject audits = (JSONObject)auditsJS.get(0);
+            String actors = "" ;
+            for(int i = 0; i<actorsJSON.size(); i++){
+                JSONObject abc = (JSONObject)actorsJSON.get(i);
+                actors += abc.get("peopleNm")+",";
+            }
+            System.out.println(actors);
+
+            jsonObject0.put("movieNm",jsonObject3.get("movieNm"));
+            jsonObject0.put("showTm",jsonObject3.get("showTm"));
+            jsonObject0.put("openDt",jsonObject3.get("openDt"));
+            jsonObject0.put("nations",nation.get("nationNm"));
+            jsonObject0.put("genres",genres.get("genreNm"));
+            jsonObject0.put("directors",directors.get("peopleNm"));
+            jsonObject0.put("actors",actors);
+            jsonObject0.put("companyNm",(String)companys.get("companyNm"));
+            jsonObject0.put("watchGradeNm",audits.get("watchGradeNm"));
+
+            return jsonObject0;
+        } catch (Exception e) { }
+        return null;
     }
 
     //선택영화상세정보api
