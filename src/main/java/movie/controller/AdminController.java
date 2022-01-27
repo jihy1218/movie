@@ -32,8 +32,9 @@ public class AdminController {
     MovieService movieService;
 
     @GetMapping("/adminmain")
-    public String adminmain(){
-
+    public String adminmain(Model model){
+        List<MovieinfoDto> movieDtos = movieService.getmovieinfo();
+        model.addAttribute("movieinfo" , movieDtos);
         return "admin/adminmain";
     }
 
@@ -41,9 +42,9 @@ public class AdminController {
     public String moviewrite(Model model){
 
         JSONArray movielist = movieService.getmovie();
-
         model.addAttribute("movielist",movielist);
         return "admin/movieregister";
+
     }
 
     @GetMapping("/cnemawrite")
@@ -62,37 +63,33 @@ public class AdminController {
 
     @PostMapping("/moviewritecontroller")
     @ResponseBody
-    public String moviewritecontroller(@RequestParam("mvimg") MultipartFile file){
+    public String moviewritecontroller(@RequestParam("mvimg")List<MultipartFile> mvimg,
+                                       @RequestParam("mvvideo")List<MultipartFile> mvvideo){
         String mvid =request.getParameter("mvid");
-        try{
-            UUID uuid = UUID.randomUUID();
-            String filename = file.getOriginalFilename();
-            String uuidfile = uuid.toString()+"_"+filename.replaceAll("_","-");
-            if(!file.getOriginalFilename().equals("")){
-                //String dir = "C:\\Users\\505\\Desktop\\movie\\src\\main\\resources\\static\\poster"; //민욱이 주소
-                String dir = "C:\\Users\\505\\Desktop\\Spring\\movie\\src\\main\\resources\\static\\foster";
-                String filepath = dir+"\\" + uuidfile;
-                file.transferTo(new File((filepath)));
-            }else{
-                uuidfile=null;
-            }
-            MovieDto moviedto = MovieDto.builder()
-                    .mvid(mvid)
-                    .mvimg(uuidfile)
-                    .build();
-            movieService.moviewrite(moviedto);
-
-        }catch(Exception e){
-
-        }
+        System.out.println("@@@@@@@@@@");
+        System.out.println("영화이미지 :"+mvimg.toString());
+        System.out.println("영화이미지1 :"+mvimg.get(0));
+        System.out.println("영화비디오 :"+mvvideo.toString());
+        System.out.println(mvid);
+        movieService.moviewrite(mvid,mvimg,mvvideo);
         return "1";
     }
 
-    @GetMapping("/movielist")
-    public String movielist(Model model) {
-        List<MovieinfoDto> movieDtos = movieService.getmovieinfo();
-            model.addAttribute("movieinfo" , movieDtos);
-        return "admin/movielist";
+    //상영시간페이지
+    @GetMapping("/moviedate")
+    public String moviedate(){
+        return "admin/screenregister";
+    }
+
+    //등록시 영화정보 불러오기
+    @ResponseBody
+    @PostMapping("/moviewriteinfo")
+    //@RequestMapping(value="/moviewriteinfo" ,method=RequestMethod.POST)
+    public JSONObject moviewriteinfo(@RequestParam("mvid")String mvid){
+
+        JSONObject jsonObject=movieService.getmovieinfoselec(mvid);
+
+        return jsonObject;
     }
 
 
