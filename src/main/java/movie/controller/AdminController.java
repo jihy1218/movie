@@ -85,12 +85,12 @@ public class AdminController {
     @ResponseBody
     @PostMapping("/moviewriteinfo")
     //@RequestMapping(value="/moviewriteinfo" ,method=RequestMethod.POST)
-    public JSONObject moviewriteinfo(@RequestParam("mvid")String mvid){
+    public JSONObject moviewriteinfo(@RequestParam("mvid")String mvid) {
 
-        JSONObject jsonObject=movieService.getmovieinfoselec(mvid);
+        JSONObject jsonObject = movieService.getmovieinfoselec(mvid);
 
         return jsonObject;
-
+    }
     @GetMapping("/movielist")
     public String movielist(Model model) {
         List<MovieinfoDto> movieDtos = movieService.getmovieinfo();
