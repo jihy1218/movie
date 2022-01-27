@@ -28,7 +28,7 @@ public class MovieEntity  extends BaseTimeEntity {
     @OneToMany(mappedBy = "movieEntityDate", cascade = CascadeType.ALL)  // 영화 날짜 시간 리스트
     private List<DateEntity> dateEntityList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "movieEntity", cascade = CascadeType.ALL)  // 영화 파일 리스트
+    @OneToMany(mappedBy = "movieEntityFile", cascade = CascadeType.ALL)  // 영화 파일 리스트
     private List<MoviefileEnity> moviefileEnities = new ArrayList<>();
 
 }
