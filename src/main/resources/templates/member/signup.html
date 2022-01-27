@@ -9,6 +9,37 @@
 <!--개발자 js 가져오기-->
 <script th:src="@{/js/member.js}"></script>
 <div class="container">
+
+    <div class="row">
+        <div class="col-md-5 mx-3 border p-3 rounded-3 shadow p-3 mb-5 bg-body rounded  ">
+            <h6>회원가입 및 정상적인 서비스 이용을 위해 아래 약관을 읽어 보시고, 동의 여부를 결정해 주세요 </h6>
+
+               <h8> 필수 약관을 동의 하셔야 회원가입이 가능합니다.</h8>
+
+            <hr>
+            <h3> *회원가입 약관 </h3>
+            <textarea  class="form-control" rows="8"  style="resize: none;">
+                    동의서내용동의서내용동의서내용동의서내용동의서내용동의서내용동의서내용동의서내용동의서내용동의서내용
+                    동의서내용동의서내용동의서내용동의서내용동의서내용동의서내용동의서내용동의서내용동의서내용동의서내용
+                    동의서내용동의서내용동의서내용동의서내용동의서내용동의서내용동의서내용동의서내용동의서내용동의서내용
+                    동의서내용동의서내용동의서내용동의서내용동의서내용동의서내용동의서내용동의서내용동의서내용동의서내용
+                    동의서내용동의서내용동의서내용동의서내용동의서내용동의서내용동의서내용동의서내용동의서내용동의서내용
+                </textarea>
+            <input type="checkbox" class="m-3" name="signupsign"> *회원가입 약관 동의 합니다 .*
+            <hr>
+            <h3> *개인정보처리방침 </h3>
+            <textarea  class="form-control" rows="8" style="resize: none;">
+                    개인정보처리방침개인정보처리방침개인정보처리방침개인정보처리방침개인정보처리방침개인정보처리방침개인정보처리방침
+                    개인정보처리방침개인정보처리방침개인정보처리방침개인정보처리방침개인정보처리방침개인정보처리방침개인정보처리방침
+                    개인정보처리방침개인정보처리방침개인정보처리방침개인정보처리방침개인정보처리방침개인정보처리방침개인정보처리방침
+                    개인정보처리방침개인정보처리방침개인정보처리방침개인정보처리방침개인정보처리방침개인정보처리방침개인정보처리방침
+                    개인정보처리방침개인정보처리방침개인정보처리방침개인정보처리방침개인정보처리방침개인정보처리방침개인정보처리방침
+                </textarea>
+            <input type="checkbox" class="m-3" name="infosign" > *개인정보처리방침 동의 합니다.*
+        </div>
+
+
+
     <div class="col-md-5">
         <form method="post"action="/member/signupcontroller">
             <div class="form-floating mb-3">
@@ -16,11 +47,11 @@
                 <label for="floatingInput" id="idcheck">아이디</label>
             </div>
             <div class="form-floating mb-3">
-                <input type="text" class="form-control rounded-4" id="mpassword" name="mpassword" placeholder="비밀번호">
+                <input type="password" class="form-control rounded-4" id="mpassword" name="mpassword" placeholder="비밀번호">
                 <label for="floatingInput" id="passwordcheck">비밀번호</label>
             </div>
             <div class="form-floating mb-3">
-                <input type="text" class="form-control rounded-4" id="mpasswordconfirm" name="mpasswordconfirm" placeholder="비밀번호확인">
+                <input type="password" class="form-control rounded-4" id="mpasswordconfirm" name="mpasswordconfirm" placeholder="비밀번호확인">
                 <label for="floatingInput">비밀번호확인</label>
             </div>
             <div class="form-floating mb-3">
@@ -43,10 +74,6 @@
                 <input type="text" class="form-control rounded-4" id="mage" name="mage"  placeholder="나이">
                 <label for="floatingInput">나이</label>
             </div>
-            <div class="form-floating mb-3">
-                <input type="text" class="form-control rounded-4" id="maddress" name="maddress"  placeholder="주소">
-                <label for="floatingInput">주소</label>
-            </div>
 
             <div class="row">   <!-- 3:8 -->
                 <div class="col-md-3 m-2"> <label>주소</label> </div>
@@ -64,7 +91,7 @@
                 </div>
             </div>
 
-            <input id="submit1" type="submit" class="form-control p-3 my-3" value="회원가입">
+            <input id="submit1" type="button" class="form-control p-3 my-3" value="회원가입">
         </form>
     </div>
 </div>
