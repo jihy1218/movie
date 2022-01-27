@@ -30,6 +30,7 @@
                 <button data-bs-target="#videomodal" data-bs-toggle="modal">예고편</button>
          </div>
          <button class="btn btn-success" data-bs-target="#paymentmodal" data-bs-toggle="modal">결제하기</button>
+         <a  th:href="@{/movie/ticketingdate}"><button class="btn btn-danger" data-bs-target="#paymentmodal" data-bs-toggle="modal">뒤로가기</button></a>
      </div>
  </div>
  <div class="modal fade" tabindex="-1" role="dialog" id="paymentmodal" data-bs-backdrop="static" >
@@ -56,7 +57,7 @@
      <div class="modal-dialog modal-lg" role="document">
          <div class="modal-content rounded-4 shadow">
              <div class="modal-body p-4 text-center">
-                 <video controls width="100%">
+                 <video controls width="100%" autoplay>
                      <source src="/foster/test.mp4">
                  </video>
              </div>
