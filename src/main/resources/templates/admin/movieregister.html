@@ -13,21 +13,35 @@
 <!--        <button th:text="${movie.movieNm}" th:value="${movie.movieCd}"></button>-->
 <!--    </div>-->
     <div class="container">
-        <form id="form" action="/admin/moviewritecontroller" method="post" enctype="multipart/form-data">
-            <div>
-                <select name="mvid" id="mvid" >
-                    <option >영화선택</option>
-                    <option th:each="movie : ${movielist}" th:text="${movie.movieNm}" th:value="${movie.movieCd}"></option>
-                </select>
+        <div class="row">
+            <div class="offset-1 col-md-4">
+                <form id="form" action="/admin/moviewritecontroller" method="post" enctype="multipart/form-data">
+                    <div>
+                        <select name="mvid" id="mvid" class="form-control" onchange="movieinfodiv()">
+                            <option >영화선택</option>
+                            <option th:each="movie : ${movielist}" th:text="${movie.movieNm}" th:value="${movie.movieCd}"></option>
+                        </select>
+                    </div>
+                    <div>
+                        썸네일<input type="file" multiple="multiple" name="mvimg" class="form-control">
+                    </div>
+                    <div>
+                        동영상<input type="file" multiple="multiple" name="mvvideo" class="form-control">
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <button type="button" onclick="moviewrite()" class="btn btn-primary">등록</button>
+                    </div>
+                </form>
             </div>
-            <div>
-                썸네일<input type="file" name="mvimg">
+            <!--영화 정보-->
+            <div class="col-md-6">
+                <table class="table" id="movietable">
+
+                </table>
             </div>
-            <div>
-                <button type="button" onclick="moviewrite()">등록</button>
-            </div>
-        </form>
+        </div>
     </div>
+
 
 
 <div th:replace="footer.html::footer"></div><!--푸터-->

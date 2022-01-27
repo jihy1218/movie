@@ -1,23 +1,36 @@
 package movie.controller;
 
 import movie.domain.Dto.MemberDto;
+import movie.domain.Dto.MovieinfoDto;
 import movie.service.MemberService;
+import movie.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.lang.reflect.Member;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class MemberController {
     @Autowired
     MemberService memberService;
 
+    @Autowired
+    MovieService movieService;
     @GetMapping("/")
-    public String main(){
+    public String main(Model model){
+        List<MovieinfoDto> movieinfoDtos = movieService.getmovieinfo();
+        List<MovieinfoDto> movieinfoDtoList = new ArrayList<>();
+        for(int i=0; i<movieinfoDtos.size(); i++){
+            movieinfoDtoList.add(movieinfoDtos.get(i));
+        }
+        System.out.println(movieinfoDtoList+"영화이름 다나와");
+        model.addAttribute("movie",movieinfoDtoList);
         return "main";
     }
     //로그인페이지 연결

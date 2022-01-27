@@ -11,6 +11,8 @@ import lombok.*;
 @Builder
 public class MovieinfoDto {
 
+    // mvid
+    private String mvid;
     //제목
     private String movieNm;
     //상영시간

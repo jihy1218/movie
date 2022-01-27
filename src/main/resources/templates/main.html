@@ -30,6 +30,16 @@
             <span class="visually-hidden">Next</span>
         </button>
     </div>
+    <div  style="height: 400px; background-color: black;">
+        <div class="container  text-center">
+            <div class="row">
+                <div class="col-md-2" th:each="movie : ${movie}" style="margin: 50px 50px 10px 50px">
+                    <a th:href="@{/movie/movieview}"><img src="/foster/gwangsu.jpg" style="width: 100%;"><br></a><!--영화상세보기 갈때 번호 넘겨야됨-->
+                    <h6 style="color : #96C0B7; font-weight: bold; margin-top: 20px;" th:text="${movie.movieNm}"></h6>
+                </div>
+            </div>
+        </div>
+    </div>
     <div th:replace="footer.html::footer"></div><!--푸터-->
 </body>
 </html>
