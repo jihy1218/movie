@@ -10,8 +10,11 @@
 <script th:src="@{/js/member.js}"></script>
 
 <div class="container">
+
     <div class="row">
+        <form method="post"action="/member/logincontroller">
         <div class="col-md-6">
+
 
     <div class="form-floating mb-3">
         <input type="text" class="form-control rounded-4" id="login_mid" placeholder="아이디">
@@ -22,7 +25,8 @@
         <label for="floatingPassword">비밀번호</label>
     </div>
     <div id = "loginfailmsg" class="text-danger text-center" ></div>
-    <button class="w-100 mb-2 btn btn-lg rounded-4 btn-danger" onclick="login()">로그인</button>
+    <button class="w-100 mb-2 btn btn-lg rounded-4 btn-danger" onclick=login()">로그인</button>
+
     <a th:href="@{/member/findid}" data-bs-target="#modalfindid" data-bs-toggle="modal" ><small class="text-muted px-2">아이디 찾기</small></a>
     <a th:href="@{/member/findpassword}" data-bs-target="#modalfindpassword" data-bs-toggle="modal" ><small class="text-muted px-2">아이디 찾기</small></a>
     <hr class="my-4">
@@ -44,6 +48,8 @@
             <img  src="/img/Batman.jpg" max-width="100%">
     </div>
         <img  src="/img/Batman2.jpg" max-width="100%">
+        </form>
+</div>
 </div>
 
 <!--아이디 찾기 모달-->
