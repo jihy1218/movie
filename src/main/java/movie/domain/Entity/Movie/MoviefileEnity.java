@@ -28,5 +28,4 @@ public class MoviefileEnity {
     @ManyToOne
     @JoinColumn(name="mvno")
     private MovieEntity movieEntity;
-
 }

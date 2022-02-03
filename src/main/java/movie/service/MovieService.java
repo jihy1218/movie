@@ -32,7 +32,6 @@ public class MovieService {
     @Autowired
     MoviefileRepository moviefileRepository;
     //영화 등록
-    @Transactional
     public boolean moviewrite(String mvid, List<MultipartFile> mvimg, List<MultipartFile> mvvideo){
         String dirPo = "C:\\Users\\505\\Desktop\\movie\\src\\main\\resources\\static\\poster";
         String dirVi = "C:\\Users\\505\\Desktop\\movie\\src\\main\\resources\\static\\video";
@@ -59,9 +58,11 @@ public class MovieService {
                         .movieEntity(movieEntity)
                         .build();
                 int mfileno =moviefileRepository.save(moviefileEnity).getMvfileno();
-                System.out.println("tostring : "+moviefileRepository.findById(mfileno).get().toString());
+                MoviefileEnity moviefileEnity1= moviefileRepository.findById(mfileno).get();
                 System.out.println("abc2 :"+movieEntity.toString());
-                movieEntity.getMoviefileEnities().add(moviefileRepository.findById(mfileno).get());
+                System.out.println("moviefileEnity1 : "+moviefileEnity1);
+                movieEntity.getMoviefileEnities().add(moviefileEnity1);
+                //movieEntity.getMoviefileEnities().add(moviefileRepository.findById(mfileno).get());
             }
         }
         return true;
