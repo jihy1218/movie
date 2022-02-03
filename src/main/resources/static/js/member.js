@@ -202,7 +202,7 @@ $(function(){
 });
 /*회원가입 유효성 검사끝*/
 /*로그인*/
-function login(){
+/*function login(){
         var mid = $("#login_mid").val();
         var mpassword = $("#login_mpassword").val();
         var memberdto = { "mid" : mid  , "mpassword" : mpassword  };
@@ -221,7 +221,7 @@ function login(){
      }
 
    });
-}
+}*/
 
 /*로그인 끝*/
 
