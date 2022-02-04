@@ -6,14 +6,15 @@
 </head>
 <body>
 <div th:replace="header.html::header"></div><!--헤더-->
-
+<script th:src = "@{/js/admin.js}"></script>
     <h3>관등록</h3>
     <div class="container">
         <div>
             <span th:each="list  , i : ${list}">
-                <button  th:value="${list}" th:text="${list}">
-                </button><br  th:if="${i.index%3==2}">
+                <button  th:value="${list}" th:text="${list}" th:onclick="cnemabtn([[${list}]])" th:id="${list}" >
+                </button><br th:if="${i.index%20==19}">
             </span>
+            <button onclick="cnemabtn12()" style="background-color:red;">확인</button>
         </div>
     </div>
 

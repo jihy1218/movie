@@ -33,18 +33,17 @@ public class MovieService {
     MoviefileRepository moviefileRepository;
     //영화 등록
     @Transactional
-    public boolean moviewrite(String mvid, List<MultipartFile> mvimg, List<MultipartFile> mvvideo){
-        String dirPo = "C:\\Users\\505\\Desktop\\Spring\\movie\\src\\main\\resources\\static\\poster";
+    public boolean moviewrite(String mvid, List<MultipartFile> mvimg, List<MultipartFile> mvvideo ,MultipartFile mvposter){
+        String dirPo = "C:\\Users\\505\\Desktop\\movie\\src\\main\\resources\\static\\poster";
         String dirVi = "C:\\Users\\505\\Desktop\\movie\\src\\main\\resources\\static\\video";
         MovieDto movieDto = MovieDto.builder()
                 .mvid(mvid)
                 .build();
         int mno =  movieRepository.save(movieDto.toEntity()).getMvno();
-
         MovieEntity movieEntity = movieRepository.findById(mno).get();
-        System.out.println("abc :"+movieEntity.toString());
         String uuidfile = null;
-        if(mvimg.size()!=0){
+        System.out.println("mvposter:"+mvposter.getOriginalFilename());
+        if(!mvimg.get(0).getOriginalFilename().equals("")){
             for(MultipartFile img : mvimg){
                 UUID uuid = UUID.randomUUID();
                 uuidfile = uuid.toString()+"_"+img.getOriginalFilename().replaceAll("_","-");
@@ -60,11 +59,44 @@ public class MovieService {
                         .movieEntityFile(movieEntity)
                         .build();
                 int mfileno =moviefileRepository.save(moviefileEnity).getMvfileno();
-                System.out.println("tostring : "+moviefileRepository.findById(mfileno).get().toString());
-                System.out.println("abc2 :"+moviefileRepository.findById(mfileno).get().toString());
-                System.out.println("abc2 :"+movieEntity.getMoviefileEnities().toString());
                 movieEntity.getMoviefileEnities().add(moviefileRepository.findById(mfileno).get());
             }
+        }
+        if(!mvvideo.get(0).getOriginalFilename().equals("")){
+            for(MultipartFile img : mvvideo){
+                UUID uuid = UUID.randomUUID();
+                uuidfile = uuid.toString()+"_"+img.getOriginalFilename().replaceAll("_","-");
+                String filepath = dirPo+"\\"+uuidfile;
+                try{
+                    img.transferTo(new File(filepath));
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+                MoviefileEnity moviefileEnity = MoviefileEnity.builder()
+                        .mvfile(uuidfile)
+                        .mvtype(2)
+                        .movieEntityFile(movieEntity)
+                        .build();
+                int mfileno =moviefileRepository.save(moviefileEnity).getMvfileno();
+                movieEntity.getMoviefileEnities().add(moviefileRepository.findById(mfileno).get());
+            }
+        }
+        if(!mvposter.getOriginalFilename().equals("")){
+            UUID uuid = UUID.randomUUID();
+            uuidfile = uuid.toString()+"_"+mvposter.getOriginalFilename().replaceAll("_","-");
+            String filepath = dirPo+"\\"+uuidfile;
+            try{
+                mvposter.transferTo(new File(filepath));
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+            MoviefileEnity moviefileEnity = MoviefileEnity.builder()
+                    .mvfile(uuidfile)
+                    .mvtype(3)
+                    .movieEntityFile(movieEntity)
+                    .build();
+            int mfileno =moviefileRepository.save(moviefileEnity).getMvfileno();
+            movieEntity.getMoviefileEnities().add(moviefileRepository.findById(mfileno).get());
         }
         return true;
     }
