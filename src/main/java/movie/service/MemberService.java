@@ -42,7 +42,16 @@ public class MemberService {
         }
             return false;
     }
-
+    //회원 로그인 메소드
+    public MemberDto login(MemberDto memberDto){
+        List<MemberEntity>memberEntityList = memberRepository.findAll();
+        for(MemberEntity memberEntity : memberEntityList){
+            if(memberEntity.getMid().equals(memberDto.getMid())&&memberEntity.getMpassword().equals(memberDto.getMpassword())){
+                return MemberDto.builder().mid(memberEntity.getMid()).mno(memberEntity.getMno()).build();
+            }
+        }
+        return null;
+    }
 
 
 }//class end
