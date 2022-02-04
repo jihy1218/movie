@@ -55,7 +55,7 @@ public class MovieService {
                 }
                 MoviefileEnity moviefileEnity = MoviefileEnity.builder()
                         .mvfile(uuidfile)
-                        .mvtype(1)
+                        .mvtype(2)
                         .movieEntityFile(movieEntity)
                         .build();
                 int mfileno =moviefileRepository.save(moviefileEnity).getMvfileno();
@@ -74,7 +74,7 @@ public class MovieService {
                 }
                 MoviefileEnity moviefileEnity = MoviefileEnity.builder()
                         .mvfile(uuidfile)
-                        .mvtype(2)
+                        .mvtype(3)
                         .movieEntityFile(movieEntity)
                         .build();
                 int mfileno =moviefileRepository.save(moviefileEnity).getMvfileno();
@@ -92,7 +92,7 @@ public class MovieService {
             }
             MoviefileEnity moviefileEnity = MoviefileEnity.builder()
                     .mvfile(uuidfile)
-                    .mvtype(3)
+                    .mvtype(1)
                     .movieEntityFile(movieEntity)
                     .build();
             int mfileno =moviefileRepository.save(moviefileEnity).getMvfileno();
