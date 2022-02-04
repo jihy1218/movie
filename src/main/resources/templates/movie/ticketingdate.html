@@ -78,9 +78,14 @@
              <form class="mt-3">
                  <input type="month" onchange="monthselect();" id="monthselect1">
              </form>
+             <table class="table text-center">
+                 <tr>
+                     <th>일</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th>토</th>
+                 </tr>
+             </table>
              <div id="calendar" class="mt-3" style="height: 300px;"></div>
              <br><br><br>
-             <div class="text-center" style="overflow: auto; height: 100px;">
+             <div id="datediv" class="text-center" style="overflow: auto; height: 100px;">
                  <button class="col-md-5 btn mb-2" style="background-color: mediumturquoise">2관 11:00~13:10 </button>
                  <button class="col-md-5 btn mb-2" style="background-color: mediumturquoise">2관 13:30~15:40 </button>
                  <button class="col-md-5 btn mb-2" style="background-color: mediumturquoise">7관 17:00~19:10 </button>
