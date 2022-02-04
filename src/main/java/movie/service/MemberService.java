@@ -47,7 +47,7 @@ public class MemberService {
         List<MemberEntity>memberEntityList = memberRepository.findAll();
         for(MemberEntity memberEntity : memberEntityList){
             if(memberEntity.getMid().equals(memberDto.getMid())&&memberEntity.getMpassword().equals(memberDto.getMpassword())){
-                return memberDto.builder().mid(memberEntity.getMid()).mno(memberEntity.getMno()).build();
+                return MemberDto.builder().mid(memberEntity.getMid()).mno(memberEntity.getMno()).build();
             }
         }
         return null;
