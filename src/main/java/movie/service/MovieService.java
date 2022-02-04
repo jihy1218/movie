@@ -34,12 +34,13 @@ public class MovieService {
     //영화 등록
     @Transactional
     public boolean moviewrite(String mvid, List<MultipartFile> mvimg, List<MultipartFile> mvvideo){
-        String dirPo = "C:\\Users\\505\\Desktop\\movie\\src\\main\\resources\\static\\poster";
+        String dirPo = "C:\\Users\\505\\Desktop\\Spring\\movie\\src\\main\\resources\\static\\poster";
         String dirVi = "C:\\Users\\505\\Desktop\\movie\\src\\main\\resources\\static\\video";
         MovieDto movieDto = MovieDto.builder()
                 .mvid(mvid)
                 .build();
         int mno =  movieRepository.save(movieDto.toEntity()).getMvno();
+
         MovieEntity movieEntity = movieRepository.findById(mno).get();
         System.out.println("abc :"+movieEntity.toString());
         String uuidfile = null;
@@ -56,11 +57,12 @@ public class MovieService {
                 MoviefileEnity moviefileEnity = MoviefileEnity.builder()
                         .mvfile(uuidfile)
                         .mvtype(1)
-                        .movieEntity(movieEntity)
+                        .movieEntityFile(movieEntity)
                         .build();
                 int mfileno =moviefileRepository.save(moviefileEnity).getMvfileno();
                 System.out.println("tostring : "+moviefileRepository.findById(mfileno).get().toString());
-                System.out.println("abc2 :"+movieEntity.toString());
+                System.out.println("abc2 :"+moviefileRepository.findById(mfileno).get().toString());
+                System.out.println("abc2 :"+movieEntity.getMoviefileEnities().toString());
                 movieEntity.getMoviefileEnities().add(moviefileRepository.findById(mfileno).get());
             }
         }

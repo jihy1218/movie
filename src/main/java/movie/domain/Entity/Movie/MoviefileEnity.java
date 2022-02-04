@@ -10,7 +10,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Setter
 @Getter
-@ToString
+@ToString(exclude = "movieEntityFile")
 @Builder
 public class MoviefileEnity {
 
@@ -27,6 +27,6 @@ public class MoviefileEnity {
 
     @ManyToOne
     @JoinColumn(name="mvno")
-    private MovieEntity movieEntity;
+    private MovieEntity movieEntityFile;
 
 }
