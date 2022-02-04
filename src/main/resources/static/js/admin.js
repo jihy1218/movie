@@ -43,3 +43,30 @@ function movieinfodiv(){
         }
     })
 }
+
+function cnemabtn(abc){
+    var object = {};
+    const style = document.getElementById(abc).style;
+    if(style.backgroundColor=='red'){
+        alert(style.backgroundColor);
+        document.getElementById(abc).style.backgroundColor = '';
+    }else {
+        alert(abc);
+        document.getElementById(abc).style.backgroundColor = 'red';
+    }
+    alert(JSON.stringify(object));
+
+
+}
+function cnemabtn12(){
+    alert(abc);
+    document.getElementById(abc).style.backgroundColor = 'red';
+    const style = document.getElementById(abc).style;
+     // "red"
+     alert(style.color);
+    if(style.color=='red'){
+        alert("abc");
+        //document.getElementById(abc).style.backgroundColor = 'none';
+    }
+
+}
