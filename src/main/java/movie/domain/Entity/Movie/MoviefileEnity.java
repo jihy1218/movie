@@ -10,7 +10,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Setter
 @Getter
-@ToString
+@ToString(exclude = "movieEntityFile")
 @Builder
 public class MoviefileEnity {
 

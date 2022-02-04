@@ -51,9 +51,8 @@ public class AdminController {
     public String cnemawrite(Model model){
 
         ArrayList<String> arrayList = new ArrayList<String>();
-
-        for(int i = 1; i<4; i++){
-            for(int j = 1; j<4; j++){
+        for(char i = 'A'; i<'A'+11; i++){
+            for(int j = 1; j<21; j++){
                 arrayList.add(i+","+j);
             }
         }
@@ -64,14 +63,11 @@ public class AdminController {
     @PostMapping("/moviewritecontroller")
     @ResponseBody
     public String moviewritecontroller(@RequestParam("mvimg")List<MultipartFile> mvimg,
-                                       @RequestParam("mvvideo")List<MultipartFile> mvvideo){
+                                       @RequestParam("mvvideo")List<MultipartFile> mvvideo,
+                                       @RequestParam("mvposter")MultipartFile mvposter){
         String mvid =request.getParameter("mvid");
-        System.out.println("@@@@@@@@@@");
-        System.out.println("영화이미지 :"+mvimg.toString());
-        System.out.println("영화이미지1 :"+mvimg.get(0));
-        System.out.println("영화비디오 :"+mvvideo.toString());
-        System.out.println(mvid);
-        movieService.moviewrite(mvid,mvimg,mvvideo);
+
+        movieService.moviewrite(mvid,mvimg,mvvideo,mvposter);
         return "1";
     }
 
