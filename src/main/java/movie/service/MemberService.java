@@ -82,7 +82,11 @@ public class MemberService implements UserDetailsService {
         authorities.add(new SimpleGrantedAuthority(memberEntity.getRoleKey()));
         //세션부여
         MemberDto loginDto = MemberDto.builder().mid(memberEntity.getMid()).mno(memberEntity.getMno()).build();
+        HttpSession session = request.getSession();
+        session.setAttribute("logindto",loginDto);
 
+        //회원정보와 권한을 갖는 UserDetails 반환
+        return new IntergratedDto(memberEntity, authorities);
     }
     // 회원 정보 불러오기 메소드 ( 진행중 지형 )
     public MemberDto getMemberDto(int mno){
@@ -152,10 +156,5 @@ public class MemberService implements UserDetailsService {
         if(type==3){memberEntities.get().setMaddress(temp);return true;} // 주소 변경
         return false;
      }
-            HttpSession session = request.getSession();
-            session.setAttribute("logindto",loginDto);
 
-       //회원정보와 권한을 갖는 UserDetails 반환
-        return new IntergratedDto(memberEntity, authorities);
-    }
 }//class end
