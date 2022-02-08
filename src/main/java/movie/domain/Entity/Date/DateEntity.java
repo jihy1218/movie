@@ -32,5 +32,4 @@ public class DateEntity  extends BaseTimeEntity {
     @OneToMany(mappedBy = "dateEntityTicket",cascade = CascadeType.ALL) // 티켓 예약 리스트
     private List<TicketingEntity> ticketingEntities = new ArrayList<>();
 
-
 }

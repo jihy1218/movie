@@ -9,29 +9,30 @@
  <div th:replace="header.html::header"></div><!--헤더-->
     <div class="container">
         <div class="offset-4 col-md-4">
-            <div class="row">
-                <div class="col-md-5">
-                    <input type="time" class="form-control">
-                </div>
-                <div class="col-md-2">
-                    ~
-                </div>
-                <div class="col-md-5">
-                    <input type="time" class="form-control">
-                </div>
+            <div>
+                날짜<input type="date" id="ddate">
             </div>
             <div>
-                <select class="form-control">
+                시작시간<input type="time" class="form-control" id="dtime">
+            </div>
+            <div>
+                <select class="form-control" id="dcnema">
                     <option>관선택</option>
+                    <span th:each="cnemalist : ${cnemalist}">
+                         <option th:text="${cnemalist.cname}" th:value="${cnemalist.cno}"></option>
+                    </span>
                 </select>
             </div>
             <div>
-                <select class="form-control">
+                <select class="form-control" id="dmovie">
                     <option>영화선택</option>
+                    <span th:each="movieinfo : ${movieinfo}">
+                        <option th:text="${movieinfo.movieNm}" th:value="${movieinfo.mvno}"></option>
+                    </span>
                 </select>
             </div>
             <div class="d-flex justify-content-end">
-                <button class="btn btn-success">등록</button>
+                <button class="btn btn-success" onclick="screenregister()">등록</button>
             </div>
         </div>
     </div>

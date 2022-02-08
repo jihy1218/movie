@@ -13,13 +13,10 @@
                 <a th:href="@{/admin/cnemawrite}"><button class="btn btn-primary"> 관등록 </button></a>
                 <table class="table p-5">
                     <tr>
-                        <td>1관</td><td>200석</td><td>imax</td>
+                        <td>관</td><td>종류</td><td>좌석수</td>
                     </tr>
-                    <tr>
-                        <td>2관</td><td>200석</td><td>3d</td>
-                    </tr>
-                    <tr>
-                        <td>3관</td><td>200석</td><td>일반</td>
+                    <tr th:each="cnema : ${cnemalist}">
+                        <td th:text="${cnema.cname}"></td><td th:text="${cnema.ctype}"></td><td th:text="${cnema.ccount}"></td>
                     </tr>
                 </table>
             </div>

@@ -6,7 +6,6 @@
 </head>
 <body>
 <div th:replace="header.html::header"></div><!--헤더-->
-<script th:src = "@{/js/admin.js}"></script>
     <h3>관등록</h3>
     <div class="container">
         <div>
@@ -14,8 +13,22 @@
                 <button  th:value="${list}" th:text="${list}" th:onclick="cnemabtn([[${list}]])" th:id="${list}" >
                 </button><br th:if="${i.index%20==19}">
             </span>
-            <button onclick="cnemabtn12()" style="background-color:red;">확인</button>
+
         </div>
+        <br>
+        <div>
+            관이름<input type="text" id="cnemaname">
+        </div>
+        <br>
+        <div>
+            관타입<select id="cnematype">
+                <option value="NOMAL">NOMAL</option>
+                <option value="IMAX">IMAX</option>
+                <option value="3D">3D</option>
+            </select>
+        </div>
+        <br>
+        <button onclick="cnemawrite()">관등록</button>
     </div>
 
 <div th:replace="footer.html::footer"></div><!--푸터-->

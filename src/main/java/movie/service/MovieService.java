@@ -129,6 +129,7 @@ public class MovieService {
         List<MovieDto> movieDtos = new ArrayList<>();
         for(MovieEntity movie : movieEntities){
             MovieDto movieDto = MovieDto.builder()
+                    .mno(movie.getMvno())
                     .mvid(movie.getMvid())
                     .mvimg(movie.getMvimg())
                     .build();
@@ -197,6 +198,7 @@ public class MovieService {
                 }
                 System.out.println(actors);
                 MovieinfoDto movieDto = MovieinfoDto.builder()
+                        .mvno(temp.getMno())
                         .movieNm((String)jsonObject3.get("movieNm"))
                         .showTm(Integer.parseInt((String)jsonObject3.get("showTm")))
                         .openDt((String)jsonObject3.get("openDt"))
@@ -215,6 +217,7 @@ public class MovieService {
         }
         return movieDtos;
     }
+
     //영화상세정보api
     public JSONObject getmovieinfoselect(String mvid){
         JSONObject jsonObject0 = new JSONObject();
