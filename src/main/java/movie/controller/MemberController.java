@@ -116,7 +116,7 @@ public class MemberController {
 
    }*/
 
-   }
+
    // 아이디 찾기
     @GetMapping("/member/findid")
     @ResponseBody
