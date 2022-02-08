@@ -9,15 +9,15 @@
 </head>
 <body>
  <div th:replace="header.html::header"></div><!--헤더-->
- 영화선택 날짜 선택 시간 선택
  <div class="container">
      <div class="row">
          <div class="col-md-6" style="height: 700px; border: lightpink solid 3px; border-radius: 9%; overflow: auto; margin-right:15px;" >
              <div class="row">
                  <div class="col-md-5 m-4">
                     <div class="card" style=" border: lightpink solid 3px; border-radius: 10%;overflow: hidden">
-                        <img class="card-top" src="/foster/gwangsu.jpg" max-width="100%">
+                        <button style="border: none" onclick="movieselect();"><img class="card-top" src="/poster/gwangsu.jpg" style="width: 100%;"></button>
                         <div class="card-body">
+                            <input type="hidden" th:value="">
                             <p class="card-text">해적 : 도깨비 깃발</p>
                             <hr>
                             <p class="item p-1">
@@ -30,7 +30,7 @@
                  </div>
                  <div class="col-md-5 m-4">
                      <div class="card" style=" border: lightpink solid 3px; border-radius: 15%;overflow: hidden">
-                         <img class="card-top" src="/foster/gwangsu.jpg" max-width="100%">
+                         <img class="card-top" src="/poster/gwangsu.jpg" max-width="100%">
                          <div class="card-body">
                              <p class="card-text">해적 : 도깨비 깃발</p>
                              <hr>
@@ -46,7 +46,7 @@
              <div class="row">
                  <div class="col-md-5 m-4">
                      <div class="card" style=" border: lightpink solid 3px; border-radius: 15%;overflow: hidden">
-                         <img class="card-top" src="/foster/gwangsu.jpg" max-width="100%">
+                         <img class="card-top" src="/poster/gwangsu.jpg" max-width="100%">
                          <div class="card-body">
                              <p class="card-text">해적 : 도깨비 깃발</p>
                              <hr>
@@ -60,7 +60,7 @@
                  </div>
                  <div class="col-md-5 m-4">
                      <div class="card" style=" border: lightpink solid 3px; border-radius: 15%;overflow: hidden">
-                         <img class="card-top" src="/foster/gwangsu.jpg" max-width="100%">
+                         <img class="card-top" src="/poster/gwangsu.jpg" max-width="100%">
                          <div class="card-body">
                              <p class="card-text">해적 : 도깨비 깃발</p>
                              <hr>

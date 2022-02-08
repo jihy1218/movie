@@ -9,7 +9,7 @@ import movie.domain.Entity.Member.MemberEntity;
 @Setter
 @ToString
 @Builder
-public class MemberDto {
+public class MemberDto{
     private int mno;
     private String mid;
     private String mpassword;

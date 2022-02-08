@@ -28,12 +28,6 @@ function sample4_execDaumPostcode() {
                document.getElementById("sample4_roadAddress").value = roadAddr;
                document.getElementById("sample4_jibunAddress").value = data.jibunAddress;
 
-               // 참고항목 문자열이 있을 경우 해당 필드에 넣는다.
-               if(roadAddr !== ''){
-                   document.getElementById("sample4_extraAddress").value = extraRoadAddr;
-               } else {
-                   document.getElementById("sample4_extraAddress").value = '';
-               }
 
                var guideTextBox = document.getElementById("guide");
                // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
@@ -96,16 +90,16 @@ $(function(){
     //패스워드 확인 유효성 검사
     $("#mpasswordconfirm").keyup(function(){
         var pwj = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[~!@#$%^&*()+|=])[A-Za-z\d~!@#$%^&*()+|=]{8,16}$/;
-                       // 숫자', '문자', '특수문자' 무조건 1개 이상, 비밀번호 '최소 8자에서 최대 16자'까지 허용
-                       var mpassword = $("#mpassword").val();
-                       var mpasswordconfirm = $("#mpasswordconfirm").val();
-                        if(!pwj.test(mpasswordconfirm)){
-                            $("#passwordcheck").html("숫자', '문자', '특수문자' 포함 , '최소 8문자~16글자 허용.");
-                        }else if(mpassword != mpasswordconfirm){
-                            $("#passwordcheck").html("서로 패스워드가 다릅니다");
-                        }else{
-                            $("#passwordcheck").html("사용가능");
-                        }
+               // 숫자', '문자', '특수문자' 무조건 1개 이상, 비밀번호 '최소 8자에서 최대 16자'까지 허용
+               var mpassword = $("#mpassword").val();
+               var mpasswordconfirm = $("#mpasswordconfirm").val();
+                if(!pwj.test(mpasswordconfirm)){
+                    $("#passwordconfirmcheck").html("숫자', '문자', '특수문자' 포함 , '최소 8문자~16글자 허용.");
+                }else if(mpassword != mpasswordconfirm){
+                    $("#passwordconfirmcheck").html("서로 패스워드가 다릅니다");
+                }else{
+                    $("#passwordconfirmcheck").html("사용가능");
+                }
     });//키보드 이벤트 함수 end
 
     //이름 유효성검사
@@ -225,8 +219,120 @@ function login(){
 
    });
 }
-
 /*로그인 끝*/
+// 아이디찾기
+function findid(){
+    var name = $("#findidname").val();
+    var email = $("#findidemail").val();
+    $.ajax({
+        url : "/member/findid",
+        data : {"name" : name , "email" : email},
+        success : function (result){
+            if(result.length>0){  // result의 길이가 0보다 크면
+                alert("회원님의 아이디는[ "+result+" ]입니다.");
+            }else{
+                alert("존재하지않는 회원정보 입니다.");
+            }
+        }
+    });
+}
+// 아이디 찾기 끝
+// 비밀번호 찾기
+function findpassword(){
+    var id = $("#findpasswordid").val();
+    var email = $("#findpasswordemail").val();
+    $.ajax({
+        url : "/member/findpassword",
+        data : {"id" : id,"email": email},
+        success : function (result) {
+            if(result==1) {
+                alert("입력하신 메일로 임시 비밀번호를 전송하였습니다.");
+            }else{
+                alert("오류 발생 관리자에게 문의 하세요.");
+            }
+        }
+    });
+}
+var pwcount=0;
+var infopassword = null;
+// 비밀번호 변경하기
+function passwordchange(){
+    if(pwcount==0){
+        alert("비밀번호 수정후 수정 버튼을 눌러주셔야 저장됩니다.");
+        document.getElementById("tdpassword").innerHTML="<input type='password' id='infopassword' class='form-control' placeholder='영대소문자+숫자+특수문자[ !@#$%^&*()+|=]포함 8~15자 입력해주세요.'>";
+        pwcount++;
+    }else if(pwcount==1){
+        infopassword = $("#infopassword").val();
+        var mno = $("#infomno").val();
+        $.ajax({
+            url : "/member/passwordchange",
+            data : {"mno" : mno,"password" : infopassword, "type": 1},
+            success : function (result) {
+                if(result==1){
+                    alert("비밀번호가 변경되었습니다.");
+                    location.reload();
+                    pwcount=0;
+                }
+            }
+        });
+    }
+}
+// 핸드폰 번호 수정
+var phcount=0;
+var infophone = null;
+function phonechange(){
+    if(phcount==0){
+        alert("핸드폰 번호 수정후 수정버튼을 눌러주셔야 저장됩니다.");
+        document.getElementById("tdphone").innerHTML="<input type='text' id='infophone' class='form-control' placeholder='01x-xxxx-xxxx 형식으로 입력해주세요'>";
+        phcount++;
+    }else if(phcount==1){
+        infophone= $("#infophone").val();
+        var mno = $("#infomno").val();
+        $.ajax({
+            url : "/member/phonechange",
+            data : {"mno" : mno , "phone" : infophone, "type" : 2},
+            success : function (result) {
+                if(result==1){
+                    alert("핸드폰 번호가 변경되었습니다.");
+                    location.reload();
+                    phcount=0;
+                }
+            }
+        });
+    }
+}
+// 주소 수정
+var adcount=0;
+function addresschange(){
+    if(adcount==0){
+        alert("주소 수정후 수정버튼을 눌러주셔야 저장됩니다.");
+        document.getElementById("tdaddress").style.display="";
+        adcount++;
+    }else if(adcount==1){
+        var mno = $("#infomno").val();
+        var address1 = document.getElementById("sample4_postcode").value;
+        var address2 = document.getElementById("sample4_roadAddress").value;
+        var address3= document.getElementById("sample4_jibunAddress").value;
+        var address4= document.getElementById("sample4_detailAddress").value;
+        $.ajax({
+            url : "/member/addresschange",
+            data : {"mno" : mno ,
+                            "address1" : address1,
+                            "address2" : address2,
+                            "address3" : address3,
+                            "address4" : address4,
+                            "type" : 3
+            },
+            success : function (result) {
+                if(result==1) {
+                    alert("주소가 변경되었습니다.");
+                    location.reload();
+                    adcount=0;
+                }
+            }
+        });
+    }
+}
 
 
 
