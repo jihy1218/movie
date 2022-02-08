@@ -95,7 +95,7 @@ public class MemberController {
         }
     }
 
-    //로그인
+  /*  //로그인
    @PostMapping("/member/logincontroller")
     @ResponseBody
     public String logincontroller(@RequestBody MemberDto memberDto){
@@ -111,6 +111,11 @@ public class MemberController {
            System.out.print("Login fail");
            return "2";
        }
+
+
+
+   }*/
+
    }
    // 아이디 찾기
     @GetMapping("/member/findid")
@@ -163,5 +168,6 @@ public class MemberController {
             }
         }return  "2";
     }
+
 
 }//class end
