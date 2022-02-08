@@ -92,7 +92,7 @@ public class MemberController {
         }
     }
 
-    //로그인
+  /*  //로그인
    @PostMapping("/member/logincontroller")
     @ResponseBody
     public String logincontroller(@RequestBody MemberDto memberDto){
@@ -111,6 +111,6 @@ public class MemberController {
        }
 
 
-   }
+   }*/
 
 }//class end

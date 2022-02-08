@@ -2,6 +2,8 @@ package movie.domain.Dto;
 
 import lombok.*;
 import movie.domain.Entity.Member.MemberEntity;
+import movie.domain.Entity.Member.Role;
+
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,6 +21,7 @@ public class MemberDto {
     private String memail;
     private String mage;
     private String maddress;
+    private Role mgrade; // 회원등급
 
 
     //Dto --> entity
@@ -31,7 +34,8 @@ public class MemberDto {
                 .mphone(this.mphone)
                 .memail(this.memail)
                 .mage(this.mage)
-                .maddress(this.getMaddress())
+                .maddress(this.maddress)
+                .mgrade(Role.Member)
                 .build();
     }
 

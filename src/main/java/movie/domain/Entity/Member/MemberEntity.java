@@ -1,9 +1,12 @@
 package movie.domain.Entity.Member;
 
+
 import lombok.*;
 import movie.domain.Entity.BaseTimeEntity;
 import movie.domain.Entity.Movie.ReplyEntity;
 import movie.domain.Entity.Ticketing.TicketingEntity;
+
+
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -34,6 +37,21 @@ public class MemberEntity extends BaseTimeEntity {
     private String msex;
     @Column(name="mage")  // 나이
     private String mage;
+    @Enumerated(EnumType.STRING)//
+    @Column
+    private Role mgrade;
+    //oauth2 에서 동일한 이메일이면 업데이트 처리 메소드
+    public MemberEntity update(String name){
+        this.mname = name;
+        return this;
+    }
+    //해당 Role에 key반환 메소드드
+    public String getRoleKey(){return this.mgrade.getKey();}
+
+
+
+
+
 
     @OneToMany(mappedBy = "memberEntityReply", cascade = CascadeType.ALL) // 댓글리스트
     private List<ReplyEntity> replyEntities = new ArrayList<>();

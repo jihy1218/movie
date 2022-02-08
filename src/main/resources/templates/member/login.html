@@ -30,15 +30,13 @@
     <a th:href="@{/member/findpassword}" data-bs-target="#modalfindpassword" data-bs-toggle="modal" ><small class="text-muted px-2">아이디 찾기</small></a>
     <hr class="my-4">
     <h2 class="fs-5 fw-bold mb-3">SNS 연동로그인</h2>
+        <a href="/oauth2/authorization/naver"> <button class="w-20 py-2 mb-2 btn btn-outline-secondary rounded-4" type="submit">
+        <svg class="bi me-1" width="10" height="16"></svg>네이버 </button></a>
+        <a href="/oauth2/authorization/kakao"> <button class="w-20 py-2 mb-2 btn btn-outline-secondary rounded-4" type="submit">
+        <svg class="bi me-1" width="10" height="16"></svg>카카오 </button></a>
+        <a href="/oauth2/authorization/google"> <button class="w-20 py-2 mb-2 btn btn-outline-secondary rounded-4" type="submit">
+        <svg class="bi me-1" width="10" height="16"></svg>구글 </button></a>
 
-    <button class="w-20 py-2 mb-2 btn btn-outline-primary rounded-4" type="submit">
-        <svg class="bi me-1" width="16" height="16"><use xlink:href="#facebook"/></svg>
-        카카오
-    </button>
-    <button class="w-20 py-2 mb-2 btn btn-outline-secondary rounded-4" type="submit">
-        <svg class="bi me-1" width="16" height="16"><use xlink:href="#github"/></svg>
-        네이버
-    </button>
        </div>
         <div class="col-md-6">
             <img  src="/img/Batman.jpg" max-width="100%">
