@@ -2,6 +2,8 @@ package movie.controller;
 
 import movie.domain.Dto.MovieDto;
 import movie.domain.Dto.MovieinfoDto;
+import movie.domain.Entity.Cnema.CnemaEntity;
+import movie.service.CnemaService;
 import movie.service.MovieService;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -33,6 +35,9 @@ public class AdminController {
 
     @GetMapping("/adminmain")
     public String adminmain(Model model){
+
+        List<CnemaEntity> cnemaEntityList = cnemaService.getCnemalist();
+        model.addAttribute("cnemalist" , cnemaEntityList);
         List<MovieinfoDto> movieDtos = movieService.getmovieinfo();
         model.addAttribute("movieinfo" , movieDtos);
         return "admin/adminmain";
@@ -46,7 +51,7 @@ public class AdminController {
         return "admin/movieregister";
 
     }
-
+    // 관등록 페이지 이동
     @GetMapping("/cnemawrite")
     public String cnemawrite(Model model){
 
@@ -58,6 +63,28 @@ public class AdminController {
         }
         model.addAttribute("list" , arrayList);
         return "admin/cnemaregister";
+    }
+    @Autowired
+    CnemaService cnemaService;
+
+    //관등록
+    @GetMapping("/cnemawritecontroller")
+    @ResponseBody
+    public String cnemawritecontroller(@RequestParam("cnema")String cnema,
+                                       @RequestParam("cnematype")String cnematype,
+                                       @RequestParam("cnemaname")String cnemaname){
+        try{
+            JSONParser jsonParser = new JSONParser();
+            JSONObject jsonObject = (JSONObject) jsonParser.parse(cnema);
+            JSONArray jsonArray = (JSONArray) jsonObject.get("cnemalocation");
+            boolean result = cnemaService.cnemawrite(cnema,cnematype,cnemaname,200-jsonArray.size());
+            if(result){
+                return "1";
+            }else return "2";
+
+        }catch(Exception e){
+        }
+        return "2";
     }
 
     @PostMapping("/moviewritecontroller")
@@ -73,7 +100,11 @@ public class AdminController {
 
     //상영시간페이지
     @GetMapping("/moviedate")
-    public String moviedate(){
+    public String moviedate(Model model){
+        List<CnemaEntity> cnemaEntityList = cnemaService.getCnemalist();
+        model.addAttribute("cnemalist" , cnemaEntityList);
+        List<MovieinfoDto> movieDtos = movieService.getmovieinfo();
+        model.addAttribute("movieinfo" , movieDtos);
         return "admin/screenregister";
     }
 
@@ -94,5 +125,17 @@ public class AdminController {
         return "admin/movielist";
     }
 
+    @GetMapping("/screenregister")
+    public String screenregister(@RequestParam("ddate")String ddate,
+                                 @RequestParam("dtime")String dtime,
+                                 @RequestParam("dcnema")String dcnema,
+                                 @RequestParam("dmovie")String dmovie){
 
+        System.out.println("a:"+ddate);
+        System.out.println("b:"+dtime);
+        System.out.println("c:"+dcnema);
+        System.out.println("d:"+dmovie);
+
+        return "1";
+    }
 }

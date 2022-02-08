@@ -23,8 +23,8 @@ public class CnemaEntity  extends BaseTimeEntity {
     private String cactive;
     @Column(name="ctype")   // IMAX, 3D, 일반 등등
     private String ctype;
-    @Column(name="cprice")  // 영화 가격
-    private String cprice;
+    @Column(name="ccount")  // 좌석수
+    private int ccount;
     @OneToMany(mappedBy = "cnemaEntityDate",cascade = CascadeType.ALL) // 영화 시간 날짜 리스트
     private List<DateEntity> dateEntityList = new ArrayList<>();
     

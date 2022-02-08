@@ -11,6 +11,7 @@ import lombok.*;
 @Builder
 public class MovieinfoDto {
 
+    private int mvno;
     // mvid
     private String mvid;
     //제목
