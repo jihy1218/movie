@@ -203,17 +203,20 @@ $(function(){
 /*회원가입 유효성 검사끝*/
 /*로그인*/
 function login(){
+
         var mid = $("#login_mid").val();
         var mpassword = $("#login_mpassword").val();
         var memberdto = { "mid" : mid  , "mpassword" : mpassword  };
 
+
         $.ajax({
-        url: "/member/logincontroller",
-        data: Json.Stringfy(memberdto),
-        method: "post",
-        contentType: "application/json",
+        url: "/member/logincontroller",             // 보내는곳
+        data : JSON.stringify(memberdto)  ,   //  전송 데이터 값
+           //  JSON.stringify( JSON 자료형 -> 문자열 )
+        method: "post",        //  Get , Post 방식중 선택
+        contentType: "application/json" ,  //  ajax 타입
         success: function(result){
-        if(result==1){
+       if(result==1){
           location.href="/"
         }else{
             $("#loginfailmsg").html("아이디 혹은 비밀번호가 다릅니다.");

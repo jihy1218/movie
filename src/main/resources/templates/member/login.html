@@ -8,11 +8,13 @@
 
 <div th:replace="header.html::header"></div><!--헤더-->
 <script th:src="@{/js/member.js}"></script>
+<br><br><br><br>
 
 <div class="container">
-    <div class="row">
-        <div class="col-md-6">
 
+    <div class="row">
+
+        <div class="col-md-6">
     <div class="form-floating mb-3">
         <input type="text" class="form-control rounded-4" id="login_mid" placeholder="아이디">
         <label for="floatingInput">아이디</label>
@@ -22,28 +24,28 @@
         <label for="floatingPassword">비밀번호</label>
     </div>
     <div id = "loginfailmsg" class="text-danger text-center" ></div>
-    <button class="w-100 mb-2 btn btn-lg rounded-4 btn-danger" onclick="login()">로그인</button>
+            <button class="w-100 mb-2 btn btn-lg rounded-4 btn-danger" onclick="login()">로그인</button>
+
     <a th:href="@{/member/findid}" data-bs-target="#modalfindid" data-bs-toggle="modal" ><small class="text-muted px-2">아이디 찾기</small></a>
     <a th:href="@{/member/findpassword}" data-bs-target="#modalfindpassword" data-bs-toggle="modal" ><small class="text-muted px-2">아이디 찾기</small></a>
     <hr class="my-4">
-   <!-- <h2 class="fs-5 fw-bold mb-3">SNS 연동로그인</h2>
-    <button class="w-100 py-2 mb-2 btn btn-outline-dark rounded-4" type="submit">
-        <svg class="bi me-1" width="16" height="16"><use xlink:href="#twitter"/></svg>
-        구글
-    </button>
-    <button class="w-100 py-2 mb-2 btn btn-outline-primary rounded-4" type="submit">
+    <h2 class="fs-5 fw-bold mb-3">SNS 연동로그인</h2>
+
+    <button class="w-20 py-2 mb-2 btn btn-outline-primary rounded-4" type="submit">
         <svg class="bi me-1" width="16" height="16"><use xlink:href="#facebook"/></svg>
         카카오
     </button>
-    <button class="w-100 py-2 mb-2 btn btn-outline-secondary rounded-4" type="submit">
+    <button class="w-20 py-2 mb-2 btn btn-outline-secondary rounded-4" type="submit">
         <svg class="bi me-1" width="16" height="16"><use xlink:href="#github"/></svg>
         네이버
-    </button>-->
+    </button>
        </div>
         <div class="col-md-6">
             <img  src="/img/Batman.jpg" max-width="100%">
     </div>
         <img  src="/img/Batman2.jpg" max-width="100%">
+
+</div>
 </div>
 
 <!--아이디 찾기 모달-->

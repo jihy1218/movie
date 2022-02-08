@@ -7,11 +7,10 @@ import movie.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +18,8 @@ import java.util.List;
 public class MemberController {
     @Autowired
     MemberService memberService;
-
+    @Autowired
+    HttpServletRequest request;
     @Autowired
     MovieService movieService;
     @GetMapping("/")
@@ -92,13 +92,25 @@ public class MemberController {
         }
     }
 
-  /*  //로그인                         <-------1월27 로그인 메소드드
+    //로그인
    @PostMapping("/member/logincontroller")
     @ResponseBody
-    public String logincontroller(@ResponseBody MemberDto memberDto){
+    public String logincontroller(@RequestBody MemberDto memberDto){
+        //폼 사용시에는 자동 주입 0
+        // AJAX 사용시에는 자동주입X -> @RequestBody
+       MemberDto loginDto = memberService.login(memberDto);
+       if(loginDto !=null){
+           HttpSession session = request.getSession();
+           session.setAttribute("logindto",loginDto);
+           System.out.print("Login success");
+           return "1";
+
+       }else{
+           System.out.print("Login fail");
+           return "2";
+       }
 
 
-
-    }*/
+   }
 
 }//class end
