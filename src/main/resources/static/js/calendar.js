@@ -147,7 +147,6 @@ function monthselect() {
         return fixNum;
     };
 
-
     if (today.getMonth() + 1 < 10) {
         setCalendarData(today.getFullYear(), "" + (today.getMonth() + 1));
     } else {

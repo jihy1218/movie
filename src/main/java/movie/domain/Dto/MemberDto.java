@@ -11,7 +11,7 @@ import movie.domain.Entity.Member.Role;
 @Setter
 @ToString
 @Builder
-public class MemberDto {
+public class MemberDto{
     private int mno;
     private String mid;
     private String mpassword;

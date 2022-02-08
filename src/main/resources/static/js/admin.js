@@ -44,29 +44,75 @@ function movieinfodiv(){
     })
 }
 
-function cnemabtn(abc){
-    var object = {};
-    const style = document.getElementById(abc).style;
+    // 관 좌석 모음
+    var cnemaJsonArray = new Array();
+
+function cnemabtn(location){
+    var cnemaJson = new Object();
+    const style = document.getElementById(location).style;
+
     if(style.backgroundColor=='red'){
-        alert(style.backgroundColor);
-        document.getElementById(abc).style.backgroundColor = '';
+        document.getElementById(location).style.backgroundColor = '';
+        //인덱스 번호 찾기
+        const index = cnemaJsonArray.findIndex(x => x.location === location);
+        //
+        if (index !== undefined) cnemaJsonArray.splice(index, 1)
     }else {
-        alert(abc);
-        document.getElementById(abc).style.backgroundColor = 'red';
+        cnemaJson.location = location;
+        document.getElementById(location).style.backgroundColor = 'red';
+        cnemaJsonArray.push(cnemaJson);
     }
-    alert(JSON.stringify(object));
-
+    var sJson = JSON.stringify(cnemaJsonArray);
+    alert(sJson);
 
 }
-function cnemabtn12(){
-    alert(abc);
-    document.getElementById(abc).style.backgroundColor = 'red';
-    const style = document.getElementById(abc).style;
-     // "red"
-     alert(style.color);
-    if(style.color=='red'){
-        alert("abc");
-        //document.getElementById(abc).style.backgroundColor = 'none';
-    }
 
+// 관 등록
+function cnemawrite(){
+    var cnema= new Object();
+    var cnematype = $("#cnematype").val();
+    var cnemaname = $("#cnemaname").val();
+    cnema.cnemalocation = cnemaJsonArray;
+    $.ajax({
+        url : "/admin/cnemawritecontroller" ,
+        data : {
+            "cnema" : JSON.stringify(cnema),
+            "cnematype" : cnematype,
+            "cnemaname" : cnemaname
+        },
+        contentType: "application/json" ,  //  ajax 타입
+        dataType : 'JSON',
+        success: function(data){
+            if(data==1){
+                alert("등록되었습니다.");
+            }
+
+        }
+
+    })
 }
+
+function screenregister(){
+
+    var ddate = $("#ddate").val();
+    var dtime = $("#dtime").val();
+    var dcnema = $("#dcnema").val();
+    var dmovie = $("#dmovie").val();
+
+    $.ajax({
+        url : "/admin/screenregister",
+        data : {
+            "ddate" : ddate,
+            "dtime" : dtime,
+            "dcnema" : dcnema,
+            "dmovie" : dmovie
+        },
+        success: function(data){
+            if(data==1){
+                alert("성공");
+            }
+        }
+    })
+}
+
+
