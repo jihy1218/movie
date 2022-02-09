@@ -17,14 +17,19 @@
                     </tr>
                     <tr th:each="cnema : ${cnemalist}">
                         <td th:text="${cnema.cname}"></td><td th:text="${cnema.ctype}"></td><td th:text="${cnema.ccount}"></td>
+                        <td><a href="#" class="button" th:onclick="admindelete(1,[[${cnema.cno}]])">X</a></td>
                     </tr>
                 </table>
             </div>
             <div class="col-md-4">
                 <a th:href="@{/admin/moviewrite}"><button class="btn btn-primary"> 영화등록 </button></a>
                 <table class="table p-5">
+                    <tr>
+                        <td>영화아이디</td><td>영화제목</td><td>영화개봉일</td>
+                    </tr>
                     <tr th:each="movie : ${movieinfo}">
-                        <td th:text="${movie.movieNm}"></td><td th:text="${movie.openDt}"></td><td>X</td>
+                        <td th:text="${movie.mvid}"></td><td th:text="${movie.movieNm}"></td><td th:text="${movie.openDt}"></td>
+                        <td><a href="#" class="button" th:onclick="admindelete(2,[[${movie.mvno}]])">X</a></td>
                     </tr>
                 </table>
             </div>
@@ -32,13 +37,12 @@
                 <a th:href="@{/admin/moviedate}" ><button class="btn btn-primary"> 시간등록 </button></a>
                 <table class="table p-5">
                     <tr>
-                        <td>2022-01-07</td><td>11:00~13:10</td><td>1관</td><td>스파이더맨</td>
+                        <td>날짜</td><td>시간</td><td>관</td><td>영화아이디</td><td>좌석수</td>
                     </tr>
-                    <tr>
-                        <td>2022-01-07</td><td>11:00~13:10</td><td>1관</td><td>스파이더맨</td>
-                    </tr>
-                    <tr>
-                        <td>2022-01-07</td><td>11:00~13:10</td><td>1관</td><td>스파이더맨</td>
+                    <tr th:each="date : ${datelist}">
+                        <td th:text="${date.ddate}"></td><td th:text="${date.dtime}"></td>
+                        <td th:text="${date.cnemaEntityDate.cname}"></td><td th:text="${date.movieEntityDate.mvid}"></td><td th:text="${date.dseat}"></td>
+                        <td><a href="#" class="button" th:onclick="admindelete(3,[[${date.dno}]])">X</a></td>
                     </tr>
                 </table>
             </div>

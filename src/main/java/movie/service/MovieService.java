@@ -82,7 +82,6 @@ public class MovieService {
                 movieEntity.getMoviefileEnities().add(moviefileRepository.findById(mfileno).get());
             }
         }
-
         if(!mvposter.getOriginalFilename().equals("")){
             UUID uuid = UUID.randomUUID();
             uuidfile = uuid.toString()+"_"+mvposter.getOriginalFilename().replaceAll("_","-");
