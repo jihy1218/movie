@@ -21,6 +21,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -32,17 +33,19 @@ public class MovieService {
     @Autowired
     MoviefileRepository moviefileRepository;
     //영화 등록
-    public boolean moviewrite(String mvid, List<MultipartFile> mvimg, List<MultipartFile> mvvideo){
-        String dirPo = "C:\\Users\\505\\Desktop\\movie\\src\\main\\resources\\static\\poster";
+
+    @Transactional
+    public boolean moviewrite(String mvid, List<MultipartFile> mvimg, List<MultipartFile> mvvideo ,MultipartFile mvposter){
+        String dirPo = "C:\\Users\\505\\Desktop\\Spring\\movie\\src\\main\\resources\\static\\poster";
         String dirVi = "C:\\Users\\505\\Desktop\\movie\\src\\main\\resources\\static\\video";
         MovieDto movieDto = MovieDto.builder()
                 .mvid(mvid)
                 .build();
         int mno =  movieRepository.save(movieDto.toEntity()).getMvno();
         MovieEntity movieEntity = movieRepository.findById(mno).get();
-        System.out.println("abc :"+movieEntity.toString());
         String uuidfile = null;
-        if(mvimg.size()!=0){
+        System.out.println("mvposter:"+mvposter.getOriginalFilename());
+        if(!mvimg.get(0).getOriginalFilename().equals("")){
             for(MultipartFile img : mvimg){
                 UUID uuid = UUID.randomUUID();
                 uuidfile = uuid.toString()+"_"+img.getOriginalFilename().replaceAll("_","-");
@@ -54,16 +57,50 @@ public class MovieService {
                 }
                 MoviefileEnity moviefileEnity = MoviefileEnity.builder()
                         .mvfile(uuidfile)
-                        .mvtype(1)
-                        .movieEntity(movieEntity)
+                        .mvtype(2)
+                        .movieEntityFile(movieEntity)
                         .build();
                 int mfileno =moviefileRepository.save(moviefileEnity).getMvfileno();
-                MoviefileEnity moviefileEnity1= moviefileRepository.findById(mfileno).get();
-                System.out.println("abc2 :"+movieEntity.toString());
-                System.out.println("moviefileEnity1 : "+moviefileEnity1);
-                movieEntity.getMoviefileEnities().add(moviefileEnity1);
-                //movieEntity.getMoviefileEnities().add(moviefileRepository.findById(mfileno).get());
+                movieEntity.getMoviefileEnities().add(moviefileRepository.findById(mfileno).get());
             }
+        }
+        if(!mvvideo.get(0).getOriginalFilename().equals("")){
+            for(MultipartFile img : mvvideo){
+                UUID uuid = UUID.randomUUID();
+                uuidfile = uuid.toString()+"_"+img.getOriginalFilename().replaceAll("_","-");
+                String filepath = dirPo+"\\"+uuidfile;
+                try{
+                    img.transferTo(new File(filepath));
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+                MoviefileEnity moviefileEnity = MoviefileEnity.builder()
+                        .mvfile(uuidfile)
+                        .mvtype(3)
+                        .movieEntityFile(movieEntity)
+                        .build();
+                int mfileno =moviefileRepository.save(moviefileEnity).getMvfileno();
+                movieEntity.getMoviefileEnities().add(moviefileRepository.findById(mfileno).get());
+            }
+        }
+        if(!mvposter.getOriginalFilename().equals("")){
+            UUID uuid = UUID.randomUUID();
+            uuidfile = uuid.toString()+"_"+mvposter.getOriginalFilename().replaceAll("_","-");
+            String filepath = dirPo+"\\"+uuidfile;
+            try{
+                mvposter.transferTo(new File(filepath));
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+            MoviefileEnity moviefileEnity = MoviefileEnity.builder()
+                    .mvfile(uuidfile)
+
+                    .mvtype(1)
+
+                    .movieEntityFile(movieEntity)
+                    .build();
+            int mfileno =moviefileRepository.save(moviefileEnity).getMvfileno();
+            movieEntity.getMoviefileEnities().add(moviefileRepository.findById(mfileno).get());
         }
         return true;
     }
@@ -74,6 +111,7 @@ public class MovieService {
         List<MovieDto> movieDtos = new ArrayList<>();
         for(MovieEntity movie : movieEntities){
             MovieDto movieDto = MovieDto.builder()
+                    .mno(movie.getMvno())
                     .mvid(movie.getMvid())
                     .mvimg(movie.getMvimg())
                     .build();
@@ -141,7 +179,20 @@ public class MovieService {
                     actors += abc.get("peopleNm")+",";
                 }
                 System.out.println(actors);
+               Optional<MovieEntity>  movieEntity = movieRepository.findById(temp.getMno());
+               List<MoviefileEnity> moviefileEnity =  movieEntity.get().getMoviefileEnities();
+               List<MovieinfoDto.MoviefileDto> moviefileDtoList = new ArrayList<>();
+               String poster = null;
+
+               for(MoviefileEnity temp2 : moviefileEnity){
+                   if(temp2.getMvtype()==1){
+                       poster = temp2.getMvfile();
+                   }
+                       moviefileDtoList.add(temp2.toDto());
+               }
+                System.out.println(poster+"포스터야");
                 MovieinfoDto movieDto = MovieinfoDto.builder()
+                        .mvno(temp.getMno())
                         .movieNm((String)jsonObject3.get("movieNm"))
                         .showTm(Integer.parseInt((String)jsonObject3.get("showTm")))
                         .openDt((String)jsonObject3.get("openDt"))
@@ -149,8 +200,11 @@ public class MovieService {
                         .genres((String)genres.get("genreNm"))
                         .directors((String)directors.get("peopleNm"))
                         .actors(actors)
+                        .mvid(temp.getMvid())
                         .companyNm((String)companys.get("companyNm"))
                         .watchGradeNm((String)audits.get("watchGradeNm"))
+                        .moviefileDtos(moviefileDtoList)
+                        .poster(poster)
                         .build();
 
                 movieDtos.add(movieDto);
@@ -158,6 +212,52 @@ public class MovieService {
             }
         }
         return movieDtos;
+    }
+
+    //영화상세정보api
+    public JSONObject getmovieinfoselect(String mvid){
+        JSONObject jsonObject0 = new JSONObject();
+        String urlpa = "https://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?key=7e83198258b5dd58ff5ca336a95ff5e8&movieCd="+mvid;
+        try {
+            URL url = new URL(urlpa);
+            BufferedReader bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
+            String result = bf.readLine();
+            JSONParser jsonParser = new JSONParser();
+            JSONObject jsonObject = (JSONObject) jsonParser.parse(result);
+            JSONObject jsonObject2 = (JSONObject) jsonObject.get("movieInfoResult");
+            JSONObject jsonObject3 = (JSONObject) jsonObject2.get("movieInfo");
+            JSONArray nations = (JSONArray) jsonObject3.get("nations");
+            JSONObject nation = (JSONObject)nations.get(0);
+            JSONArray genresJS = (JSONArray)  jsonObject3.get("genres");
+            JSONObject genres = (JSONObject)genresJS.get(0);
+            JSONArray directorsJS = (JSONArray)  jsonObject3.get("directors");
+            JSONObject directors = (JSONObject)directorsJS.get(0);
+            JSONArray actorsJSON = (JSONArray) jsonObject3.get("actors");
+            JSONArray companysJS = (JSONArray) jsonObject3.get("companys");
+            JSONObject companys = (JSONObject)companysJS.get(0);
+
+            JSONArray auditsJS = (JSONArray) jsonObject3.get("audits");
+            JSONObject audits = (JSONObject)auditsJS.get(0);
+            String actors = "" ;
+            for(int i = 0; i<actorsJSON.size(); i++){
+                JSONObject abc = (JSONObject)actorsJSON.get(i);
+                actors += abc.get("peopleNm")+",";
+            }
+            System.out.println(actors);
+
+            jsonObject0.put("movieNm",jsonObject3.get("movieNm"));
+            jsonObject0.put("showTm",jsonObject3.get("showTm"));
+            jsonObject0.put("openDt",jsonObject3.get("openDt"));
+            jsonObject0.put("nations",nation.get("nationNm"));
+            jsonObject0.put("genres",genres.get("genreNm"));
+            jsonObject0.put("directors",directors.get("peopleNm"));
+            jsonObject0.put("actors",actors);
+            jsonObject0.put("companyNm",(String)companys.get("companyNm"));
+            jsonObject0.put("watchGradeNm",audits.get("watchGradeNm"));
+
+            return jsonObject0;
+        } catch (Exception e) { }
+        return null;
     }
 
     //선택영화상세정보api
@@ -206,6 +306,11 @@ public class MovieService {
             }
         return null;
     }
+/*
+    // mvid 출력하기
+    public String getMvid(){
+
+    }*/
 
 
 

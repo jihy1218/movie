@@ -1,7 +1,12 @@
 package movie.controller;
 
+import movie.domain.Dto.DateDto;
 import movie.domain.Dto.MovieDto;
 import movie.domain.Dto.MovieinfoDto;
+import movie.domain.Entity.Cnema.CnemaEntity;
+import movie.domain.Entity.Date.DateEntity;
+import movie.service.CnemaService;
+import movie.service.DateService;
 import movie.service.MovieService;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -33,8 +38,14 @@ public class AdminController {
 
     @GetMapping("/adminmain")
     public String adminmain(Model model){
+
+        List<CnemaEntity> cnemaEntityList = cnemaService.getCnemalist();
+        model.addAttribute("cnemalist" , cnemaEntityList);
         List<MovieinfoDto> movieDtos = movieService.getmovieinfo();
         model.addAttribute("movieinfo" , movieDtos);
+        List<DateEntity> dateEntityList = dateService.getdatelist();
+        model.addAttribute("datelist",dateEntityList);
+
         return "admin/adminmain";
     }
 
@@ -46,38 +57,59 @@ public class AdminController {
         return "admin/movieregister";
 
     }
-
+    // 관등록 페이지 이동
     @GetMapping("/cnemawrite")
     public String cnemawrite(Model model){
 
         ArrayList<String> arrayList = new ArrayList<String>();
-
-        for(int i = 1; i<4; i++){
-            for(int j = 1; j<4; j++){
+        for(char i = 'A'; i<'A'+11; i++){
+            for(int j = 1; j<21; j++){
                 arrayList.add(i+","+j);
             }
         }
         model.addAttribute("list" , arrayList);
         return "admin/cnemaregister";
     }
+    @Autowired
+    CnemaService cnemaService;
+
+    //관등록
+    @GetMapping("/cnemawritecontroller")
+    @ResponseBody
+    public String cnemawritecontroller(@RequestParam("cnema")String cnema,
+                                       @RequestParam("cnematype")String cnematype,
+                                       @RequestParam("cnemaname")String cnemaname){
+        try{
+            JSONParser jsonParser = new JSONParser();
+            JSONObject jsonObject = (JSONObject) jsonParser.parse(cnema);
+            JSONArray jsonArray = (JSONArray) jsonObject.get("cnemalocation");
+            boolean result = cnemaService.cnemawrite(cnema,cnematype,cnemaname,200-jsonArray.size());
+            if(result){
+                return "1";
+            }else return "2";
+
+        }catch(Exception e){
+        }
+        return "2";
+    }
 
     @PostMapping("/moviewritecontroller")
     @ResponseBody
     public String moviewritecontroller(@RequestParam("mvimg")List<MultipartFile> mvimg,
-                                       @RequestParam("mvvideo")List<MultipartFile> mvvideo){
+                                       @RequestParam("mvvideo")List<MultipartFile> mvvideo,
+                                       @RequestParam("mvposter")MultipartFile mvposter){
         String mvid =request.getParameter("mvid");
-        System.out.println("@@@@@@@@@@");
-        System.out.println("영화이미지 :"+mvimg.toString());
-        System.out.println("영화이미지1 :"+mvimg.get(0));
-        System.out.println("영화비디오 :"+mvvideo.toString());
-        System.out.println(mvid);
-        movieService.moviewrite(mvid,mvimg,mvvideo);
+        movieService.moviewrite(mvid,mvimg,mvvideo,mvposter);
         return "1";
     }
 
     //상영시간페이지
     @GetMapping("/moviedate")
-    public String moviedate(){
+    public String moviedate(Model model){
+        List<CnemaEntity> cnemaEntityList = cnemaService.getCnemalist();
+        model.addAttribute("cnemalist" , cnemaEntityList);
+        List<MovieinfoDto> movieDtos = movieService.getmovieinfo();
+        model.addAttribute("movieinfo" , movieDtos);
         return "admin/screenregister";
     }
 
@@ -85,12 +117,44 @@ public class AdminController {
     @ResponseBody
     @PostMapping("/moviewriteinfo")
     //@RequestMapping(value="/moviewriteinfo" ,method=RequestMethod.POST)
-    public JSONObject moviewriteinfo(@RequestParam("mvid")String mvid){
+    public JSONObject moviewriteinfo(@RequestParam("mvid")String mvid) {
 
-        JSONObject jsonObject=movieService.getmovieinfoselec(mvid);
+        JSONObject jsonObject = movieService.getmovieinfoselec(mvid);
 
         return jsonObject;
     }
+    @GetMapping("/movielist")
+    public String movielist(Model model) {
+        List<MovieinfoDto> movieDtos = movieService.getmovieinfo();
+            model.addAttribute("movieinfo" , movieDtos);
+        return "admin/movielist";
+    }
+
+    @Autowired
+    DateService dateService;
+
+    @GetMapping("/screenregister")
+    public String screenregister(@RequestParam("ddate")String ddate,
+                                 @RequestParam("dtime")String dtime,
+                                 @RequestParam("cno")int cno,
+                                 @RequestParam("mvno")int mvno,
+                                 @RequestParam("endtime")String endtime){
+        String time = dtime+"~"+endtime;
+        dateService.datewrite(ddate,time,cno,mvno);
+
+        return "1";
+    }
+
+    @GetMapping("/delete")
+    @ResponseBody
+    public String delete(@RequestParam("type")int type,@RequestParam("no")int no){
+        boolean result = dateService.delete(type,no);
+        if(result){
+            return "1";
+        }else{
+            return "2";
+        }
 
 
+    }
 }

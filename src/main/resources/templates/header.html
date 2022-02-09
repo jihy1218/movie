@@ -17,10 +17,10 @@
             </div>
             <div class="col-md-3 offset-1 p-5">
                 <ul class="nav">
-
                     <li class="nav-item"><a th:href="@{/movie/ticketingdate}" class="nav-link link-dark px-2" style="font-size: 1.3rem">예매</a></li>
                     <li class="nav-item"><a th:href="@{/member/login}"  class="nav-link link-dark px-2" style="font-size: 1.3rem">Login</a></li>
                     <li class="nav-item"><a th:href="@{/member/signup}"  class="nav-link link-dark px-2" style="font-size: 1.3rem">Sign up</a></li>
+                    <li class="nav-item"><a th:href="@{/member/myinfo}"  class="nav-link link-dark px-2" style="font-size: 1.3rem">My info</a></li>
                     <li class="nav-item"><a th:href="@{/admin/adminmain}"  class="nav-link link-dark px-2" style="font-size: 1.3rem">Admin</a></li>
                 </ul>
             </div>
@@ -33,6 +33,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
 <!--js추가-->
+    <script th:src = "@{/js/admin.js}"></script>
 <!--<script th:src="@{/js/main.js}"></script>-->
 <!--다음 주소 api-->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>

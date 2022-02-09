@@ -1,6 +1,7 @@
 package movie.domain.Entity.Movie;
 
 import lombok.*;
+import movie.domain.Dto.MovieinfoDto;
 
 import javax.persistence.*;
 
@@ -10,7 +11,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Setter
 @Getter
-@ToString
+@ToString(exclude = "movieEntityFile")
 @Builder
 public class MoviefileEnity {
 
@@ -27,5 +28,15 @@ public class MoviefileEnity {
 
     @ManyToOne
     @JoinColumn(name="mvno")
-    private MovieEntity movieEntity;
+    private MovieEntity movieEntityFile;
+
+    public MovieinfoDto.MoviefileDto toDto(){
+        MovieinfoDto.MoviefileDto entity = MovieinfoDto.MoviefileDto.builder()
+                .mvfileno(this.mvfileno)
+                .mvfile(this.mvfile)
+                .mvtype(this.mvtype)
+                .build();
+        return entity;
+    }
+
 }

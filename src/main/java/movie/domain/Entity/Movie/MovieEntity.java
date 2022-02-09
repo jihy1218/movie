@@ -11,7 +11,7 @@ import java.util.List;
 @Entity
 @Table(name="movie")
 @NoArgsConstructor@AllArgsConstructor
-@Setter@Getter@ToString@Builder
+@Setter@Getter@ToString(exclude = "moviefileEnities")@Builder
 public class MovieEntity  extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +29,7 @@ public class MovieEntity  extends BaseTimeEntity {
     private List<DateEntity> dateEntityList = new ArrayList<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "movieEntity", cascade = CascadeType.ALL)  // 영화 파일 리스트
+    @OneToMany(mappedBy = "movieEntityFile", cascade = CascadeType.ALL)  // 영화 파일 리스트
     private List<MoviefileEnity> moviefileEnities = new ArrayList<>();
 
 }

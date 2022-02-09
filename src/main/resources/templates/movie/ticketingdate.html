@@ -9,88 +9,33 @@
 </head>
 <body>
  <div th:replace="header.html::header"></div><!--헤더-->
- 영화선택 날짜 선택 시간 선택
  <div class="container">
      <div class="row">
          <div class="col-md-6" style="height: 700px; border: lightpink solid 3px; border-radius: 9%; overflow: auto; margin-right:15px;" >
              <div class="row">
-                 <div class="col-md-5 m-4">
+                 <div class="col-md-5 m-4" th:each="movie : ${movielist}">
                     <div class="card" style=" border: lightpink solid 3px; border-radius: 10%;overflow: hidden">
-                        <img class="card-top" src="/foster/gwangsu.jpg" max-width="100%">
+                        <button style="border: none" th:onclick="movieselect([[${movie.mvno}]]);"><!--<img class="card-top" th:src="{'/poster/'+${movie.poster}}" style="width: 100%;">--></button>
                         <div class="card-body">
-                            <p class="card-text">해적 : 도깨비 깃발</p>
-                            <hr>
-                            <p class="item p-1">
-                                장르 어드벤쳐, 액션, 코미디<br>
-                                한국 2022.01.26 개봉125분<br>
-                                감독 김정훈<br>
-                                출연 강하늘, 한효주, 이광수, <br>권상우, 채수빈, 오세훈, 김성오
+                            <input type="hidden">
+                            <p class="card-text text-center" style="font-weight: bold;" th:text="${movie.movieNm}"></p>
                         </div>
                     </div>
-                 </div>
-                 <div class="col-md-5 m-4">
-                     <div class="card" style=" border: lightpink solid 3px; border-radius: 15%;overflow: hidden">
-                         <img class="card-top" src="/foster/gwangsu.jpg" max-width="100%">
-                         <div class="card-body">
-                             <p class="card-text">해적 : 도깨비 깃발</p>
-                             <hr>
-                             <p class="item p-1">
-                                 장르 어드벤쳐, 액션, 코미디<br>
-                                 한국 2022.01.26 개봉125분<br>
-                                 감독 김정훈<br>
-                                 출연 강하늘, 한효주, 이광수, <br>권상우, 채수빈, 오세훈, 김성오
-                         </div>
-                     </div>
-                 </div>
-             </div>
-             <div class="row">
-                 <div class="col-md-5 m-4">
-                     <div class="card" style=" border: lightpink solid 3px; border-radius: 15%;overflow: hidden">
-                         <img class="card-top" src="/foster/gwangsu.jpg" max-width="100%">
-                         <div class="card-body">
-                             <p class="card-text">해적 : 도깨비 깃발</p>
-                             <hr>
-                             <p class="item p-1">
-                                 장르 어드벤쳐, 액션, 코미디<br>
-                                 한국 2022.01.26 개봉125분<br>
-                                 감독 김정훈<br>
-                                 출연 강하늘, 한효주, 이광수, <br>권상우, 채수빈, 오세훈, 김성오
-                         </div>
-                     </div>
-                 </div>
-                 <div class="col-md-5 m-4">
-                     <div class="card" style=" border: lightpink solid 3px; border-radius: 15%;overflow: hidden">
-                         <img class="card-top" src="/foster/gwangsu.jpg" max-width="100%">
-                         <div class="card-body">
-                             <p class="card-text">해적 : 도깨비 깃발</p>
-                             <hr>
-                             <p class="item p-1">
-                                 장르 어드벤쳐, 액션, 코미디<br>
-                                 한국 2022.01.26 개봉125분<br>
-                                 감독 김정훈<br>
-                                 출연 강하늘, 한효주, 이광수, <br>권상우, 채수빈, 오세훈, 김성오
-                         </div>
-                     </div>
                  </div>
              </div>
          </div>
          <div class="col-md-5"  style="height: 700px; border: lightpink solid 3px; border-radius: 9%; overflow: auto;">
              <form class="mt-3">
-                 <select id="monthselect" class="form-select">
-                     <option value="1">1월</option>
-                     <option value="2">2월</option>
-                     <option value="3">3월</option>
-                     <option value="4">4월</option>
-                     <option value="5">5월</option>
-                     <option value="6">6월</option>
-                     <option value="7">7월</option>
-                     <option value="8">8월</option>
-                 </select>
-                 <input type="button" value="클릭" onclick="monthselect();">
+                 <input type="month" onchange="monthselect();" id="monthselect1">
              </form>
+             <table class="table text-center">
+                 <tr>
+                     <th>일</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th>토</th>
+                 </tr>
+             </table>
              <div id="calendar" class="mt-3" style="height: 300px;"></div>
              <br><br><br>
-             <div class="text-center" style="overflow: auto; height: 100px;">
+             <div id="datediv" class="text-center" style="overflow: auto; height: 100px;">
                  <button class="col-md-5 btn mb-2" style="background-color: mediumturquoise">2관 11:00~13:10 </button>
                  <button class="col-md-5 btn mb-2" style="background-color: mediumturquoise">2관 13:30~15:40 </button>
                  <button class="col-md-5 btn mb-2" style="background-color: mediumturquoise">7관 17:00~19:10 </button>
@@ -98,8 +43,8 @@
                  <button class="col-md-5 btn mb-2" style="background-color: mediumturquoise">7관 20:00~22:10 </button>
                  <button class="col-md-5 btn mb-2" style="background-color: mediumturquoise">7관 20:00~22:10 </button>
              </div>
-             <a th:href="@{/movie/ticketingseat}"><button class="col-md-6 offset-3 btn btn-success mt-2">좌석선택</button></a>
-             <button class="col-md-6 offset-3 btn btn-danger mt-2">RESET</button>
+             <a th:href="@{/movie/ticketingseat}"><button class="col-md-6 offset-3 btn btn-success mt-2" id="seats">좌석선택</button></a>
+             <a th:href="@{/movie/ticketingdate}"><button class="col-md-6 offset-3 btn btn-danger mt-2">RESET</button></a>
          </div>
      </div>
  </div>
