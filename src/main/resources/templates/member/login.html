@@ -11,40 +11,35 @@
 <br><br><br><br>
 
 <div class="container">
-
     <div class="row">
-
         <div class="col-md-6">
-    <div class="form-floating mb-3">
-        <input type="text" class="form-control rounded-4" id="login_mid" placeholder="아이디">
-        <label for="floatingInput">아이디</label>
-    </div>
-    <div class="form-floating mb-3">
-        <input type="password" class="form-control rounded-4" id="login_mpassword" placeholder="비밀번호">
-        <label for="floatingPassword">비밀번호</label>
-    </div>
-    <div id = "loginfailmsg" class="text-danger text-center" ></div>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control rounded-4" id="login_mid" placeholder="아이디">
+                <label for="floatingInput">아이디</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="password" class="form-control rounded-4" id="login_mpassword" placeholder="비밀번호">
+                <label for="floatingPassword">비밀번호</label>
+            </div>
+            <div id = "loginfailmsg" class="text-danger text-center" ></div>
             <button class="w-100 mb-2 btn btn-lg rounded-4 btn-danger" onclick="login()">로그인</button>
-
-    <a th:href="@{/member/findid}" data-bs-target="#modalfindid" data-bs-toggle="modal" ><small class="text-muted px-2">아이디 찾기</small></a>
-    <a th:href="@{/member/findpassword}" data-bs-target="#modalfindpassword" data-bs-toggle="modal" ><small class="text-muted px-2">아이디 찾기</small></a>
-    <hr class="my-4">
-    <h2 class="fs-5 fw-bold mb-3">SNS 연동로그인</h2>
-
-    <button class="w-20 py-2 mb-2 btn btn-outline-primary rounded-4" type="submit">
-        <svg class="bi me-1" width="16" height="16"><use xlink:href="#facebook"/></svg>
-        카카오
-    </button>
-    <button class="w-20 py-2 mb-2 btn btn-outline-secondary rounded-4" type="submit">
-        <svg class="bi me-1" width="16" height="16"><use xlink:href="#github"/></svg>
-        네이버
-    </button>
+        <div class="text-center">
+            <a th:href="@{/member/findid}" data-bs-target="#modalfindid" data-bs-toggle="modal" style="text-decoration: none;" ><small class="text-muted px-2">아이디 찾기</small></a>
+            <a th:href="@{/member/findpassword}" data-bs-target="#modalfindpassword" data-bs-toggle="modal" style="text-decoration: none;"><small class="text-muted px-2">비밀번호 찾기</small></a>
+        </div>
+        <hr class="my-4">
+        <h2 class="fs-5 fw-bold mb-3">SNS 연동로그인</h2>
+        <a href="/oauth2/authorization/naver"> <button class="w-20 py-2 mb-2 btn btn-outline-secondary rounded-4" type="submit">
+        <svg class="bi me-1" width="10" height="16"></svg>네이버 </button></a>
+        <a href="/oauth2/authorization/kakao"> <button class="w-20 py-2 mb-2 btn btn-outline-secondary rounded-4" type="submit">
+        <svg class="bi me-1" width="10" height="16"></svg>카카오 </button></a>
+        <a href="/oauth2/authorization/google"> <button class="w-20 py-2 mb-2 btn btn-outline-secondary rounded-4" type="submit">
+        <svg class="bi me-1" width="10" height="16"></svg>구글 </button></a>
        </div>
         <div class="col-md-6">
-            <img  src="/img/Batman.jpg" max-width="100%">
-    </div>
+            <img  src="/img/Batman.jpg" width="100%">
+        </div>
         <img  src="/img/Batman2.jpg" max-width="100%">
-
 </div>
 </div>
 
@@ -53,40 +48,19 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content rounded-5 shadow">
             <div class="modal-header p-5 pb-4 border-bottom-0">
-                <!-- <h5 class="modal-title">Modal title</h5> -->
                 <h2 class="fw-bold mb-0">아이디 찾기</h2>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button><!--닫기버튼-->
             </div>
-
             <div class="modal-body p-5 pt-0">
-
                 <div class="form-floating mb-3">
-                    <input type="text" class="form-control rounded-4"  placeholder="이름">
-                    <label for="floatingInput">이름</label>
+                    <input type="text" class="form-control rounded-4"  placeholder="이름을 입력하세요." id="findidname">
+                    <label for="floatingInput">이름을 입력하세요.</label>
                 </div>
                 <div class="form-floating mb-3">
-                    <input type="password" class="form-control rounded-4"  placeholder="이메일">
-                    <label for="floatingInput">이메일</label>
+                    <input type="text" class="form-control rounded-4"  placeholder="이메일을 입력하세요." id="findidemail">
+                    <label for="floatingInput">이메일을 입력하세요.</label>
                 </div>
-            <!--    <div &lt;!&ndash;id = "loginfailmsg"&ndash;&gt; class="text-danger text-center" ></div> &lt;!&ndash;로그인실패시 메시지&ndash;&gt;-->
-                <button class="w-100 mb-2 btn btn-lg rounded-4 btn-primary" onclick="login()">로그인</button>
-
-
-                <hr class="my-4">
-                <h2 class="fs-5 fw-bold mb-3">SNS 연동로그인</h2>    <!--ouath2-->
-                <button class="w-100 py-2 mb-2 btn btn-outline-dark rounded-4" type="submit">
-                    <svg class="bi me-1" width="16" height="16"><use xlink:href="#twitter"/></svg>
-                    구글
-                </button>
-                <button class="w-100 py-2 mb-2 btn btn-outline-primary rounded-4" type="submit">
-                    <svg class="bi me-1" width="16" height="16"><use xlink:href="#facebook"/></svg>
-                    카카오
-                </button>
-                <button class="w-100 py-2 mb-2 btn btn-outline-secondary rounded-4" type="submit">
-                    <svg class="bi me-1" width="16" height="16"><use xlink:href="#github"/></svg>
-                    네이버
-                </button>
-
+                <button class="w-100 mb-2 btn btn-lg rounded-4 btn-primary" onclick="findid();">아이디 찾기</button>
             </div>
         </div>
     </div>
@@ -101,36 +75,16 @@
                 <h2 class="fw-bold mb-0">비밀번호 찾기</h2>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button><!--닫기버튼-->
             </div>
-
             <div class="modal-body p-5 pt-0">
-
                 <div class="form-floating mb-3">
-                    <input type="text" class="form-control rounded-4"  placeholder="아이디">
+                    <input type="text" class="form-control rounded-4"  placeholder="아이디를 입력하세요." id="findpasswordid">
                     <label for="floatingInput">아이디</label>
                 </div>
                 <div class="form-floating mb-3">
-                    <input type="password" class="form-control rounded-4"  placeholder="이메일">
+                    <input type="text" class="form-control rounded-4"  placeholder="이메일" id="findpasswordemail">
                     <label for="floatingInput">이메일</label>
                 </div>
-              <!--  <div id = "loginfailmsg" class="text-danger text-center" ></div> &lt;!&ndash;비밀번호찾기 실패시 메시지&ndash;&gt;-->
-            <button class="w-100 mb-2 btn btn-lg rounded-4 btn-primary" onclick="login()">비밀번호 찾기</button>
-
-
-            <hr class="my-4">
-            <h2 class="fs-5 fw-bold mb-3">SNS 연동로그인</h2>    <!--ouath2-->
-            <button class="w-100 py-2 mb-2 btn btn-outline-dark rounded-4" type="submit">
-                <svg class="bi me-1" width="16" height="16"><use xlink:href="#twitter"/></svg>
-                구글
-            </button>
-            <button class="w-100 py-2 mb-2 btn btn-outline-primary rounded-4" type="submit">
-                <svg class="bi me-1" width="16" height="16"><use xlink:href="#facebook"/></svg>
-                카카오
-            </button>
-            <button class="w-100 py-2 mb-2 btn btn-outline-secondary rounded-4" type="submit">
-                <svg class="bi me-1" width="16" height="16"><use xlink:href="#github"/></svg>
-                네이버
-            </button>
-
+            <button class="w-100 mb-2 btn btn-lg rounded-4 btn-primary" onclick="findpassword();">비밀번호 찾기</button>
         </div>
     </div>
 </div>
