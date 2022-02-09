@@ -51,7 +51,8 @@ public class MemberController {
     public String myinfo(Model model) {
         HttpSession session = request.getSession();
         MemberDto memberDto = (MemberDto) session.getAttribute("logindto");
-        model.addAttribute("info",memberDto);
+        MemberDto member = memberService.getMemberDto(memberDto.getMno());
+        model.addAttribute("info",member);
         return "member/myinfo";
     }
 
@@ -95,7 +96,7 @@ public class MemberController {
         }
     }
 
-  /*  //로그인
+ /*  //로그인
    @PostMapping("/member/logincontroller")
     @ResponseBody
     public String logincontroller(@RequestBody MemberDto memberDto){
@@ -111,10 +112,7 @@ public class MemberController {
            System.out.print("Login fail");
            return "2";
        }
-
-
-
-   }*/
+    }*/
 
 
    // 아이디 찾기

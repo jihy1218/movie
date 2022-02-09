@@ -21,6 +21,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -34,7 +35,7 @@ public class MovieService {
     //영화 등록
     @Transactional
     public boolean moviewrite(String mvid, List<MultipartFile> mvimg, List<MultipartFile> mvvideo ,MultipartFile mvposter){
-        String dirPo = "C:\\Users\\505\\Desktop\\movie\\src\\main\\resources\\static\\poster";
+        String dirPo = "C:\\Users\\505\\Desktop\\Spring\\movie\\src\\main\\resources\\static\\poster";
         String dirVi = "C:\\Users\\505\\Desktop\\movie\\src\\main\\resources\\static\\video";
         MovieDto movieDto = MovieDto.builder()
                 .mvid(mvid)
@@ -177,6 +178,18 @@ public class MovieService {
                     actors += abc.get("peopleNm")+",";
                 }
                 System.out.println(actors);
+               Optional<MovieEntity>  movieEntity = movieRepository.findById(temp.getMno());
+               List<MoviefileEnity> moviefileEnity =  movieEntity.get().getMoviefileEnities();
+               List<MovieinfoDto.MoviefileDto> moviefileDtoList = new ArrayList<>();
+               String poster = null;
+
+               for(MoviefileEnity temp2 : moviefileEnity){
+                   if(temp2.getMvtype()==1){
+                       poster = temp2.getMvfile();
+                   }
+                       moviefileDtoList.add(temp2.toDto());
+               }
+                System.out.println(poster+"포스터야");
                 MovieinfoDto movieDto = MovieinfoDto.builder()
                         .mvno(temp.getMno())
                         .movieNm((String)jsonObject3.get("movieNm"))
@@ -189,6 +202,8 @@ public class MovieService {
                         .mvid(temp.getMvid())
                         .companyNm((String)companys.get("companyNm"))
                         .watchGradeNm((String)audits.get("watchGradeNm"))
+                        .moviefileDtos(moviefileDtoList)
+                        .poster(poster)
                         .build();
 
                 movieDtos.add(movieDto);
@@ -290,6 +305,11 @@ public class MovieService {
             }
         return null;
     }
+/*
+    // mvid 출력하기
+    public String getMvid(){
+
+    }*/
 
 
 

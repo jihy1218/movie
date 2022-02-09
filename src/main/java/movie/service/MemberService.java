@@ -58,7 +58,7 @@ public class MemberService implements UserDetailsService {
         }
             return false;
     }
-   /* //회원 로그인 메소드
+    /*//회원 로그인 메소드
     public MemberDto login(MemberDto memberDto){
         List<MemberEntity>memberEntityList = memberRepository.findAll();
         for(MemberEntity memberEntity : memberEntityList){
