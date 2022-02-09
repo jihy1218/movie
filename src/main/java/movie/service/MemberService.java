@@ -10,6 +10,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -34,6 +35,10 @@ public class MemberService implements UserDetailsService {
 
     //회원등록 메소드
     public boolean membersignup(MemberDto memberDto) {
+        //패스워드 암호화[BCrypyPasswordEncoder]
+        //1. 암호화 클래스 객체 생성
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        memberDto.setMpassword(passwordEncoder.encode(memberDto.getMpassword()));
         memberRepository.save(memberDto.toEntity());
         return true;
     }
@@ -72,12 +77,12 @@ public class MemberService implements UserDetailsService {
 
     @Autowired
     private HttpServletRequest request;
-    @Override
+    @Override //member/logincontroller url 호출시 실행되는 메소드
     public UserDetails loadUserByUsername(String mid) throws UsernameNotFoundException {
+
         //회원 아이디로 회원 엔티티 찾기
         Optional<MemberEntity> entityOptional = memberRepository.findBymid(mid);
-        MemberEntity memberEntity = entityOptional.orElse(null);
-        //orElse(null)만약에 엔티티 가 없으면 null
+        MemberEntity memberEntity = entityOptional.orElse(null); //orElse(null)만약에 엔티티 가 없으면 null
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(memberEntity.getRoleKey()));
         //세션부여
@@ -88,6 +93,8 @@ public class MemberService implements UserDetailsService {
         //회원정보와 권한을 갖는 UserDetails 반환
         return new IntergratedDto(memberEntity, authorities);
     }
+
+
     // 회원 정보 불러오기 메소드 ( 진행중 지형 )
     public MemberDto getMemberDto(int mno){
         Optional<MemberEntity> memberEntity = memberRepository.findById(mno);
