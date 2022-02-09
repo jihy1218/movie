@@ -23,8 +23,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
       http.authorizeRequests()  //Url 인증 요청
-              .antMatchers("/admin/**").hasRole("ADMIN")
-              .antMatchers("/member/info").hasRole("MEMBER")
+            /*  .antMatchers("/admin/**").hasRole("ADMIN")
+              .antMatchers("/member/info").hasRole("MEMBER")*/
               .antMatchers("/**").permitAll()
               .and()
               .csrf()
