@@ -13,64 +13,14 @@
      <div class="row">
          <div class="col-md-6" style="height: 700px; border: lightpink solid 3px; border-radius: 9%; overflow: auto; margin-right:15px;" >
              <div class="row">
-                 <div class="col-md-5 m-4">
+                 <div class="col-md-5 m-4" th:each="movie : ${movielist}">
                     <div class="card" style=" border: lightpink solid 3px; border-radius: 10%;overflow: hidden">
-                        <button style="border: none" onclick="movieselect();"><img class="card-top" src="/poster/gwangsu.jpg" style="width: 100%;"></button>
+                        <button style="border: none" th:onclick="movieselect([[${movie.mvno}]]);"><!--<img class="card-top" th:src="{'/poster/'+${movie.poster}}" style="width: 100%;">--></button>
                         <div class="card-body">
-                            <input type="hidden" th:value="">
-                            <p class="card-text">해적 : 도깨비 깃발</p>
-                            <hr>
-                            <p class="item p-1">
-                                장르 어드벤쳐, 액션, 코미디<br>
-                                한국 2022.01.26 개봉125분<br>
-                                감독 김정훈<br>
-                                출연 강하늘, 한효주, 이광수, <br>권상우, 채수빈, 오세훈, 김성오
+                            <input type="hidden">
+                            <p class="card-text text-center" style="font-weight: bold;" th:text="${movie.movieNm}"></p>
                         </div>
                     </div>
-                 </div>
-                 <div class="col-md-5 m-4">
-                     <div class="card" style=" border: lightpink solid 3px; border-radius: 15%;overflow: hidden">
-                         <img class="card-top" src="/poster/gwangsu.jpg" max-width="100%">
-                         <div class="card-body">
-                             <p class="card-text">해적 : 도깨비 깃발</p>
-                             <hr>
-                             <p class="item p-1">
-                                 장르 어드벤쳐, 액션, 코미디<br>
-                                 한국 2022.01.26 개봉125분<br>
-                                 감독 김정훈<br>
-                                 출연 강하늘, 한효주, 이광수, <br>권상우, 채수빈, 오세훈, 김성오
-                         </div>
-                     </div>
-                 </div>
-             </div>
-             <div class="row">
-                 <div class="col-md-5 m-4">
-                     <div class="card" style=" border: lightpink solid 3px; border-radius: 15%;overflow: hidden">
-                         <img class="card-top" src="/poster/gwangsu.jpg" max-width="100%">
-                         <div class="card-body">
-                             <p class="card-text">해적 : 도깨비 깃발</p>
-                             <hr>
-                             <p class="item p-1">
-                                 장르 어드벤쳐, 액션, 코미디<br>
-                                 한국 2022.01.26 개봉125분<br>
-                                 감독 김정훈<br>
-                                 출연 강하늘, 한효주, 이광수, <br>권상우, 채수빈, 오세훈, 김성오
-                         </div>
-                     </div>
-                 </div>
-                 <div class="col-md-5 m-4">
-                     <div class="card" style=" border: lightpink solid 3px; border-radius: 15%;overflow: hidden">
-                         <img class="card-top" src="/poster/gwangsu.jpg" max-width="100%">
-                         <div class="card-body">
-                             <p class="card-text">해적 : 도깨비 깃발</p>
-                             <hr>
-                             <p class="item p-1">
-                                 장르 어드벤쳐, 액션, 코미디<br>
-                                 한국 2022.01.26 개봉125분<br>
-                                 감독 김정훈<br>
-                                 출연 강하늘, 한효주, 이광수, <br>권상우, 채수빈, 오세훈, 김성오
-                         </div>
-                     </div>
                  </div>
              </div>
          </div>

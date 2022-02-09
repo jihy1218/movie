@@ -1,6 +1,7 @@
 package movie.domain.Entity.Movie;
 
 import lombok.*;
+import movie.domain.Dto.MovieinfoDto;
 
 import javax.persistence.*;
 
@@ -29,4 +30,12 @@ public class MoviefileEnity {
     @JoinColumn(name="mvno")
     private MovieEntity movieEntityFile;
 
+    public MovieinfoDto.MoviefileDto toDto(){
+        MovieinfoDto.MoviefileDto entity = MovieinfoDto.MoviefileDto.builder()
+                .mvfileno(this.mvfileno)
+                .mvfile(this.mvfile)
+                .mvtype(this.mvtype)
+                .build();
+        return entity;
+    }
 }
