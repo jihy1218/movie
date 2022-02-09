@@ -16,7 +16,7 @@ public class Oauth2Dto {
     //이메일
     String email;
     // 회원정보
-    private Map<String,Object> attribute;
+    private Map<String , Object> attribute;
     //요청 토큰[키]
     private String nameattributekey;
 
@@ -65,10 +65,10 @@ public class Oauth2Dto {
         Map<String, Object> response = (Map<String, Object>) attribute.get("response"); // response 키 호출
 
         return Oauth2Dto.builder()
-                .name( (String) response.get("name") ) // name 이거 우리가 정하는거아님
-                .email((String) response.get("email"))
-                .attribute( attribute )
-                .nameattributekey( nameattributekey )
+                .name( (String) attribute.get("name") ) //구글 회원이름// name 이거 우리가 정하는거아님
+                .email((String) attribute.get("email")) //구글 회원 이메일
+                .attribute( attribute ) // 구글 회원정보
+                .nameattributekey( nameattributekey )   //구글 인증키
                 .build();
     }
 
