@@ -14,7 +14,11 @@ function moviewrite(){
                 processData: false,
                 contentType: false,
                 success: function(data){
-                    alert(data);
+                    if(data==1){
+                        alert("영화등록되었습니다.");
+                        location.href = "/admin/adminmain";
+                    }
+
                 }
             })
 }
@@ -85,6 +89,7 @@ function cnemawrite(){
         success: function(data){
             if(data==1){
                 alert("등록되었습니다.");
+                location.href = "/admin/adminmain";
             }
 
         }
@@ -96,23 +101,70 @@ function screenregister(){
 
     var ddate = $("#ddate").val();
     var dtime = $("#dtime").val();
+    var endtime = $("#endtime").val();
     var dcnema = $("#dcnema").val();
     var dmovie = $("#dmovie").val();
+
+    if(ddate==""){
+        alert("날짜를 입력해주세요.")
+        return;
+    }else if(dtime==""){
+        alert("시작시간을 입력해주세요.")
+        return;
+    }else if(endtime==""){
+         alert("종료시간을 입력해주세요.")
+         return;
+    }else if(dcnema=="관선택"){
+          alert("관을 선택해주세요.")
+          return;
+    }else if(dmovie=="영화선택"){
+           alert("영화를 선택해주세요.")
+           return;
+    }
+
+
 
     $.ajax({
         url : "/admin/screenregister",
         data : {
             "ddate" : ddate,
             "dtime" : dtime,
-            "dcnema" : dcnema,
-            "dmovie" : dmovie
+            "cno" : dcnema,
+            "mvno" : dmovie,
+            "endtime" : endtime
         },
         success: function(data){
             if(data==1){
                 alert("성공");
+                location.href = "/admin/adminmain";
             }
         }
     })
 }
+
+function admindelete(type , no){
+
+    if (confirm("정말 삭제하시겠습니까??") == true){
+            $.ajax({
+                url: "/admin/delete",
+                data:{
+                    "type" : type,
+                    "no" : no
+                },
+                success: function(data){
+                    if(data==1){
+                        alert("삭제되었습니다");
+                        location.reload();
+                    }else{
+                        alert("삭제에러");
+                    }
+                }
+
+            })
+    }else{
+        return;
+    }
+}
+
 
 

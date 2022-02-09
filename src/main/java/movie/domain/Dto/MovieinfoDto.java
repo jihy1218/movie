@@ -2,6 +2,12 @@ package movie.domain.Dto;
 
 
 import lombok.*;
+import movie.domain.Entity.Movie.MovieEntity;
+import movie.domain.Entity.Movie.MoviefileEnity;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -32,5 +38,21 @@ public class MovieinfoDto {
     private String companyNm;
     //등급
     private String watchGradeNm;
+    // 영화포스터
+    private String poster;
+    //영화 파일 리스트
+    List<MoviefileDto> moviefileDtos = new ArrayList<>();
+
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Getter@Setter@Builder
+    public static class MoviefileDto {
+
+        private int mvfileno;
+        private String mvfile;
+        private int mvtype;
+
+
+    }
 
 }

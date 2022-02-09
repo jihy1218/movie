@@ -18,8 +18,9 @@ import java.util.List;
 public class MovieController {
 
     @GetMapping("/ticketingdate")
-    public String ticketing(){
-
+    public String ticketing(Model model){
+        List<MovieinfoDto> movielist = movieService.getmovieinfo();
+        model.addAttribute("movielist",movielist);
         return "movie/ticketingdate";
     }
 
@@ -30,9 +31,9 @@ public class MovieController {
     private MovieService movieService;
 
     // 지형 여기까지 여기에 잠들다.....
-    @GetMapping("/movieview")
-    public String movieview(){ // 영화번호에 해당하는 엔티티 뽑아와야뎀
-        /*JSONObject jsonObject = movieService.getmovieinfoselect(mvid);
+   /* @GetMapping("/movieview")
+    public String movieview(Model model){ // 영화번호에 해당하는 엔티티 뽑아와야뎀
+        JSONObject jsonObject = movieService.getmovieinfoselect();
         List<MovieinfoDto> movieinfoDtos = new ArrayList<>();
         MovieinfoDto movieinfoDto = MovieinfoDto.builder()
                 .movieNm((String)jsonObject.get("movieNm"))
@@ -44,8 +45,8 @@ public class MovieController {
                 .watchGradeNm((String)jsonObject.get("watchGradeNm"))
                 .build();
         movieinfoDtos.add(movieinfoDto);
-        model.addAttribute("movie",movieinfoDtos);*/
+        model.addAttribute("movie",movieinfoDtos);
         return "movie/movieview";
-    }
+    }*/
 
 }

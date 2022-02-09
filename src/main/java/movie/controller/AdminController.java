@@ -1,9 +1,12 @@
 package movie.controller;
 
+import movie.domain.Dto.DateDto;
 import movie.domain.Dto.MovieDto;
 import movie.domain.Dto.MovieinfoDto;
 import movie.domain.Entity.Cnema.CnemaEntity;
+import movie.domain.Entity.Date.DateEntity;
 import movie.service.CnemaService;
+import movie.service.DateService;
 import movie.service.MovieService;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -40,6 +43,9 @@ public class AdminController {
         model.addAttribute("cnemalist" , cnemaEntityList);
         List<MovieinfoDto> movieDtos = movieService.getmovieinfo();
         model.addAttribute("movieinfo" , movieDtos);
+        List<DateEntity> dateEntityList = dateService.getdatelist();
+        model.addAttribute("datelist",dateEntityList);
+
         return "admin/adminmain";
     }
 
@@ -93,7 +99,6 @@ public class AdminController {
                                        @RequestParam("mvvideo")List<MultipartFile> mvvideo,
                                        @RequestParam("mvposter")MultipartFile mvposter){
         String mvid =request.getParameter("mvid");
-
         movieService.moviewrite(mvid,mvimg,mvvideo,mvposter);
         return "1";
     }
@@ -125,17 +130,31 @@ public class AdminController {
         return "admin/movielist";
     }
 
+    @Autowired
+    DateService dateService;
+
     @GetMapping("/screenregister")
     public String screenregister(@RequestParam("ddate")String ddate,
                                  @RequestParam("dtime")String dtime,
-                                 @RequestParam("dcnema")String dcnema,
-                                 @RequestParam("dmovie")String dmovie){
-
-        System.out.println("a:"+ddate);
-        System.out.println("b:"+dtime);
-        System.out.println("c:"+dcnema);
-        System.out.println("d:"+dmovie);
+                                 @RequestParam("cno")int cno,
+                                 @RequestParam("mvno")int mvno,
+                                 @RequestParam("endtime")String endtime){
+        String time = dtime+"~"+endtime;
+        dateService.datewrite(ddate,time,cno,mvno);
 
         return "1";
+    }
+
+    @GetMapping("/delete")
+    @ResponseBody
+    public String delete(@RequestParam("type")int type,@RequestParam("no")int no){
+        boolean result = dateService.delete(type,no);
+        if(result){
+            return "1";
+        }else{
+            return "2";
+        }
+
+
     }
 }
