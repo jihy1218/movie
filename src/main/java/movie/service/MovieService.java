@@ -33,6 +33,7 @@ public class MovieService {
     @Autowired
     MoviefileRepository moviefileRepository;
     //영화 등록
+
     @Transactional
     public boolean moviewrite(String mvid, List<MultipartFile> mvimg, List<MultipartFile> mvvideo ,MultipartFile mvposter){
         String dirPo = "C:\\Users\\505\\Desktop\\Spring\\movie\\src\\main\\resources\\static\\poster";
