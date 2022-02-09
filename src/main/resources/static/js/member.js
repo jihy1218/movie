@@ -198,11 +198,9 @@ $(function(){
 /*로그인*/
 function login(){
 
-        var mid = $("#login_mid").val();
+       var mid = $("#login_mid").val();
         var mpassword = $("#login_mpassword").val();
         var memberdto = { "mid" : mid  , "mpassword" : mpassword  };
-
-
         $.ajax({
         url: "/member/logincontroller",             // 보내는곳
         data : JSON.stringify(memberdto)  ,   //  전송 데이터 값
@@ -211,6 +209,8 @@ function login(){
         contentType: "application/json" ,  //  ajax 타입
         success: function(result){
        if(result==1){
+       alert(result);
+       }
           location.href="/"
         }else{
             $("#loginfailmsg").html("아이디 혹은 비밀번호가 다릅니다.");

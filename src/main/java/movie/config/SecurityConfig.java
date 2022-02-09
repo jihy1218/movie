@@ -20,21 +20,11 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
-    @Autowired
-    private MemberService memberService;
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(memberService).passwordEncoder(passwordEncoder());
-    }
-
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        super.configure(web);
-    }
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
       http.authorizeRequests()  //Url 인증 요청
+              .antMatchers("/admin/**").hasRole("ADMIN")
+              .antMatchers("/member/info").hasRole("MEMBER")
               .antMatchers("/**").permitAll()
               .and()
               .csrf()
@@ -62,6 +52,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private OauthService oauthService;
     @Autowired
-    public PasswordEncoder passwordEncoder(){return  new BCryptPasswordEncoder();}
+    public PasswordEncoder passwordEncoder(){return new BCryptPasswordEncoder();}
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        super.configure(web);
+    }
+
+    @Autowired
+    private MemberService memberService;
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(memberService).passwordEncoder(passwordEncoder());
+    }
+
 
 }
