@@ -81,26 +81,6 @@ public class MovieService {
                 movieEntity.getMoviefileEnities().add(moviefileRepository.findById(mfileno).get());
             }
         }
-
-        if(!mvvideo.get(0).getOriginalFilename().equals("")){
-            for(MultipartFile img : mvvideo){
-                UUID uuid = UUID.randomUUID();
-                uuidfile = uuid.toString()+"_"+img.getOriginalFilename().replaceAll("_","-");
-                String filepath = dirPo+"\\"+uuidfile;
-                try{
-                    img.transferTo(new File(filepath));
-                }catch(Exception e){
-                    e.printStackTrace();
-                }
-                MoviefileEnity moviefileEnity = MoviefileEnity.builder()
-                        .mvfile(uuidfile)
-                        .mvtype(2)
-                        .movieEntityFile(movieEntity)
-                        .build();
-                int mfileno =moviefileRepository.save(moviefileEnity).getMvfileno();
-                movieEntity.getMoviefileEnities().add(moviefileRepository.findById(mfileno).get());
-            }
-        }
         if(!mvposter.getOriginalFilename().equals("")){
             UUID uuid = UUID.randomUUID();
             uuidfile = uuid.toString()+"_"+mvposter.getOriginalFilename().replaceAll("_","-");
