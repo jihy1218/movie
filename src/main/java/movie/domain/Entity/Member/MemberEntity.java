@@ -45,6 +45,7 @@ public class MemberEntity extends BaseTimeEntity {
         this.mname = name;
         return this;
     }
+
     //해당 Role에 key반환 메소드드
     public String getRoleKey(){return this.mgrade.getKey();}
 

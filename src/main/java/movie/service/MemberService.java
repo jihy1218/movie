@@ -163,5 +163,27 @@ public class MemberService implements UserDetailsService {
         if(type==3){memberEntities.get().setMaddress(temp);return true;} // 주소 변경
         return false;
      }
+     //회원 번호  -> 회원 엔티티 반환
+    public MemberEntity getmentity(int mno){
+        Optional<MemberEntity>entityOptional = memberRepository.findById(mno);
+        return  entityOptional.get();
+    }
+     // 회원 탈퇴
 
+    @Transactional
+    public boolean delete(int mno, String passwordconfirm){
+        Optional<MemberEntity>entityOptional = memberRepository.findById(mno);
+
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        if(  passwordEncoder.matches( passwordconfirm , entityOptional.get().getMpassword() ) ){
+            memberRepository.delete( entityOptional.get() );
+            return true;
+        }
+            return false;
+    }
+
+      /*  ((entityOptional.get().getMpassword().equals(passwordconfirm)))*/
+   /* BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        memberDto.setMpassword(passwordEncoder.encode(memberDto.getMpassword()));
+        memberRepository.save(memberDto.toEntity());*/
 }//class end
