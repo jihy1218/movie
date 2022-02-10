@@ -3,6 +3,7 @@ package movie.controller;
 import movie.domain.Dto.MovieinfoDto;
 import movie.service.DateService;
 import movie.service.MovieService;
+import movie.service.TicketingService;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -34,8 +35,20 @@ public class MovieController {
         return "movie/ticketingdate";
     }
 
+    @Autowired
+    TicketingService ticketingService;
+
     @GetMapping("/ticketingseat")
     public  String ticketingseat(){return "movie/ticketingseat";}
+
+
+    @GetMapping("/ticketingseat0")
+    public  String ticketingseat0(Model model){
+
+        List<String> seatlist = ticketingService.getseatlist();
+        model.addAttribute("seatlist",seatlist);
+        return "movie/ticketingseat";
+    }
 
     @Autowired
     private MovieService movieService;

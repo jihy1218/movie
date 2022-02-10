@@ -11,7 +11,7 @@ import java.util.List;
 @Entity
 @Table(name="movie")
 @NoArgsConstructor@AllArgsConstructor
-@Setter@Getter@ToString(exclude = "moviefileEnities")@Builder
+@Setter@Getter@ToString(exclude ={"replyEntities","dateEntityList","moviefileEnities"})@Builder
 public class MovieEntity  extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

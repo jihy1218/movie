@@ -67,7 +67,6 @@ function cnemabtn(location){
         cnemaJsonArray.push(cnemaJson);
     }
     var sJson = JSON.stringify(cnemaJsonArray);
-    alert(sJson);
 
 }
 
