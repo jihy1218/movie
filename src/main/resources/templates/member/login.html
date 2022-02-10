@@ -24,6 +24,9 @@
             </div>
             <div id = "loginfailmsg" class="text-danger text-center" ></div>
             <button class="w-100 mb-2 btn btn-lg rounded-4 btn-danger" type="submit">로그인</button>
+                <div th:if="${param.error}">
+                    로그인실패 [ 아이디 혹은 비밀번호가 다릅니다 ]
+                </div>
             </form>
         <div class="text-center">
             <a th:href="@{/member/findid}" data-bs-target="#modalfindid" data-bs-toggle="modal" style="text-decoration: none;" ><small class="text-muted px-2">아이디 찾기</small></a>

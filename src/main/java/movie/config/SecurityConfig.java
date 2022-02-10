@@ -24,7 +24,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
       http.authorizeRequests()  //Url 인증 요청
               .antMatchers("/admin/**").hasRole("ADMIN")
-              .antMatchers("/member/info").hasRole("MEMBER")
+              .antMatchers("/member/info").hasRole("Member") // 로그인 한사람 내정보들어갈수있음
+              .antMatchers("/member/**").permitAll()        //비회원 로그인 위에거 제외하고 다들어갈수있음
               .antMatchers("/**").permitAll()
               .and()
               .csrf()

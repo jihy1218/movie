@@ -166,6 +166,16 @@ public class MemberController {
             }
         }return  "2";
     }
+    //회원 탈퇴
+    @GetMapping("/member/delete")
+    @ResponseBody
+    public int mdelete( @RequestParam("passwordconfirm") String passwordconfirm){
+        HttpSession session = request.getSession();
+        MemberDto memberDto = (MemberDto) session.getAttribute("logindto");
+        boolean result = memberService.delete(memberDto.getMno(),passwordconfirm);
+        if(result){ return 1;}
+       else{ return 2;}
 
+    }
 
 }//class end

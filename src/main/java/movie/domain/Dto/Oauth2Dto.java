@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import movie.domain.Entity.Member.MemberEntity;
 import movie.domain.Entity.Member.Role;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Map;
 
@@ -72,10 +73,13 @@ public class Oauth2Dto {
                 .build();
     }
 
-
+    @Autowired
+    MemberDto memberDto;
     // 첫 로그인했을때 회원가입 dto -> entitiy
     public MemberEntity toEntity(){
+
         return MemberEntity.builder().mname(name).memail(email).mgrade(Role.Member).mid(email.split("@")[0]).build();
 
     }
+
 }
