@@ -73,5 +73,21 @@ public class DateService {
         return true;
     }
 
+    // 영화번호로 상영일 찾기
+    public String datelist(int mvno){
+        List<String> dates = dateRepository.findDateByMvno(mvno);
+        String date= "";
+        for(int i=0; i<dates.size(); i++){
+            if(i==dates.size()-1){
+                date += dates.get(i);
+            }else {
+                date += dates.get(i) + ",";
+            }
+        }
+        System.out.println(date);
+        return  date;
+    }
+
+
 
 }

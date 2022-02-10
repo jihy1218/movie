@@ -17,6 +17,7 @@ function monthselect() {
         //그러면 오늘 날짜의 Date 객체가 반환됩니다.
         const setDate = new Date(year, month - 1, 1);
         //getDate(): Get the day as a number (1-31)
+        /*month = "0"+month;*/
         //이번 달의 첫째 날을 구합니다
         const firstDay = setDate.getDate();
         //getDay(): Get the weekday as a number (0-6)
@@ -70,15 +71,15 @@ function monthselect() {
                     if (j == 0) {
                         // 스타일링을 위한 클래스 추가
                         calHtml +=
-                            `<button  onclick="dateclick(${year}+'/'+${month}+'/'+${setFixDayCount(startDayCount)})" id="${year}/${month}/${setFixDayCount(startDayCount)}"   style='background-color:#BBFFC9;' class='calendar__day horizontalGutter'><span>${startDayCount}</span></button>`;
+                            `<button  onclick="dateclick(${year}+'-'+${month}+'-'+${setFixDayCount(startDayCount)})" id="${year}-${month}-${setFixDayCount(startDayCount)}"   style='background-color:#BBFFC9;' class='calendar__day horizontalGutter'><span>${startDayCount}</span></button>`;
                     } else if (j == 6) {
                         // 스타일링을 위한 클래스 추가
                         calHtml +=
-                            `<button onclick="dateclick(${year}+'/'+${month}+'/'+${setFixDayCount(startDayCount)})" id="${year}/${month}/${setFixDayCount(startDayCount)}"   style='background-color:#BBFFC9;' class='calendar__day'><span>${startDayCount}</span><span id='${year}${month}${setFixDayCount(startDayCount++)}'></span></button>`;
+                            `<button onclick="dateclick(${year}+'-'+${month}+'-'+${setFixDayCount(startDayCount)})" id="${year}-${month}-${setFixDayCount(startDayCount)}"   style='background-color:#BBFFC9;' class='calendar__day'><span>${startDayCount}</span><span id='${year}${month}${setFixDayCount(startDayCount++)}'></span></button>`;
                     } else {
                         // 스타일링을 위한 클래스 추가
                         calHtml +=
-                            `<button onclick="dateclick(${year}+'/'+${month}+'/'+${setFixDayCount(startDayCount)})" id="${year}/${month}/${setFixDayCount(startDayCount)}"   style='background-color:#BBFFC9;' class='calendar__day horizontalGutter'><span>${startDayCount}</span><span id='${year}${month}${setFixDayCount(startDayCount++)}'></span></button>`;
+                            `<button onclick="dateclick(${year}+'-'+${month}+'-'+${setFixDayCount(startDayCount)})" id="${year}-${month}-${setFixDayCount(startDayCount)}"   style='background-color:#BBFFC9;' class='calendar__day horizontalGutter'><span>${startDayCount}</span><span id='${year}${month}${setFixDayCount(startDayCount++)}'></span></button>`;
                     }
                 }
                     // i == 0: 1주차일 때
@@ -87,15 +88,15 @@ function monthselect() {
                     if (j == 0) {
                         // 스타일링을 위한 클래스 추가
                         calHtml +=
-                            `<button onclick="dateclick(${year}+'/'+${month}+'/'+${setFixDayCount(startDayCount)})" id="${year}/${month}/${setFixDayCount(startDayCount)}"  style='background-color:#BBFFC9;' class='calendar__day horizontalGutter'><span>${startDayCount}</span><span id='${year}${month}${setFixDayCount(startDayCount++)}'></span></button>`;
+                            `<button onclick="dateclick(${year}+'-'+${month}+'-'+${setFixDayCount(startDayCount)})" id="${year}-${month}-${setFixDayCount(startDayCount)}"  style='background-color:#BBFFC9;' class='calendar__day horizontalGutter'><span>${startDayCount}</span><span id='${year}${month}${setFixDayCount(startDayCount++)}'></span></button>`;
                     } else if (j == 6) {
                         // 스타일링을 위한 클래스 추가
                         calHtml +=
-                            `<button onclick="dateclick(${year}+'/'+${month}+'/'+${setFixDayCount(startDayCount)})" id="${year}/${month}/${setFixDayCount(startDayCount)}"   style='background-color:#BBFFC9;' class='calendar__day'><span>${startDayCount}</span><span id='${year}${month}${setFixDayCount(startDayCount++)}'></span></button>`;
+                            `<button onclick="dateclick(${year}+'-'+${month}+'-'+${setFixDayCount(startDayCount)})" id="${year}-${month}-${setFixDayCount(startDayCount)}"   style='background-color:#BBFFC9;' class='calendar__day'><span>${startDayCount}</span><span id='${year}${month}${setFixDayCount(startDayCount++)}'></span></button>`;
                     } else {
                         // 스타일링을 위한 클래스 추가
                         calHtml +=
-                            `<button onclick="dateclick(${year}+'/'+${month}+'/'+${setFixDayCount(startDayCount)})" id="${year}/${month}/${setFixDayCount(startDayCount)}"   style='background-color:#BBFFC9;' class='calendar__day horizontalGutter'><span>${startDayCount}</span><span id='${year}${month}${setFixDayCount(startDayCount++)}'></span></button>`;
+                            `<button onclick="dateclick(${year}+'-'+${month}+'-'+${setFixDayCount(startDayCount)})" id="${year}-${month}-${setFixDayCount(startDayCount)}"   style='background-color:#BBFFC9;' class='calendar__day horizontalGutter'><span>${startDayCount}</span><span id='${year}${month}${setFixDayCount(startDayCount++)}'></span></button>`;
                     }
                 }
                 //일요일일 때, 토요일일 때, 나머지 요일 일 때
@@ -103,15 +104,15 @@ function monthselect() {
                     if (j == 0) {
                         // 스타일링을 위한 클래스 추가
                         calHtml +=
-                            `<button onclick="dateclick(${year}+'/'+${month}+'/'+${setFixDayCount(startDayCount)})" id="${year}/${month}/${setFixDayCount(startDayCount)}"  style='background-color:#BBFFC9;' class='calendar__day horizontalGutter verticalGutter'><span>${startDayCount}</span><span id='${year}${month}${setFixDayCount(startDayCount++)}'></span></button>`;
+                            `<button onclick="dateclick(${year}+'-'+${month}+'-'+${setFixDayCount(startDayCount)})" id="${year}-${month}-${setFixDayCount(startDayCount)}"  style='background-color:#BBFFC9;' class='calendar__day horizontalGutter verticalGutter'><span>${startDayCount}</span><span id='${year}${month}${setFixDayCount(startDayCount++)}'></span></button>`;
                     } else if (j == 6) {
                         // 스타일링을 위한 클래스 추가
                         calHtml +=
-                            `<button onclick="dateclick(${year}+'/'+${month}+'/'+${setFixDayCount(startDayCount)})" id="${year}/${month}/${setFixDayCount(startDayCount)}" style='background-color:#BBFFC9;' class='calendar__day verticalGutter'><span>${startDayCount}</span><span id='${year}${month}${setFixDayCount(startDayCount++)}'></span></button>`;
+                            `<button onclick="dateclick(${year}+'-'+${month}+'-'+${setFixDayCount(startDayCount)})" id="${year}-${month}-${setFixDayCount(startDayCount)}" style='background-color:#BBFFC9;' class='calendar__day verticalGutter'><span>${startDayCount}</span><span id='${year}${month}${setFixDayCount(startDayCount++)}'></span></button>`;
                     } else {
                         // 스타일링을 위한 클래스 추가
                         calHtml +=
-                            `<button onclick="dateclick(${year}+'/'+${month}+'/'+${setFixDayCount(startDayCount)}+'/'+0)" id="${year}/${month}/${setFixDayCount(startDayCount)}/0"  style='background-color:#BBFFC9;' class='calendar__day horizontalGutter verticalGutter'><span>${startDayCount}</span><span id='${year}${month}${setFixDayCount(startDayCount++)}'></span></button>`;
+                            `<button onclick="dateclick(${year}+'-'+${month}+'-'+${setFixDayCount(startDayCount)})" id="${year}-${month}-${setFixDayCount(startDayCount)}"  style='background-color:#BBFFC9;' class='calendar__day horizontalGutter verticalGutter'><span>${startDayCount}</span><span id='${year}${month}${setFixDayCount(startDayCount++)}'></span></button>`;
                     }
                 }
                 // startDayCount > lastDay: 이번 달의 마지막 날 이후일 때
@@ -140,7 +141,7 @@ function monthselect() {
         //캘린더 하루마다 아이디를 만들어주기 위해 사용
         let fixNum = "";
         if (number < 10) {
-            fixNum = "" + number;
+            fixNum = number;
         } else {
             fixNum = number;
         }
@@ -157,6 +158,7 @@ var count=0;
 var day2=null;
 function dateclick(day) {
         if(count==0){ // 날짜를 처음 클릭했을때
+            alert(day);
             document.getElementById(day).style.backgroundColor="red"; // 빨간색으로 만들어줌
             if(day2!=null){
                 document.getElementById(day2).style.backgroundColor="#BBFFC9";
@@ -172,3 +174,15 @@ function dateclick(day) {
             $("#datediv").load(location.href+" #datediv");
         }
     }
+function movieselect(mvno,movieNm){
+    var moviedate = $("#moviedate").html();
+    var day = moviedate.split(',');
+    for(var i=0 ; i<day.length; i++){
+        if(day[i]!=null){
+            document.getElementById(day[i]).style.backgroundColor="orange";
+        }
+    }
+    $("#selectmovieresult").html(movieNm);
+    $("#selectmvmoresult").html(mvno);
+
+}
