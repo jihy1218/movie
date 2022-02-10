@@ -67,6 +67,8 @@ import java.util.Collections;
             //2.map(해당값---> 이벤트): 여러개 있을경우 모두 처리
             return memberRepository.save(memberEntity);
         }
+            // 회원 이름이 admin이면  admin 역할을 준다다
+
 
 
     }

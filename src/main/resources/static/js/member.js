@@ -196,7 +196,7 @@ $(function(){
 });
 /*회원가입 유효성 검사끝*/
 /*로그인*/
-function login(){
+/*function login(){
 
        var mid = $("#login_mid").val();
         var mpassword = $("#login_mpassword").val();
@@ -218,7 +218,7 @@ function login(){
      }
 
    });
-}
+}*/
 /*로그인 끝*/
 // 아이디찾기
 function findid(){
@@ -332,6 +332,25 @@ function addresschange(){
             }
         });
     }
+}
+//////////////////////회원 탈퇴
+function mdelete(){
+    var passwordconfirm = $("#passwordconfirm").val();
+    $.ajax({
+        url:"/member/delete",
+        data:{"passwordconfirm" : passwordconfirm},
+        success : function(data){
+        if(data==1){
+            alert("회원 탈퇴 성공")
+            location.href="/member/logout"
+        }else{
+            $("#deleteresult").html("[회원탈퇴실패]비밀번호가 다릅니다")
+        }
+
+        }
+
+    });
+
 }
 
 

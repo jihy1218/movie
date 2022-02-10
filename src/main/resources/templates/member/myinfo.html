@@ -106,11 +106,10 @@
                         <h4>정말 회원탈퇴 하시겠습니까?</h4>
                         <br>
                         <form id="deleteform">
-                            <input type="password" id="password" name="password" placeholder="비밀번호를 입력하세요" class="form-control">
+                            <input type="password" id="passwordconfirm" name="password" placeholder="비밀번호를 입력하세요" class="form-control">
+                            <span class="mb-3" id="deleteresult"></span>
                             <br>
-                            <span class="" id="deleteresult"></span>
-                            <br>
-                            <input type="button" id="delete" value="확인" class="form-control btn btn-primary">
+                            <input type="button" id="delete" value="확인"  onclick="mdelete()" class="form-control btn btn-primary">
                             <br>
                         </form>
                     </div>
