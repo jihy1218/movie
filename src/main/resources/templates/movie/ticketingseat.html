@@ -12,7 +12,7 @@
  인원수도 받아야함
  결제도 여기서
  <div class="container">
-     <div class="col-md-10 offset-1 text-center" style="border:mediumturquoise solid 3px; height: 700px;">
+     <div class=" text-center" style="border:mediumturquoise solid 3px; height: 700px;">
          <div class="col-md-2 offset-5 mt-3">
              <div class="input-group">인원 선택 :
                  <select class="form-select">
@@ -23,11 +23,11 @@
                  </select>
              </div>
          </div>
-         <div style="margin-top: 10px; height: 500px; "><!--자리깔기-->
-             <button class="btn" style="background-color: springgreen; border-radius: 30%;">A1</button>
-             <button class="btn" style="background-color: orangered; border-radius: 30%;">A2</button>
-             <button class="btn" style="background-color: darkgray; border-radius: 30%;">A3</button><br>
-         </div>
+         <span style="margin-top: 10px;" th:each="list  , i : ${seatlist}"><!--자리깔기-->
+             <button th:if="${list.equals('X')}" class="btn" style="background-color:rgba(0, 0, 0, 0); WIDTH: 40pt; HEIGHT: 40pt;" disabled="disabled"></button>
+             <button th:unless="${list.equals('X')}" th:text="${list}" class="btn" style="background-color: silver; border-radius: 30%; WIDTH: 40pt; HEIGHT: 40pt;"></button>
+             <br th:if="${i.index%20==19}">
+         </span>
          <button class="btn btn-success" data-bs-target="#paymentmodal" data-bs-toggle="modal">결제하기</button>
          <a  th:href="@{/movie/ticketingdate}"><button class="btn btn-danger" data-bs-target="#paymentmodal" data-bs-toggle="modal">뒤로가기</button></a>
      </div>

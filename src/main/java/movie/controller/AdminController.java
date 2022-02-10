@@ -1,5 +1,6 @@
 package movie.controller;
 
+import movie.domain.Dto.CnemaDto;
 import movie.domain.Dto.DateDto;
 import movie.domain.Dto.MovieDto;
 import movie.domain.Dto.MovieinfoDto;
@@ -61,14 +62,11 @@ public class AdminController {
     @GetMapping("/cnemawrite")
     public String cnemawrite(Model model){
 
-        ArrayList<String> arrayList = new ArrayList<String>();
-        for(char i = 'A'; i<'A'+11; i++){
-            for(int j = 1; j<21; j++){
-                arrayList.add(i+","+j);
-            }
-        }
-        model.addAttribute("list" , arrayList);
+        CnemaDto cnemaDto = new CnemaDto(20,10);
+        List<String> cnemalist = cnemaDto.getCnemaact();
+        model.addAttribute("list" , cnemalist);
         return "admin/cnemaregister";
+
     }
     @Autowired
     CnemaService cnemaService;

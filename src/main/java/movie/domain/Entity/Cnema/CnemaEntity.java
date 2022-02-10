@@ -11,7 +11,7 @@ import java.util.List;
 @Entity
 @Table(name="cnema")
 @AllArgsConstructor@NoArgsConstructor
-@Setter@Getter@Builder@ToString
+@Setter@Getter@Builder@ToString(exclude = "dateEntityList")
 public class CnemaEntity  extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
