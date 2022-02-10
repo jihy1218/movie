@@ -40,8 +40,10 @@ public class MovieinfoDto {
     private String watchGradeNm;
     // 영화포스터
     private String poster;
-    //영화 파일 리스트
-    List<MoviefileDto> moviefileDtos = new ArrayList<>();
+    // 영화 이미지파일 리스트
+    private List<String> movieimg = new ArrayList<>();
+    // 영화 동영상 리스트
+    private List<String> movievideo = new ArrayList<>();
 
     @AllArgsConstructor
     @NoArgsConstructor

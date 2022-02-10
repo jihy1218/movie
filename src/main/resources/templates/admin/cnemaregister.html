@@ -10,7 +10,7 @@
     <div class="container">
         <div>
             <span th:each="list  , i : ${list}">
-                <button  th:value="${list}" th:text="${list}" th:onclick="cnemabtn([[${list}]])" th:id="${list}" >
+                <button class="btn"  th:value="${list}" th:text="${list}" th:onclick="cnemabtn([[${list}]])" th:id="${list}" style="background-color: silver; border-radius: 30%; WIDTH: 40pt; HEIGHT: 40pt;" >
                 </button><br th:if="${i.index%20==19}">
             </span>
 

@@ -33,6 +33,7 @@ public class MovieService {
     @Autowired
     MoviefileRepository moviefileRepository;
     //영화 등록
+
     @Transactional
     public boolean moviewrite(String mvid, List<MultipartFile> mvimg, List<MultipartFile> mvvideo ,MultipartFile mvposter){
         String dirPo = "C:\\Users\\505\\Desktop\\Spring\\movie\\src\\main\\resources\\static\\poster";
@@ -173,23 +174,31 @@ public class MovieService {
                 JSONArray auditsJS = (JSONArray) jsonObject3.get("audits");
                 JSONObject audits = (JSONObject)auditsJS.get(0);
                 String actors = "" ;
-                for(int i = 0; i<actorsJSON.size(); i++){
+                for(int i = 0; i<3; i++){
                     JSONObject abc = (JSONObject)actorsJSON.get(i);
-                    actors += abc.get("peopleNm")+",";
+                    if(i==2) {
+                        actors += abc.get("peopleNm");
+                    }else {
+                        actors += abc.get("peopleNm") + " ,";
+                    }
                 }
                 System.out.println(actors);
                Optional<MovieEntity>  movieEntity = movieRepository.findById(temp.getMno());
                List<MoviefileEnity> moviefileEnity =  movieEntity.get().getMoviefileEnities();
                List<MovieinfoDto.MoviefileDto> moviefileDtoList = new ArrayList<>();
                String poster = null;
-
+               List<String> movieimg = new ArrayList<>();
+               List<String> movievideo  = new ArrayList<>();
                for(MoviefileEnity temp2 : moviefileEnity){
                    if(temp2.getMvtype()==1){
                        poster = temp2.getMvfile();
+                   }else if(temp2.getMvtype()==2){
+                       movieimg.add(temp2.getMvfile());
+                   }else if(temp2.getMvtype()==3){
+                       movievideo.add(temp2.getMvfile());
                    }
                        moviefileDtoList.add(temp2.toDto());
                }
-                System.out.println(poster+"포스터야");
                 MovieinfoDto movieDto = MovieinfoDto.builder()
                         .mvno(temp.getMno())
                         .movieNm((String)jsonObject3.get("movieNm"))
@@ -202,8 +211,9 @@ public class MovieService {
                         .mvid(temp.getMvid())
                         .companyNm((String)companys.get("companyNm"))
                         .watchGradeNm((String)audits.get("watchGradeNm"))
-                        .moviefileDtos(moviefileDtoList)
                         .poster(poster)
+                        .movieimg(movieimg)
+                        .movievideo(movievideo)
                         .build();
 
                 movieDtos.add(movieDto);
@@ -213,7 +223,7 @@ public class MovieService {
         return movieDtos;
     }
 
-    //영화상세정보api
+    //영화 상세정보api 끌어오기
     public JSONObject getmovieinfoselect(String mvid){
         JSONObject jsonObject0 = new JSONObject();
         String urlpa = "https://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?key=7e83198258b5dd58ff5ca336a95ff5e8&movieCd="+mvid;
@@ -238,9 +248,80 @@ public class MovieService {
             JSONArray auditsJS = (JSONArray) jsonObject3.get("audits");
             JSONObject audits = (JSONObject)auditsJS.get(0);
             String actors = "" ;
-            for(int i = 0; i<actorsJSON.size(); i++){
+            for(int i = 0; i<3; i++){
                 JSONObject abc = (JSONObject)actorsJSON.get(i);
-                actors += abc.get("peopleNm")+",";
+                if(i==2) {
+                    actors += abc.get("peopleNm");
+                }else {
+                    actors += abc.get("peopleNm") + " ,";
+                }
+            }
+            Optional<MovieEntity>  movieEntity = movieRepository.findById(this.getMvno(mvid));
+            List<MoviefileEnity> moviefileEnity =  movieEntity.get().getMoviefileEnities();
+            List<MovieinfoDto.MoviefileDto> moviefileDtoList = new ArrayList<>();
+            String poster = null;
+            List<String> movieimg = new ArrayList<>();
+            List<String> movievideo  = new ArrayList<>();
+            for(MoviefileEnity temp2 : moviefileEnity){
+                if(temp2.getMvtype()==1){
+                    poster = temp2.getMvfile();
+                }else if(temp2.getMvtype()==2){
+                    movieimg.add(temp2.getMvfile());
+                }else if(temp2.getMvtype()==3){
+                    movievideo.add(temp2.getMvfile());
+                }
+                moviefileDtoList.add(temp2.toDto());
+            }
+            jsonObject0.put("movieNm",jsonObject3.get("movieNm"));
+            jsonObject0.put("showTm",jsonObject3.get("showTm"));
+            jsonObject0.put("openDt",jsonObject3.get("openDt"));
+            jsonObject0.put("nations",nation.get("nationNm"));
+            jsonObject0.put("genres",genres.get("genreNm"));
+            jsonObject0.put("directors",directors.get("peopleNm"));
+            jsonObject0.put("actors",actors);
+            jsonObject0.put("companyNm",(String)companys.get("companyNm"));
+            jsonObject0.put("watchGradeNm",audits.get("watchGradeNm"));
+            jsonObject0.put("poster",poster);
+            jsonObject0.put("movieimg",movieimg);
+            jsonObject0.put("movievideo",movievideo);
+            System.out.println(jsonObject0.get("showTm"));
+            System.out.println(jsonObject0.get("poster"));
+            return jsonObject0;
+        } catch (Exception e) { }
+        return null;
+    }
+    //선택영화상세정보api
+    public JSONObject getmovieinfoselec(String mvid){
+        JSONObject jsonObject0 = new JSONObject();
+        String urlpa = "https://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?key=7e83198258b5dd58ff5ca336a95ff5e8&movieCd="+mvid;
+        try {
+            URL url = new URL(urlpa);
+            BufferedReader bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
+            String result = bf.readLine();
+            JSONParser jsonParser = new JSONParser();
+            JSONObject jsonObject = (JSONObject) jsonParser.parse(result);
+            JSONObject jsonObject2 = (JSONObject) jsonObject.get("movieInfoResult");
+            JSONObject jsonObject3 = (JSONObject) jsonObject2.get("movieInfo");
+            JSONArray nations = (JSONArray) jsonObject3.get("nations");
+            JSONObject nation = (JSONObject)nations.get(0);
+            JSONArray genresJS = (JSONArray)  jsonObject3.get("genres");
+            JSONObject genres = (JSONObject)genresJS.get(0);
+            JSONArray directorsJS = (JSONArray)  jsonObject3.get("directors");
+            JSONObject directors = (JSONObject)directorsJS.get(0);
+            JSONArray actorsJSON = (JSONArray) jsonObject3.get("actors");
+            JSONArray companysJS = (JSONArray) jsonObject3.get("companys");
+            JSONObject companys = (JSONObject)companysJS.get(0);
+
+            JSONArray auditsJS = (JSONArray) jsonObject3.get("audits");
+            JSONObject audits = (JSONObject)auditsJS.get(0);
+            String actors = "" ;
+            for(int i = 0; i<3; i++){
+                JSONObject abc = (JSONObject)actorsJSON.get(i);
+                if(i==2) {
+                    actors += abc.get("peopleNm");
+                }else {
+                    actors += abc.get("peopleNm") + " ,";
+                }
             }
             System.out.println(actors);
 
@@ -255,62 +336,13 @@ public class MovieService {
             jsonObject0.put("watchGradeNm",audits.get("watchGradeNm"));
 
             return jsonObject0;
-        } catch (Exception e) { }
+        } catch (Exception e) {
+        }
         return null;
     }
-
-    //선택영화상세정보api
-    public JSONObject getmovieinfoselec(String mvid){
-        JSONObject jsonObject0 = new JSONObject();
-            String urlpa = "https://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?key=7e83198258b5dd58ff5ca336a95ff5e8&movieCd="+mvid;
-            try {
-                URL url = new URL(urlpa);
-                BufferedReader bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
-                String result = bf.readLine();
-                JSONParser jsonParser = new JSONParser();
-                JSONObject jsonObject = (JSONObject) jsonParser.parse(result);
-                JSONObject jsonObject2 = (JSONObject) jsonObject.get("movieInfoResult");
-                JSONObject jsonObject3 = (JSONObject) jsonObject2.get("movieInfo");
-                JSONArray nations = (JSONArray) jsonObject3.get("nations");
-                JSONObject nation = (JSONObject)nations.get(0);
-                JSONArray genresJS = (JSONArray)  jsonObject3.get("genres");
-                JSONObject genres = (JSONObject)genresJS.get(0);
-                JSONArray directorsJS = (JSONArray)  jsonObject3.get("directors");
-                JSONObject directors = (JSONObject)directorsJS.get(0);
-                JSONArray actorsJSON = (JSONArray) jsonObject3.get("actors");
-                JSONArray companysJS = (JSONArray) jsonObject3.get("companys");
-                JSONObject companys = (JSONObject)companysJS.get(0);
-
-                JSONArray auditsJS = (JSONArray) jsonObject3.get("audits");
-                JSONObject audits = (JSONObject)auditsJS.get(0);
-                String actors = "" ;
-                for(int i = 0; i<actorsJSON.size(); i++){
-                    JSONObject abc = (JSONObject)actorsJSON.get(i);
-                    actors += abc.get("peopleNm")+",";
-                }
-                System.out.println(actors);
-
-                jsonObject0.put("movieNm",jsonObject3.get("movieNm"));
-                jsonObject0.put("showTm",jsonObject3.get("showTm"));
-                jsonObject0.put("openDt",jsonObject3.get("openDt"));
-                jsonObject0.put("nations",nation.get("nationNm"));
-                jsonObject0.put("genres",genres.get("genreNm"));
-                jsonObject0.put("directors",directors.get("peopleNm"));
-                jsonObject0.put("actors",actors);
-                jsonObject0.put("companyNm",(String)companys.get("companyNm"));
-                jsonObject0.put("watchGradeNm",audits.get("watchGradeNm"));
-
-                return jsonObject0;
-            } catch (Exception e) {
-            }
-        return null;
+    //mvid로 mvno찾기
+    public int getMvno(String mvid){
+        int mvno = movieRepository.findMvno(mvid);
+        return mvno;
     }
-/*
-    // mvid 출력하기
-    public String getMvid(){
-
-    }*/
-
-
-
 }
