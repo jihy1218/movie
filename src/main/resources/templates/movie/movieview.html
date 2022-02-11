@@ -6,6 +6,7 @@
 </head>
 <body>
 <div th:replace="header.html::header"></div><!--헤더-->
+<script th:src="@{/js/movie.js}"></script>
     <div>
         <div class="d-flex justify-content-center" style="background-color: black;" >
             <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel" style="width: 60%;">
@@ -43,57 +44,88 @@
                 <a th:href="@{/movie/ticketingdate}"><button class="btn btn-danger btn-lg" style="position: relative; top:-40px;right: -450px;padding: 20px 50px 20px 50px" >예매하기</button></a>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-4 offset-2">
-                <strong>  메인예고편</strong>
-                <button class="btn" style="margin: 0 auto;" data-bs-target="#videomodal" data-bs-toggle="modal"><img th:src="@{'/poster/'+${movieview.movieimg[0]}}" style="width: 100%"></button>
+        <!--영화 정보 평점  및 관람평  네비 버튼부분-->
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <button class="nav-link  " id="nav-home-tab" data-bs-toggle="tab"style="width: 50%; left: 0%; )"  data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">영화정보</button>
+                <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" style="width: 50%; left: 0%;" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">평점 및 관람평</button>
             </div>
-            <div class="col-md-4">
-                <strong>  티저영상</strong>
-                <button class="btn" style="margin: 0 auto;" data-bs-target="#videomodal2" data-bs-toggle="modal"><img th:src="@{'/poster/'+${movieview.movieimg[1]}}" style="width: 100%"></button>
-            </div>
-            <div class="col-md-4 offset-2">
-                성별 차트 들어갈 자리
-            </div>
-            <div class="col-md-4">
-                연령별 차트 들어갈 자리
-            </div>
-            <div class="col-md-8 offset-2">
+        </nav>
+        <!--영화 정보 평점  및 관람평  네비 버튼부분  끝-->
+        <!--영화 정보 부분 시작-->
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+        <!--이부분 부터 영화 정보 부분 사용~! -->
+
                 <div class="row">
-                    <div class="col-md-6">
-                        댓글 자리1
+                    <div class="col-md-4 offset-2">
+                        <strong>  메인예고편</strong>
+                        <button class="btn" style="margin: 0 auto;" data-bs-target="#videomodal" data-bs-toggle="modal"><img th:src="@{'/poster/'+${movieview.movieimg[0]}}" style="width: 100%"></button>
                     </div>
-                    <div class="col-md-6">
-                        댓글 자리2
+                    <div class="col-md-4">
+                        <strong>  티저영상</strong>
+                        <button class="btn" style="margin: 0 auto;" data-bs-target="#videomodal2" data-bs-toggle="modal"><img th:src="@{'/poster/'+${movieview.movieimg[1]}}" style="width: 100%"></button>
+                    </div>
+                    <div class="col-md-4 offset-2">
+                        성별 차트 들어갈 자리
+                    </div>
+                    <div class="col-md-4">
+                        연령별 차트 들어갈 자리
+                    </div>
+                </div>
+                <hr>
+                <div class="modal fade" tabindex="-1" role="dialog" id="videomodal" data-bs-backdrop="static" >
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content rounded-4 shadow">
+                            <div class="modal-body p-4 text-center">
+                                <button class="btn" style="position: absolute; right: 0px; top:0px; font-weight: bold;" data-bs-dismiss="modal">X</button>
+                                <video controls width="100%" autoplay>
+                                    <source th:src="@{'/poster/'+${movieview.movievideo[0]}}">
+                                </video>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" tabindex="-1" role="dialog" id="videomodal2" data-bs-backdrop="static" >
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content rounded-4 shadow">
+                            <div class="modal-body p-4 text-center">
+                                <button class="btn" style="position: absolute; right: 0px; top:0px; font-weight: bold;" data-bs-dismiss="modal">X</button>
+                                <video controls width="100%" autoplay>
+                                    <source th:src="@{'/poster/'+${movieview.movievideo[1]}}">
+                                </video>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!--영화정보부분 끝 </div>-->
+            <!--영화정보 부분 끝-->
+            <!--영화댓글 부분 시작-->
+        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+
+            <div class="col-md-6 offset-3">
+                <div  class="input-group offset-1">
+                    <input type="hidden" th:value="${movieview.mvno}" id="mvno">
+                    <div>
+                        <h6> 댓글 작성 </h6>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control"id="rcontents" name="rcontents">
+                    </div>
+                    <div class="col-md-2">
+                        <input type="button" onclick="replywrite()" value="등록" class="form-control">
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
-<div class="modal fade" tabindex="-1" role="dialog" id="videomodal" data-bs-backdrop="static" >
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content rounded-4 shadow">
-            <div class="modal-body p-4 text-center">
-                <button class="btn" style="position: absolute; right: 0px; top:0px; font-weight: bold;" data-bs-dismiss="modal">X</button>
-                <video controls width="100%" autoplay>
-                    <source th:src="@{'/poster/'+${movieview.movievideo[0]}}">
-                </video>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade" tabindex="-1" role="dialog" id="videomodal2" data-bs-backdrop="static" >
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content rounded-4 shadow">
-            <div class="modal-body p-4 text-center">
-                <button class="btn" style="position: absolute; right: 0px; top:0px; font-weight: bold;" data-bs-dismiss="modal">X</button>
-                <video controls width="100%" autoplay>
-                    <source th:src="@{'/poster/'+${movieview.movievideo[1]}}">
-                </video>
-            </div>
-        </div>
-    </div>
-</div>
+        <!--게시판예시-->
+<!--영화 댓글부분 2 끝-->
+
+
+
 <div th:replace="footer.html::footer"></div><!--푸터-->
 </body>
 </html>

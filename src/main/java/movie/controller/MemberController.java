@@ -68,7 +68,6 @@ public class MemberController {
                                    @RequestParam("address4")String address4
                                    ){
         memberDto.setMaddress(address1+"/"+address2+"/"+address3+"/"+address4);
-        System.out.println(memberDto.toString());
         memberService.membersignup(memberDto);
         return "member/login";
     }
@@ -134,13 +133,16 @@ public class MemberController {
         }
     }
     // 회원정보 수정
+    //비밀번호 수정
     @GetMapping("/member/passwordchange")
     @ResponseBody
     public String passwordchange(@RequestParam("mno")int mno,@RequestParam("password")String password,@RequestParam("type") int type){
+
         // type 1은 비밀번호 수정
         if(type==1) {
             boolean result = memberService.infoupdate(mno, password, type);
-            if (result) {return "1";}
+            if (result)
+            {return "1";}
         }return "2";
     }
     // 핸드폰 번호 수정
