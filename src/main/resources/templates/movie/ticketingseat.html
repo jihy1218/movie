@@ -32,7 +32,7 @@
                  </div>
              </div>
          <span style="margin-top: 10px;" th:each="list  , i : ${seatlist}"><!--자리깔기-->
-             <button th:if="${list.equals('X')}" class="btn" style="background-color:rgba(0, 0, 0, 0); WIDTH: 40pt; HEIGHT: 40pt;" ></button>
+             <button th:if="${list.equals('X')}" class="btn" style="background-color:rgba(0, 0, 0, 0); WIDTH: 40pt; HEIGHT: 40pt;" disabled="disabled"></button>
              <button th:if="${!list.equals('X') and !list.contains('@') }" th:text="${#strings.listSplit(list,'@')[0]}" th:id="${list}" class="btn" style="background-color: silver; border-radius: 30%; WIDTH: 40pt; HEIGHT: 40pt;" th:onclick="btntcount([[${list}]])"></button>
              <button th:if="${!list.equals('X') and list.contains('@')  }" disabled th:text="${#strings.listSplit(list,'@')[0]}" th:id="${list}" class="btn" style="background-color: silver; border-radius: 30%; WIDTH: 40pt; HEIGHT: 40pt;" th:onclick="btntcount([[${list}]])"></button>
              <br th:if="${i.index%20==19}">
