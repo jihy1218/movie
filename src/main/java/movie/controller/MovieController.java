@@ -2,7 +2,10 @@ package movie.controller;
 
 import movie.domain.Dto.MemberDto;
 import movie.domain.Dto.MovieinfoDto;
+import movie.domain.Entity.Date.DateEntity;
+import movie.domain.Entity.Member.MemberEntity;
 import movie.service.DateService;
+import movie.service.MemberService;
 import movie.service.MovieService;
 import movie.service.TicketingService;
 import org.json.simple.JSONObject;
@@ -32,6 +35,7 @@ public class MovieController {
         }
        /* System.out.println(dates+"나오냐요오");*/
         model.addAttribute("datelist",dates);
+
         return "movie/ticketingdate";
     }
 
@@ -41,11 +45,26 @@ public class MovieController {
     @GetMapping("/ticketingseat")
     public  String ticketingseat(){return "movie/ticketingseat";}
 
-
+    @Autowired
+    HttpServletRequest request;
+    @Autowired
+    MemberService memberService;
     @GetMapping("/ticketingseat0")
     public  String ticketingseat0(Model model){
+//         HttpSession session = request.getSession();
+//         MemberDto memberDto = (MemberDto) session.getAttribute("logindto");
+//         int mno = memberDto.getMno();
+//        int mno = 2;
+//        MemberDto memberDto = memberService.getMemberDto(mno);
+        int dno = 12;
+        List<String> seatlist = ticketingService.getseatlist(dno);
+        DateEntity dateentity = dateService.getdateentity(dno);
+        JSONObject movieinfo = movieService.getmovieinfoselect(dateentity.getMovieEntityDate().getMvid());
 
-        List<String> seatlist = ticketingService.getseatlist();
+
+        //model.addAttribute("memberDto",memberDto);
+        model.addAttribute("movieinfo",movieinfo);
+        model.addAttribute("dateinfo" ,dateentity);
         model.addAttribute("seatlist",seatlist);
         return "movie/ticketingseat";
     }
@@ -55,7 +74,6 @@ public class MovieController {
 
     @Autowired
     private DateService dateService;
-    // 지형 여기까지 여기에 잠들다.....
 
    @GetMapping("/movieview/{mvid}")
     public String movieview(@PathVariable("mvid")String mvid, Model model){ // 영화번호에 해당하는 엔티티 뽑아와야뎀
@@ -79,6 +97,44 @@ public class MovieController {
     /*   System.out.println(movieinfoDto.toString()+"영화상세정보");*/
         model.addAttribute("movieview",movieinfoDto);
         return "movie/movieview";
+    }
+    // 영화 선택시
+   @GetMapping("/movieselect")
+   @ResponseBody
+    public String movieselect(@RequestParam("mvno")int mvno){
+        String dates=dateService.datelist(mvno);
+        System.out.println(dates+"해당날짜");
+        return dates;
+    }
+
+
+    @GetMapping("/ticketingcontroller")
+    @ResponseBody
+    public String ticketingcontroller(@RequestParam("tseat")String tseat,
+                                      @RequestParam("tage")String tage,
+                                      @RequestParam("tprice")String tprice,
+                                      @RequestParam("dno")int dno){
+//         HttpSession session = request.getSession();
+//         MemberDto memberDto = (MemberDto) session.getAttribute("logindto");
+//         int mno = memberDto.getMno();
+        int mno = 2;
+
+        boolean result = ticketingService.ticketing(tseat,tage,tprice,dno,mno);
+        if(result){
+            return "1";
+        }else{
+            return "2";
+        }
+
+    }
+
+
+    // 날짜 선택시
+    @GetMapping("/dateselect")
+    @ResponseBody
+    public String dateselect(@RequestParam("day")String day){
+        String times= dateService.timelist(day);
+        return times;
     }
 
     @Autowired  // 빈 생성

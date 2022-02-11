@@ -18,6 +18,10 @@ public class TicketingEntity extends BaseTimeEntity {
     private int tno;
     @Column(name="tseat") // 예약 좌석
     private String tseat;
+    @Column(name="tage") // 예약 연령
+    private String tage;
+    @Column(name="tprice")  //총가격
+    private String tprice;
     @ManyToOne
     @JoinColumn(name="mno")  // 회원 번호
     private MemberEntity memberEntityTicket;

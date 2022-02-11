@@ -25,7 +25,7 @@
          </div>
          <div class="col-md-5"  style="height: 700px; border: lightpink solid 3px; border-radius: 9%; overflow: auto;">
              <form class="mt-3">
-                 <input type="month" onchange="monthselect();" id="monthselect1">
+                 <input type="month" onchange="monthselect();" id="monthselect1" value="2022-02" >
              </form>
              <table class="table text-center">
                  <tr>
@@ -35,25 +35,22 @@
              <div id="calendar" class="mt-3" style="height: 300px;"></div>
              <br><br><br>
              <div id="datediv" class="text-center" style="overflow: auto; height: 100px;">
-                 <button class="col-md-5 btn mb-2" style="background-color: mediumturquoise">2관 11:00~13:10 </button>
-                 <button class="col-md-5 btn mb-2" style="background-color: mediumturquoise">2관 13:30~15:40 </button>
-                 <button class="col-md-5 btn mb-2" style="background-color: mediumturquoise">7관 17:00~19:10 </button>
-                 <button class="col-md-5 btn mb-2" style="background-color: mediumturquoise">7관 20:00~22:10 </button>
-                 <button class="col-md-5 btn mb-2" style="background-color: mediumturquoise">7관 20:00~22:10 </button>
-                 <button class="col-md-5 btn mb-2" style="background-color: mediumturquoise">7관 20:00~22:10 </button>
+                 <button class="col-md-5 btn my-2" th:each="num : ${#numbers.sequence(0,10)}" th:id="${'time'+num}" th:onclick="timeselect([[${num}]]);"  style="display: none;"></button>
              </div>
              <a th:href="@{/movie/ticketingseat}"><button class="col-md-6 offset-3 btn btn-success mt-2" id="seats">좌석선택</button></a>
              <a th:href="@{/movie/ticketingdate}"><button class="col-md-6 offset-3 btn btn-danger mt-2">RESET</button></a>
-             <a th:href="@{/movie/ticketingseat0}"><button class="" id="">좌석선택임시</button></a>
+             <a th:href="@{/movie/ticketingseat0}"><button onclick="seatselect();">좌석선택임시</button></a>
          </div>
      </div>
  </div>
  <div class="text-center" style="position: fixed; right: 50px;top:200px;width: 300px;height: 400px;border: solid 2px #96C0B7;">
      <h3>선택 내역</h3>
      <span id="selectmovieresult"></span><br>
-     <span id="selectmvmoresult"></span><br>
-     <span th:text="${datelist}" style="display: none;" id="moviedate"></span>
-
+     <span id="selectmvmoresult"  style="display: none;"></span><br>
+     <span id="moviedate" style="display: none;"></span>
+     <span id="selectdateresult"></span><br>
+     <span id="movietime"  style="display: none;"></span>
+     <span id="selecttimeresult"></span><br>
  </div>
  <script th:src="@{/js/calendar.js}"></script>
  <div th:replace="footer.html::footer"></div><!--푸터-->

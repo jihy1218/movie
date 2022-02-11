@@ -183,6 +183,15 @@ public class MemberService implements UserDetailsService {
         }
             return false;
     }
+    public MemberEntity getmementity(int mno){
+        MemberEntity memberenttity = memberRepository.findById(mno).get();
+        return memberenttity;
+    }
 
+
+      /*  ((entityOptional.get().getMpassword().equals(passwordconfirm)))*/
+   /* BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        memberDto.setMpassword(passwordEncoder.encode(memberDto.getMpassword()));
+        memberRepository.save(memberDto.toEntity());*/
 
 }//class end
