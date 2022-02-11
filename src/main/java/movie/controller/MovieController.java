@@ -1,7 +1,11 @@
 package movie.controller;
 
+import movie.domain.Dto.MemberDto;
 import movie.domain.Dto.MovieinfoDto;
+import movie.domain.Entity.Date.DateEntity;
+import movie.domain.Entity.Member.MemberEntity;
 import movie.service.DateService;
+import movie.service.MemberService;
 import movie.service.MovieService;
 import movie.service.TicketingService;
 import org.json.simple.JSONObject;
@@ -9,11 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,11 +44,26 @@ public class MovieController {
     @GetMapping("/ticketingseat")
     public  String ticketingseat(){return "movie/ticketingseat";}
 
-
+    @Autowired
+    HttpServletRequest request;
+    @Autowired
+    MemberService memberService;
     @GetMapping("/ticketingseat0")
     public  String ticketingseat0(Model model){
+//         HttpSession session = request.getSession();
+//         MemberDto memberDto = (MemberDto) session.getAttribute("logindto");
+//         int mno = memberDto.getMno();
+//        int mno = 2;
+//        MemberDto memberDto = memberService.getMemberDto(mno);
+        int dno = 12;
+        List<String> seatlist = ticketingService.getseatlist(dno);
+        DateEntity dateentity = dateService.getdateentity(dno);
+        JSONObject movieinfo = movieService.getmovieinfoselect(dateentity.getMovieEntityDate().getMvid());
 
-        List<String> seatlist = ticketingService.getseatlist();
+
+        //model.addAttribute("memberDto",memberDto);
+        model.addAttribute("movieinfo",movieinfo);
+        model.addAttribute("dateinfo" ,dateentity);
         model.addAttribute("seatlist",seatlist);
         return "movie/ticketingseat";
     }
@@ -79,6 +97,26 @@ public class MovieController {
        System.out.println(movieinfoDto.toString()+"영화상세정보");
         model.addAttribute("movieview",movieinfoDto);
         return "movie/movieview";
+    }
+
+    @GetMapping("/ticketingcontroller")
+    @ResponseBody
+    public String ticketingcontroller(@RequestParam("tseat")String tseat,
+                                      @RequestParam("tage")String tage,
+                                      @RequestParam("tprice")String tprice,
+                                      @RequestParam("dno")int dno){
+//         HttpSession session = request.getSession();
+//         MemberDto memberDto = (MemberDto) session.getAttribute("logindto");
+//         int mno = memberDto.getMno();
+        int mno = 2;
+
+        boolean result = ticketingService.ticketing(tseat,tage,tprice,dno,mno);
+        if(result){
+            return "1";
+        }else{
+            return "2";
+        }
+
     }
 
 }
