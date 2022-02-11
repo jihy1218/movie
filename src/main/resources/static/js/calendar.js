@@ -5,7 +5,6 @@ function monthselect() {
     const setCalendarData = (year, month) => {
         //빈 문자열을 만들어줍니다.
         let calHtml = "";
-
         const month1 = document.getElementById("monthselect1").value;
         month = parseInt(month1.split('-')[1]);
         $("#calendar").load();
@@ -71,15 +70,15 @@ function monthselect() {
                     if (j == 0) {
                         // 스타일링을 위한 클래스 추가
                         calHtml +=
-                            `<button  onclick="dateclick(${year}+'-'+${month}+'-'+${setFixDayCount(startDayCount)})" id="${year}-${month}-${setFixDayCount(startDayCount)}"   style='background-color:#BBFFC9;' class='calendar__day horizontalGutter'><span>${startDayCount}</span></button>`;
+                            `<button  onclick="dateclick(${year}+'-'+${month}+'-'+${setFixDayCount(startDayCount)})" disabled="disabled" id="${year}-${month}-${setFixDayCount(startDayCount)}"   style='background-color:#BBFFC9;' class='calendar__day horizontalGutter'><span>${startDayCount}</span></button>`;
                     } else if (j == 6) {
                         // 스타일링을 위한 클래스 추가
                         calHtml +=
-                            `<button onclick="dateclick(${year}+'-'+${month}+'-'+${setFixDayCount(startDayCount)})" id="${year}-${month}-${setFixDayCount(startDayCount)}"   style='background-color:#BBFFC9;' class='calendar__day'><span>${startDayCount}</span><span id='${year}${month}${setFixDayCount(startDayCount++)}'></span></button>`;
+                            `<button onclick="dateclick(${year}+'-'+${month}+'-'+${setFixDayCount(startDayCount)})" disabled="disabled" id="${year}-${month}-${setFixDayCount(startDayCount)}"   style='background-color:#BBFFC9;' class='calendar__day'><span>${startDayCount}</span><span id='${year}${month}${setFixDayCount(startDayCount++)}'></span></button>`;
                     } else {
                         // 스타일링을 위한 클래스 추가
                         calHtml +=
-                            `<button onclick="dateclick(${year}+'-'+${month}+'-'+${setFixDayCount(startDayCount)})" id="${year}-${month}-${setFixDayCount(startDayCount)}"   style='background-color:#BBFFC9;' class='calendar__day horizontalGutter'><span>${startDayCount}</span><span id='${year}${month}${setFixDayCount(startDayCount++)}'></span></button>`;
+                            `<button onclick="dateclick(${year}+'-'+${month}+'-'+${setFixDayCount(startDayCount)})" disabled="disabled" id="${year}-${month}-${setFixDayCount(startDayCount)}"   style='background-color:#BBFFC9;' class='calendar__day horizontalGutter'><span>${startDayCount}</span><span id='${year}${month}${setFixDayCount(startDayCount++)}'></span></button>`;
                     }
                 }
                     // i == 0: 1주차일 때
@@ -88,15 +87,15 @@ function monthselect() {
                     if (j == 0) {
                         // 스타일링을 위한 클래스 추가
                         calHtml +=
-                            `<button onclick="dateclick(${year}+'-'+${month}+'-'+${setFixDayCount(startDayCount)})" id="${year}-${month}-${setFixDayCount(startDayCount)}"  style='background-color:#BBFFC9;' class='calendar__day horizontalGutter'><span>${startDayCount}</span><span id='${year}${month}${setFixDayCount(startDayCount++)}'></span></button>`;
+                            `<button onclick="dateclick(${year}+'-'+${month}+'-'+${setFixDayCount(startDayCount)})" disabled="disabled" id="${year}-${month}-${setFixDayCount(startDayCount)}"  style='background-color:#BBFFC9;' class='calendar__day horizontalGutter'><span>${startDayCount}</span><span id='${year}${month}${setFixDayCount(startDayCount++)}'></span></button>`;
                     } else if (j == 6) {
                         // 스타일링을 위한 클래스 추가
                         calHtml +=
-                            `<button onclick="dateclick(${year}+'-'+${month}+'-'+${setFixDayCount(startDayCount)})" id="${year}-${month}-${setFixDayCount(startDayCount)}"   style='background-color:#BBFFC9;' class='calendar__day'><span>${startDayCount}</span><span id='${year}${month}${setFixDayCount(startDayCount++)}'></span></button>`;
+                            `<button onclick="dateclick(${year}+'-'+${month}+'-'+${setFixDayCount(startDayCount)})" disabled="disabled" id="${year}-${month}-${setFixDayCount(startDayCount)}"   style='background-color:#BBFFC9;' class='calendar__day'><span>${startDayCount}</span><span id='${year}${month}${setFixDayCount(startDayCount++)}'></span></button>`;
                     } else {
                         // 스타일링을 위한 클래스 추가
                         calHtml +=
-                            `<button onclick="dateclick(${year}+'-'+${month}+'-'+${setFixDayCount(startDayCount)})" id="${year}-${month}-${setFixDayCount(startDayCount)}"   style='background-color:#BBFFC9;' class='calendar__day horizontalGutter'><span>${startDayCount}</span><span id='${year}${month}${setFixDayCount(startDayCount++)}'></span></button>`;
+                            `<button onclick="dateclick(${year}+'-'+${month}+'-'+${setFixDayCount(startDayCount)})" disabled="disabled" id="${year}-${month}-${setFixDayCount(startDayCount)}"   style='background-color:#BBFFC9;' class='calendar__day horizontalGutter'><span>${startDayCount}</span><span id='${year}${month}${setFixDayCount(startDayCount++)}'></span></button>`;
                     }
                 }
                 //일요일일 때, 토요일일 때, 나머지 요일 일 때
@@ -104,15 +103,15 @@ function monthselect() {
                     if (j == 0) {
                         // 스타일링을 위한 클래스 추가
                         calHtml +=
-                            `<button onclick="dateclick(${year}+'-'+${month}+'-'+${setFixDayCount(startDayCount)})" id="${year}-${month}-${setFixDayCount(startDayCount)}"  style='background-color:#BBFFC9;' class='calendar__day horizontalGutter verticalGutter'><span>${startDayCount}</span><span id='${year}${month}${setFixDayCount(startDayCount++)}'></span></button>`;
+                            `<button onclick="dateclick(${year}+'-'+${month}+'-'+${setFixDayCount(startDayCount)})" disabled="disabled" id="${year}-${month}-${setFixDayCount(startDayCount)}"  style='background-color:#BBFFC9;' class='calendar__day horizontalGutter verticalGutter'><span>${startDayCount}</span><span id='${year}${month}${setFixDayCount(startDayCount++)}'></span></button>`;
                     } else if (j == 6) {
                         // 스타일링을 위한 클래스 추가
                         calHtml +=
-                            `<button onclick="dateclick(${year}+'-'+${month}+'-'+${setFixDayCount(startDayCount)})" id="${year}-${month}-${setFixDayCount(startDayCount)}" style='background-color:#BBFFC9;' class='calendar__day verticalGutter'><span>${startDayCount}</span><span id='${year}${month}${setFixDayCount(startDayCount++)}'></span></button>`;
+                            `<button onclick="dateclick(${year}+'-'+${month}+'-'+${setFixDayCount(startDayCount)})" disabled="disabled" id="${year}-${month}-${setFixDayCount(startDayCount)}" style='background-color:#BBFFC9;' class='calendar__day verticalGutter'><span>${startDayCount}</span><span id='${year}${month}${setFixDayCount(startDayCount++)}'></span></button>`;
                     } else {
                         // 스타일링을 위한 클래스 추가
                         calHtml +=
-                            `<button onclick="dateclick(${year}+'-'+${month}+'-'+${setFixDayCount(startDayCount)})" id="${year}-${month}-${setFixDayCount(startDayCount)}"  style='background-color:#BBFFC9;' class='calendar__day horizontalGutter verticalGutter'><span>${startDayCount}</span><span id='${year}${month}${setFixDayCount(startDayCount++)}'></span></button>`;
+                            `<button onclick="dateclick(${year}+'-'+${month}+'-'+${setFixDayCount(startDayCount)})" disabled="disabled" id="${year}-${month}-${setFixDayCount(startDayCount)}"  style='background-color:#BBFFC9;' class='calendar__day horizontalGutter verticalGutter'><span>${startDayCount}</span><span id='${year}${month}${setFixDayCount(startDayCount++)}'></span></button>`;
                     }
                 }
                 // startDayCount > lastDay: 이번 달의 마지막 날 이후일 때
@@ -154,35 +153,111 @@ function monthselect() {
         setCalendarData(today.getFullYear(), "" + (today.getMonth() + 1));
     }
 }
-var count=0;
-var day2=null;
-function dateclick(day) {
-        if(count==0){ // 날짜를 처음 클릭했을때
-            alert(day);
-            document.getElementById(day).style.backgroundColor="red"; // 빨간색으로 만들어줌
-            if(day2!=null){
-                document.getElementById(day2).style.backgroundColor="#BBFFC9";
-            }
-            count++; // 카운트 추가
-            day2=day; // day2라는 빈 객체에 day를 넣음
-            $("#datediv").load(location.href+" #datediv");
-        }else {
-            document.getElementById(day2).style.backgroundColor="#BBFFC9"; // day2를 원래 색(평일)으로 변경
-            document.getElementById(day).style.backgroundColor="red"; // 선택한 날을 빨간색으로바꿈
-            count=0; // 카운트는 0으로
-            day2=day; // day2에 다시 day를 넣어줌
-            $("#datediv").load(location.href+" #datediv");
-        }
-    }
+
+// 영화 선택했을때 달력 버튼 활성화용
+var movieselectcount=0;
+var moviedate2=null;
 function movieselect(mvno,movieNm){
-    var moviedate = $("#moviedate").html();
-    var day = moviedate.split(',');
-    for(var i=0 ; i<day.length; i++){
-        if(day[i]!=null){
-            document.getElementById(day[i]).style.backgroundColor="orange";
-        }
-    }
     $("#selectmovieresult").html(movieNm);
     $("#selectmvmoresult").html(mvno);
+    $("#selectdateresult").html("");
+    $.ajax({
+        url : "/movie/movieselect",
+        data : {"mvno": mvno},
+        success : function (result){
+            $("#moviedate").html(result);
+            var moviedate = $("#moviedate").html();
+            var day = moviedate.split(',');
+            if(moviedate2!=null){
+                var day2 = moviedate2.split(',');
+            }
+            if(movieselectcount==0){
+                for(var i=0 ; i<day.length; i++){
+                        document.getElementById(day[i]).style.backgroundColor="#BBFFC9";
+                        $("#"+day[i]).attr("disabled",false); // 버튼을 쓰게 해줌
+                        if(moviedate2!=null){
+                            document.getElementById(day2[i]).style.backgroundColor="#BBFFC9";
+                            $("#"+day2[i]).attr("disabled",true); // 버튼을 못쓰게 해줌
+                        }
+                        movieselectcount++;
+                        moviedate2 = $("#moviedate").html();
+                }
+            }else{
+                for(var i=0 ; i<day2.length; i++){
+                    document.getElementById(day2[i]).style.backgroundColor="#BBFFC9";
+                    $("#"+day2[i]).attr("disabled",true); // 버튼을 쓰게 해줌
+                    document.getElementById(day[i]).style.backgroundColor="#BBFFC9";
+                    $("#"+day[i]).attr("disabled",false); // 버튼을 쓰게 해줌
+                    movieselectcount=0;
+                    moviedate2 = $("#moviedate").html();
+                }
+            }
+        }
+    });
+}
 
+// 날짜 선택용
+var count=0;
+var day2=null;
+var movietime2 =null;
+var timecount = true;
+function dateclick(day) {
+    $("#selectdateresult").html("");
+    $.ajax({
+        url : "/movie/dateselect",
+        data : {"day" : day},
+        success : function (result){
+            $("#movietime").html(result);
+            var movietime =$("#movietime").html();
+            var time = movietime.split(',');
+            /*if(movietime2!=null){
+                var time2 = movietime2.split(',');
+            }*/
+            if(count==0){ // 날짜를 처음 클릭했을때
+                document.getElementById(day).style.backgroundColor="red"; // 빨간색으로 만들어줌
+                $("#selectdateresult").html(day);
+                // 시간 버튼 출력
+                for(var i=0;i<time.length;i++){
+                        $("#time"+i).html(time[i]); // 시간 적기
+                        $("#time"+i).attr('style','display:');
+                        $("#time"+i).attr('style','background-color:#BBFFC9');
+                }
+                for(var i=time.length;i<10;i++){
+                    $("#time"+i).html(""); // 시간 적기
+                    $("#time"+i).attr('style','display:none:');
+                }
+                /*movietime2 = movietime;*/
+                if(day2!=null){
+                    document.getElementById(day2).style.backgroundColor="#BBFFC9";
+                }
+                count++; // 카운트 추가
+                day2=day; // day2라는 빈 객체에 day를 넣음
+            }else if(count==1){
+                document.getElementById(day2).style.backgroundColor="#BBFFC9"; // day2를 원래 색(평일)으로 변경
+                document.getElementById(day).style.backgroundColor="red"; // 선택한 날을 빨간색으로바꿈
+                $("#selectdateresult").html(day);
+                // 시간 버튼 출력
+                for(var i=0;i<time.length;i++){
+                    $("#time"+i).html(time[i]); // 시간 적기
+                    $("#time"+i).attr('style','display:');
+                    $("#time"+i).attr('style','background-color:#BBFFC9');
+                }
+                for(var i=time.length;i<10;i++){
+                    $("#time"+i).html(""); // 시간 적기
+                    $("#time"+i).attr('style','display:none;');
+                }
+                /*movietime2 = movietime;*/
+                count=0; // 카운트는 0으로
+                day2=day; // day2에 다시 day를 넣어줌
+            }
+        }
+    });
+}
+
+function  timeselect(num){
+    var time = $("#time"+num).html();
+    $("#selecttimeresult").html(time);
+}
+function  seatselect(){
+    alert("a");
 }

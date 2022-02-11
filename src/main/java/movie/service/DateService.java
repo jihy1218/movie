@@ -90,8 +90,22 @@ public class DateService {
                 date += dates.get(i) + ",";
             }
         }
-        System.out.println(date);
         return  date;
+    }
+
+    // 날짜로 시간 찾기
+    public String timelist(String day){
+        List<String> times = dateRepository.findTimeByDate(day);
+        String time = "";
+        for(int i=0;i<times.size();i++){
+            if(i==times.size()-1){
+                time += times.get(i);
+            }else {
+                time += times.get(i)+",";
+            }
+        }
+        System.out.println(time);
+        return time;
     }
 
 
