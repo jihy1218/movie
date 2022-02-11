@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,13 +22,6 @@ public class MovieController {
     public String ticketing(Model model){
         List<MovieinfoDto> movielist = movieService.getmovieinfo();
         model.addAttribute("movielist",movielist);
-        String dates=null;
-        for(MovieinfoDto temp : movielist){
-            dates =dateService.datelist(temp.getMvno());
-
-        }
-        System.out.println(dates+"나오냐요오");
-        model.addAttribute("datelist",dates);
         return "movie/ticketingdate";
     }
 
@@ -55,7 +45,6 @@ public class MovieController {
 
     @Autowired
     private DateService dateService;
-    // 지형 여기까지 여기에 잠들다.....
 
    @GetMapping("/movieview/{mvid}")
     public String movieview(@PathVariable("mvid")String mvid, Model model){ // 영화번호에 해당하는 엔티티 뽑아와야뎀
@@ -80,5 +69,20 @@ public class MovieController {
         model.addAttribute("movieview",movieinfoDto);
         return "movie/movieview";
     }
+    // 영화 선택시
+   @GetMapping("/movieselect")
+   @ResponseBody
+    public String movieselect(@RequestParam("mvno")int mvno){
+        String dates=dateService.datelist(mvno);
+        System.out.println(dates+"해당날짜");
+        return dates;
+    }
 
+    // 날짜 선택시
+    @GetMapping("/dateselect")
+    @ResponseBody
+    public String dateselect(@RequestParam("day")String day){
+        String times= dateService.timelist(day);
+        return times;
+    }
 }
