@@ -28,6 +28,14 @@ public class MovieController {
     public String ticketing(Model model){
         List<MovieinfoDto> movielist = movieService.getmovieinfo();
         model.addAttribute("movielist",movielist);
+        String dates=null;
+        for(MovieinfoDto temp : movielist){
+            dates =dateService.datelist(temp.getMvno());
+
+        }
+       /* System.out.println(dates+"나오냐요오");*/
+        model.addAttribute("datelist",dates);
+
         return "movie/ticketingdate";
     }
 
@@ -86,7 +94,7 @@ public class MovieController {
                 .movieimg((List<String>)jsonObject.get("movieimg"))
                 .movievideo((List<String>)jsonObject.get("movievideo"))
                 .build();
-       System.out.println(movieinfoDto.toString()+"영화상세정보");
+    /*   System.out.println(movieinfoDto.toString()+"영화상세정보");*/
         model.addAttribute("movieview",movieinfoDto);
         return "movie/movieview";
     }
@@ -129,4 +137,22 @@ public class MovieController {
         return times;
     }
 
+    //댓글 등록
+    //2/11 여기에서  영화 번호 넣고 시작하면된다 js에도 영화 번호 넣어야함
+    @GetMapping("/replywrite/")
+    @ResponseBody
+    public String replywrite( @RequestParam("mvno")int mvno,@RequestParam("rcontents") String rcontents){
+    HttpSession session = request.getSession();
+    MemberDto memberDto = (MemberDto) session.getAttribute("logindto");
+    int mno = memberDto.getMno();
+        boolean result = movieService.replywrite1(mvno,rcontents,memberDto.getMno());
+       if(result){
+            return "1";
+        }else{
+           return "2";
+       }
+    }
+
+
 }
+
