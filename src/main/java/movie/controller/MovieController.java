@@ -137,9 +137,6 @@ public class MovieController {
         return times;
     }
 
-    @Autowired  // 빈 생성
-    HttpServletRequest request;
-
     //댓글 등록
     //2/11 여기에서  영화 번호 넣고 시작하면된다 js에도 영화 번호 넣어야함
     @GetMapping("/replywrite/")
