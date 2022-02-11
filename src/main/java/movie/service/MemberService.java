@@ -99,6 +99,7 @@ public class MemberService implements UserDetailsService {
     public MemberDto getMemberDto(int mno){
         Optional<MemberEntity> memberEntity = memberRepository.findById(mno);
         return MemberDto.builder()
+                .mno(mno)
                 .mid(memberEntity.get().getMid())
                 .mname(memberEntity.get().getMname())
                 .memail(memberEntity.get().getMemail())
@@ -181,6 +182,12 @@ public class MemberService implements UserDetailsService {
         }
             return false;
     }
+
+    public MemberEntity getmementity(int mno){
+        MemberEntity memberenttity = memberRepository.findById(mno).get();
+        return memberenttity;
+    }
+
 
       /*  ((entityOptional.get().getMpassword().equals(passwordconfirm)))*/
    /* BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();

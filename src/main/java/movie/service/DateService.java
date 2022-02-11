@@ -52,6 +52,12 @@ public class DateService {
         return dateEntityList;
     }
 
+    //dno로 조회
+    public DateEntity getdateentity(int dno){
+        DateEntity dateentity = dateRepository.findById(dno).get();
+        return dateentity;
+    }
+
     //전체삭제
     public boolean delete(int type , int no){
         if(type==1){
