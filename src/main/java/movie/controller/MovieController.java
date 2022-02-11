@@ -1,5 +1,6 @@
 package movie.controller;
 
+import movie.domain.Dto.MemberDto;
 import movie.domain.Dto.MovieinfoDto;
 import movie.service.DateService;
 import movie.service.MovieService;
@@ -9,11 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +30,7 @@ public class MovieController {
             dates =dateService.datelist(temp.getMvno());
 
         }
-        System.out.println(dates+"나오냐요오");
+       /* System.out.println(dates+"나오냐요오");*/
         model.addAttribute("datelist",dates);
         return "movie/ticketingdate";
     }
@@ -76,9 +76,30 @@ public class MovieController {
                 .movieimg((List<String>)jsonObject.get("movieimg"))
                 .movievideo((List<String>)jsonObject.get("movievideo"))
                 .build();
-       System.out.println(movieinfoDto.toString()+"영화상세정보");
+    /*   System.out.println(movieinfoDto.toString()+"영화상세정보");*/
         model.addAttribute("movieview",movieinfoDto);
         return "movie/movieview";
     }
 
+    @Autowired  // 빈 생성
+    HttpServletRequest request;
+
+    //댓글 등록
+    //2/11 여기에서  영화 번호 넣고 시작하면된다 js에도 영화 번호 넣어야함
+    @GetMapping("/replywrite/")
+    @ResponseBody
+    public String replywrite( @RequestParam("mvno")int mvno,@RequestParam("rcontents") String rcontents){
+    HttpSession session = request.getSession();
+    MemberDto memberDto = (MemberDto) session.getAttribute("logindto");
+    int mno = memberDto.getMno();
+        boolean result = movieService.replywrite1(mvno,rcontents,memberDto.getMno());
+       if(result){
+            return "1";
+        }else{
+           return "2";
+       }
+    }
+
+
 }
+

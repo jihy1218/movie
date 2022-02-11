@@ -99,6 +99,7 @@ public class MemberService implements UserDetailsService {
     public MemberDto getMemberDto(int mno){
         Optional<MemberEntity> memberEntity = memberRepository.findById(mno);
         return MemberDto.builder()
+                .mno(mno)
                 .mid(memberEntity.get().getMid())
                 .mname(memberEntity.get().getMname())
                 .memail(memberEntity.get().getMemail())
@@ -158,7 +159,8 @@ public class MemberService implements UserDetailsService {
      @Transactional
     public boolean infoupdate(int mno,String temp,int type){
         Optional<MemberEntity> memberEntities = memberRepository.findById(mno);
-        if(type==1){memberEntities.get().setMpassword(temp); return true;} // 비밀번호 변경
+         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        if(type==1){ memberEntities.get().setMpassword(passwordEncoder.encode(temp)); return true;} // 비밀번호 변경
         if(type == 2){memberEntities.get().setMphone(temp); return  true;} // 핸드폰 번호 변경
         if(type==3){memberEntities.get().setMaddress(temp);return true;} // 주소 변경
         return false;
@@ -182,8 +184,5 @@ public class MemberService implements UserDetailsService {
             return false;
     }
 
-      /*  ((entityOptional.get().getMpassword().equals(passwordconfirm)))*/
-   /* BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        memberDto.setMpassword(passwordEncoder.encode(memberDto.getMpassword()));
-        memberRepository.save(memberDto.toEntity());*/
+
 }//class end

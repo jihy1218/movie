@@ -2,10 +2,9 @@ package movie.service;
 
 import movie.domain.Dto.MovieDto;
 import movie.domain.Dto.MovieinfoDto;
-import movie.domain.Entity.Movie.MovieEntity;
-import movie.domain.Entity.Movie.MovieRepository;
-import movie.domain.Entity.Movie.MoviefileEnity;
-import movie.domain.Entity.Movie.MoviefileRepository;
+import movie.domain.Entity.Member.MemberEntity;
+import movie.domain.Entity.Member.MemberRepository;
+import movie.domain.Entity.Movie.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -345,4 +344,37 @@ public class MovieService {
         int mvno = movieRepository.findMvno(mvid);
         return mvno;
     }
-}
+   /*// 영화 번호 로 정보 불러오기
+    public MovieDto getMovieDto(int mno){
+        Optional<MovieEntity> movieEntity = movieRepository.findBymno(mno);
+        return  MovieDto.builder()
+                .mno(mno)
+                .mvid(movieEntity.get().getMvid())
+                .mvimg(movieEntity.get().getMvimg())
+                .build();
+
+    }*/
+
+    @Autowired
+    MemberRepository memberRepository;
+    @Autowired
+    ReplyRepository replyRepository;
+    //댓글 등록
+    //2/11 여기에서  영화 번호 넣고 시작하면된다 js에도 영화 번호 넣어야함
+    public boolean replywrite1(int mvno,String rcontents , int mno){
+        Optional<MemberEntity>  memberEntity = memberRepository.findById(mno);
+        Optional<MovieEntity> movieEntity = movieRepository.findById(mvno);
+        ReplyEntity replyEntity =ReplyEntity.builder()
+            .rcontents(rcontents)
+            .memberEntityReply(memberEntity.get())
+            .movieEntityReply(movieEntity.get())
+            .build();
+
+        //  리플에 저장 // 멤버리스트에저장 //  하여튼 거시기 저장
+        replyRepository.save(replyEntity);
+        return true;
+    }
+
+
+
+}// C end
