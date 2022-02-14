@@ -7,6 +7,8 @@ import movie.domain.Entity.Date.DateEntity;
 import movie.domain.Entity.Date.DateRepository;
 import movie.domain.Entity.Movie.MovieEntity;
 import movie.domain.Entity.Movie.MovieRepository;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -94,18 +96,24 @@ public class DateService {
     }
 
     // 날짜로 시간 찾기
-    public String timelist(String day){
-        List<String> times = dateRepository.findTimeByDate(day);
-        String time = "";
-        for(int i=0;i<times.size();i++){
-            if(i==times.size()-1){
-                time += times.get(i);
-            }else {
-                time += times.get(i)+",";
-            }
-        }
-        System.out.println(time);
-        return time;
+    public JSONObject timelist(String day,int mvno){
+        JSONArray jsonArray = new JSONArray();
+       List<DateEntity> times = dateRepository.findTimeByDate(day,mvno);
+       for(int i=0;i<times.size();i++) {
+           JSONObject jsonObject = new JSONObject();
+           jsonObject.put("dno",times.get(i).getDno());                 // date pk
+           jsonObject.put("ddate",times.get(i).getDdate());      // 상영일
+           jsonObject.put("dtime",times.get(i).getDtime());        // 상영시간 ex) 17:00~19:00
+           jsonObject.put("dseat",times.get(i).getDseat());       // 잔여좌석
+           jsonObject.put("cno",times.get(i).getCnemaEntityDate().getCno());
+           jsonObject.put("fullseat",times.get(i).getCnemaEntityDate().getCcount());
+           jsonObject.put("ctype",times.get(i).getCnemaEntityDate().getCtype());
+           jsonArray.add(jsonObject);
+       }
+        JSONObject king = new JSONObject();
+        king.put("movie",jsonArray);
+        return king;
+
     }
 
 

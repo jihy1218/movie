@@ -33,30 +33,21 @@ public class MovieController {
             dates =dateService.datelist(temp.getMvno());
 
         }
-       /* System.out.println(dates+"나오냐요오");*/
         model.addAttribute("datelist",dates);
-
         return "movie/ticketingdate";
     }
 
     @Autowired
     TicketingService ticketingService;
 
-    @GetMapping("/ticketingseat")
-    public  String ticketingseat(){return "movie/ticketingseat";}
-
-    @Autowired
-    HttpServletRequest request;
-    @Autowired
-    MemberService memberService;
-    @GetMapping("/ticketingseat0")
-    public  String ticketingseat0(Model model){
-//         HttpSession session = request.getSession();
+    @GetMapping("/ticketingseat/{dno}")
+    public  String ticketingseat(@PathVariable("dno")int dno,Model model){
+        //         HttpSession session = request.getSession();
 //         MemberDto memberDto = (MemberDto) session.getAttribute("logindto");
 //         int mno = memberDto.getMno();
 //        int mno = 2;
 //        MemberDto memberDto = memberService.getMemberDto(mno);
-        int dno = 12;
+       // int dno = 12;
         List<String> seatlist = ticketingService.getseatlist(dno);
         DateEntity dateentity = dateService.getdateentity(dno);
         JSONObject movieinfo = movieService.getmovieinfoselect(dateentity.getMovieEntityDate().getMvid());
@@ -66,8 +57,13 @@ public class MovieController {
         model.addAttribute("movieinfo",movieinfo);
         model.addAttribute("dateinfo" ,dateentity);
         model.addAttribute("seatlist",seatlist);
-        return "movie/ticketingseat";
-    }
+
+        return "movie/ticketingseat";}
+
+    @Autowired
+    HttpServletRequest request;
+    @Autowired
+    MemberService memberService;
 
     @Autowired
     private MovieService movieService;
@@ -94,7 +90,6 @@ public class MovieController {
                 .movieimg((List<String>)jsonObject.get("movieimg"))
                 .movievideo((List<String>)jsonObject.get("movievideo"))
                 .build();
-    /*   System.out.println(movieinfoDto.toString()+"영화상세정보");*/
         model.addAttribute("movieview",movieinfoDto);
         return "movie/movieview";
     }
@@ -103,7 +98,6 @@ public class MovieController {
    @ResponseBody
     public String movieselect(@RequestParam("mvno")int mvno){
         String dates=dateService.datelist(mvno);
-        System.out.println(dates+"해당날짜");
         return dates;
     }
 
@@ -132,9 +126,9 @@ public class MovieController {
     // 날짜 선택시
     @GetMapping("/dateselect")
     @ResponseBody
-    public String dateselect(@RequestParam("day")String day){
-        String times= dateService.timelist(day);
-        return times;
+    public JSONObject dateselect(@RequestParam("day")String day,@RequestParam("mvno")int mvno){
+        JSONObject jsonObject = dateService.timelist(day,mvno);
+        return jsonObject;
     }
 
     //댓글 등록
