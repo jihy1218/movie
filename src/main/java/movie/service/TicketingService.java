@@ -15,6 +15,7 @@ import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -123,10 +124,13 @@ public class TicketingService {
     @Autowired
     MemberRepository memberRepository;
 
+    @Transactional
     public boolean ticketing(String tseat,String tage,String tprice,
-                             int dno,int mno){
+                             int dno,int mno,int count){
         DateEntity dateentity = dateRepository.findById(dno).get();
         MemberEntity memberEntity = memberRepository.findById(mno).get();
+
+        dateentity.setDseat(dateentity.getDseat()-count);
 
         TicketingEntity ticketing = TicketingEntity.builder()
                 .tseat(tseat)

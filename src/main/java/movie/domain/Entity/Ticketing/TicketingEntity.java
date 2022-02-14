@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Entity
 @Table(name="ticketing")
 @NoArgsConstructor@AllArgsConstructor
-@Setter@Getter@ToString@Builder
+@Setter@Getter@ToString(exclude ={"memberEntityTicket","dateEntityTicket"})@Builder
 public class TicketingEntity extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
