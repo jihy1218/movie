@@ -2,9 +2,12 @@ package movie.service;
 
 import movie.domain.Dto.MovieDto;
 import movie.domain.Dto.MovieinfoDto;
+import movie.domain.Entity.Date.DateEntity;
 import movie.domain.Entity.Member.MemberEntity;
 import movie.domain.Entity.Member.MemberRepository;
 import movie.domain.Entity.Movie.*;
+import movie.domain.Entity.Ticketing.TicketingEntity;
+import movie.domain.Entity.Ticketing.TicketingRepository;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -18,10 +21,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.text.DecimalFormat;
+import java.util.*;
 
 @Service
 public class MovieService {
@@ -374,6 +375,141 @@ public class MovieService {
         replyRepository.save(replyEntity);
         return true;
     }
+
+    @Autowired
+    TicketingRepository ticketingRepository;
+    // 성별 통계
+    public JSONObject getsexpercent(int mvno){
+        int mcount = 0;
+        int wcount = 0;
+        MovieEntity movieEntity = movieRepository.findById(mvno).get();
+        List<DateEntity> datelist = movieEntity.getDateEntityList();
+        for(DateEntity dateE : datelist){
+            List<TicketingEntity> ticketinglist = dateE.getTicketingEntities();
+            for(TicketingEntity ticketE : ticketinglist){
+                if(ticketE.getMemberEntityTicket().getMsex().equals("남")){
+                    mcount++;
+                }else if (ticketE.getMemberEntityTicket().getMsex().equals("여")){
+                    wcount++;
+                }
+            }
+        }
+
+        int total = mcount + wcount;
+        double mpercent = ((double)mcount/(double)total*100);
+        double wpercent = ((double)wcount/(double)total*100);
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("mpercent",Math.ceil(mpercent*100)/100.0);
+        jsonObject.put("wpercent",Math.ceil(wpercent*100)/100.0);
+        return jsonObject;
+    }
+
+    // 연령 통계
+    public JSONObject getagepercent(int mvno){
+        int teencount = 0;
+        int twentiescount = 0;
+        int thirtiescount = 0;
+        int older = 0 ;
+        MovieEntity movieEntity = movieRepository.findById(mvno).get();
+        List<DateEntity> datelist = movieEntity.getDateEntityList();
+        for(DateEntity dateE : datelist){
+            List<TicketingEntity> ticketinglist = dateE.getTicketingEntities();
+            for(TicketingEntity ticketE : ticketinglist){
+                if(Integer.parseInt(ticketE.getMemberEntityTicket().getMage())>0&&
+                        Integer.parseInt(ticketE.getMemberEntityTicket().getMage())<20){
+                    teencount++;
+                }else if (Integer.parseInt(ticketE.getMemberEntityTicket().getMage())>19&&
+                        Integer.parseInt(ticketE.getMemberEntityTicket().getMage())<30){
+                    twentiescount++;
+                }else if (Integer.parseInt(ticketE.getMemberEntityTicket().getMage())>29&&
+                        Integer.parseInt(ticketE.getMemberEntityTicket().getMage())<40){
+                    thirtiescount++;
+                }else {
+                    older++;
+                }
+            }
+        }
+
+        int total = teencount + twentiescount + thirtiescount + older;
+        double teenpercent = ((double)teencount/(double)total*100);
+        double twentiespercent = ((double)twentiescount/(double)total*100);
+        double thirtiespercent = ((double)thirtiescount/(double)total*100);
+        double olderpercent = ((double)older/(double)total*100);
+
+        JSONObject jsonObject = new JSONObject();
+
+        jsonObject.put("teen",Math.ceil(teenpercent*100)/100.0);
+        jsonObject.put("twenties",Math.ceil(twentiespercent*100)/100.0);
+        jsonObject.put("thirties",Math.ceil(thirtiespercent*100)/100.0);
+        jsonObject.put("older",Math.ceil(olderpercent*100)/100.0);
+
+        return jsonObject;
+    }
+
+    //예매율,순위,누적관객
+    public JSONObject getranking(int mvno){
+        int rankcount = 0;
+        int totalcount =0;
+        int totalcountall =0;
+        List<Integer> list = new ArrayList<>();
+
+        MovieEntity movieEntity = movieRepository.findById(mvno).get();
+        List<MovieEntity> movielist = movieRepository.findAll();
+        List<DateEntity> datelist = movieEntity.getDateEntityList();
+        for(DateEntity date : datelist){
+            List<TicketingEntity> ticketlist = date.getTicketingEntities();
+            for(TicketingEntity ticket :ticketlist){
+                try{
+                    JSONParser jsonParser = new JSONParser();
+                    JSONObject ticketjson = (JSONObject) jsonParser.parse(ticket.getTage());
+                    totalcount += Integer.parseInt(String.valueOf(ticketjson.get("youth")));
+                    totalcount += Integer.parseInt(String.valueOf(ticketjson.get("adult")));
+                }catch(Exception e){}
+            }
+        }
+        List<TicketingEntity> ticketingEntity = ticketingRepository.findAll();
+        for(TicketingEntity ticket : ticketingEntity){
+            try{
+                JSONParser jsonParser = new JSONParser();
+                JSONObject ticketjson = (JSONObject) jsonParser.parse(ticket.getTage());
+                totalcountall += Integer.parseInt(String.valueOf(ticketjson.get("youth")));
+                totalcountall += Integer.parseInt(String.valueOf(ticketjson.get("adult")));
+            }catch(Exception e){}
+        }
+        for(MovieEntity movie : movielist){
+            List<DateEntity> date = movie.getDateEntityList();
+            int moviecount = 0;
+            for(DateEntity datetemp : date){
+                List<TicketingEntity> ticket = datetemp.getTicketingEntities();
+                for(TicketingEntity tickettemp : ticket){
+                    try{
+                        JSONParser jsonParser = new JSONParser();
+                        JSONObject ticketjson = (JSONObject) jsonParser.parse(tickettemp.getTage());
+                        moviecount += Integer.parseInt(String.valueOf(ticketjson.get("youth")));
+                        moviecount += Integer.parseInt(String.valueOf(ticketjson.get("adult")));
+                    }catch(Exception e){}
+                }
+            }
+            list.add(moviecount);
+        }
+        Collections.sort(list, Collections.reverseOrder());
+
+        for(int i = 0; i<list.size();i++){
+            if(list.get(i)==totalcount){
+                rankcount=i+1;
+            }
+        }
+        double advancerate = ((double)totalcount/(double)totalcountall*100);
+        DecimalFormat df = new DecimalFormat("###,###");
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("cumulative" , df.format(advancerate));
+        jsonObject.put("rank" , rankcount+"위");
+        jsonObject.put("advancerate" , Math.ceil(advancerate*100)/100.0+"%");
+
+        return jsonObject;
+    }
+
 
 
 

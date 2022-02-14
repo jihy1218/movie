@@ -4,8 +4,6 @@ function payment(ctype,dno){
     var ageJson = new Object();
     ageJson.youth = ycount;
     ageJson.adult = acount;
-    tageJsonArray.push(ageJson);
-    tageJson.tage = tageJsonArray;
     alert(dno);
     var price = 0;
     if(ctype=="IMAX"){
@@ -39,9 +37,10 @@ function payment(ctype,dno){
                 url : "/movie/ticketingcontroller", // 결제시넘어갈 거 생각
                 data : {
                     "tseat" : JSON.stringify(tsJson),
-                    "tage" : JSON.stringify(tageJson),
+                    "tage" : JSON.stringify(ageJson),
                     "tprice" : price,
-                    "dno":dno
+                    "dno":dno,
+                    "count" : ycount+acount
                 },
                 success : function(result){
                     if(result==1){
