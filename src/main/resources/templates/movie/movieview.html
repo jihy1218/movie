@@ -6,7 +6,9 @@
 </head>
 <body>
 <div th:replace="header.html::header"></div><!--헤더-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 <script th:src="@{/js/movie.js}"></script>
+    <input type="hidden" id="movieno" th:value="${movieview.mvno}">
     <div>
         <div class="d-flex justify-content-center" style="background-color: black;" >
             <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel" style="width: 60%;">
@@ -37,7 +39,7 @@
             </div>
             <div class="col-md-6 mt-3" style="margin-left: 20px;">
                 <strong style="font-size: 2rem; text-align: left;" th:text="${movieview.movieNm}"></strong><br>
-                <strong>예매율 1위 : 34%</strong><span style="margin: 0 5px 0 5px; font-weight: bold">|</span><strong>누적관객수 : 7,851,559명</strong><hr>
+                <strong th:text="'예매율 :'+${rank.rank}+' '+${rank.advancerate}"></strong><span style="margin: 0 5px 0 5px; font-weight: bold">|</span><strong th:text="'누적관객수 :'+${rank.cumulative}+'명'"></strong><hr>
                 <strong style="font-weight: bold">장르 </strong><span th:text="${movieview.genres}"></span><strong style="margin: 0 10px 0 10px">러닝타임 </strong><span th:text="${movieview.showTm}"></span>분<br>
                 <strong style="font-weight: bold">감독 </strong><span th:text="${movieview.directors}"></span><br>
                 <strong style="font-weight: bold">배우 </strong><span style="max-width: 100px;" th:text="${movieview.actors}" ></span><br>
@@ -66,13 +68,21 @@
                         <strong>  티저영상</strong>
                         <button class="btn" style="margin: 0 auto;" data-bs-target="#videomodal2" data-bs-toggle="modal"><img th:src="@{'/poster/'+${movieview.movieimg[1]}}" style="width: 100%"></button>
                     </div>
+
+                </div>
+                <div class="row">
                     <div class="col-md-4 offset-2">
-                        성별 차트 들어갈 자리
+                        <div style="">
+                            <canvas id="sexChart"></canvas>
+                        </div>
                     </div>
                     <div class="col-md-4">
-                        연령별 차트 들어갈 자리
+                        <div style="">
+                            <canvas id="ageChart"></canvas>
+                        </div>
                     </div>
-                </div>
+
+
                 <hr>
                 <div class="modal fade" tabindex="-1" role="dialog" id="videomodal" data-bs-backdrop="static" >
                     <div class="modal-dialog modal-lg" role="document">
@@ -92,7 +102,7 @@
                             <div class="modal-body p-4 text-center">
                                 <button class="btn" style="position: absolute; right: 0px; top:0px; font-weight: bold;" data-bs-dismiss="modal">X</button>
                                 <video controls width="100%" autoplay>
-                                    <source th:src="@{'/poster/'+${movieview.movievideo[1]}}">
+<!--                                    <source th:src="@{'/poster/'+${movieview.movievideo[1]}}">-->
                                 </video>
                             </div>
                         </div>
