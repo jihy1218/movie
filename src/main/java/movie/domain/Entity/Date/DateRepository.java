@@ -11,6 +11,6 @@ public interface DateRepository extends JpaRepository<DateEntity,Integer> {
     @Query(nativeQuery = true,value = "select ddate from date where mvno=:mvno")
     List<String> findDateByMvno(@Param("mvno")int mvno);
     // 시간 찾기용
-    @Query(nativeQuery = true,value = "select dtime from date where ddate=:ddate")
-    List<String> findTimeByDate(@Param("ddate")String day);
+    @Query(nativeQuery = true,value = "select * from date where ddate=:ddate and mvno=:mvno")
+    List<DateEntity> findTimeByDate(@Param("ddate")String day,@Param("mvno")int mvno);
 }

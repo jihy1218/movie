@@ -120,9 +120,10 @@ function screenregister(){
            alert("영화를 선택해주세요.")
            return;
     }
-
-
-
+    var date1 = ddate.split('-')[0];
+    var date2 = ddate.split('-')[1].replace(/(^0+)/, "");
+    var date3 = ddate.split('-')[2].replace(/(^0+)/, "");
+    ddate = date1 +'-'+date2+'-'+date3;
     $.ajax({
         url : "/admin/screenregister",
         data : {

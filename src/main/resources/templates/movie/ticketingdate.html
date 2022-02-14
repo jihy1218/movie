@@ -35,22 +35,22 @@
              <div id="calendar" class="mt-3" style="height: 300px;"></div>
              <br><br><br>
              <div id="datediv" class="text-center" style="overflow: auto; height: 100px;">
-                 <button class="col-md-5 btn my-2" th:each="num : ${#numbers.sequence(0,10)}" th:id="${'time'+num}" th:onclick="timeselect([[${num}]]);"  style="display: none;"></button>
+                 <button class="col-md-5 btn my-2" th:each="num : ${#numbers.sequence(0,9)}" th:id="${'time'+num}" th:onclick="timeselect([[${num}]]);"  style="display: none;"></button>
              </div>
-             <a th:href="@{/movie/ticketingseat}"><button class="col-md-6 offset-3 btn btn-success mt-2" id="seats">좌석선택</button></a>
+             <button class="col-md-6 offset-3 btn btn-success mt-2" id="seats" onclick="seatselect();">좌석선택</button>
              <a th:href="@{/movie/ticketingdate}"><button class="col-md-6 offset-3 btn btn-danger mt-2">RESET</button></a>
-             <a th:href="@{/movie/ticketingseat0}"><button onclick="seatselect();">좌석선택임시</button></a>
          </div>
      </div>
  </div>
  <div class="text-center" style="position: fixed; right: 50px;top:200px;width: 300px;height: 400px;border: solid 2px #96C0B7;">
      <h3>선택 내역</h3>
-     <span id="selectmovieresult"></span><br>
-     <span id="selectmvmoresult"  style="display: none;"></span><br>
+     <span id="selectmovieresult" style="font-weight: bold;"></span><br>
+     <span id="selectmvnoresult"  style="display: none;"></span>
      <span id="moviedate" style="display: none;"></span>
-     <span id="selectdateresult"></span><br>
-     <span id="movietime"  style="display: none;"></span>
-     <span id="selecttimeresult"></span><br>
+     <span id="selectdateresult" style="font-weight: bold;"></span><br>
+     <span id="movietime" style="display: none;"></span>
+     <span id="selecttimeresult" style="font-weight: bold;"></span><br>
+     <span id="finalDno" style="display: none;"></span>
  </div>
  <script th:src="@{/js/calendar.js}"></script>
  <div th:replace="footer.html::footer"></div><!--푸터-->
