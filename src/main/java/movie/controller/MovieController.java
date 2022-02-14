@@ -42,16 +42,10 @@ public class MovieController {
 
     @GetMapping("/ticketingseat/{dno}")
     public  String ticketingseat(@PathVariable("dno")int dno,Model model){
-        //         HttpSession session = request.getSession();
-//         MemberDto memberDto = (MemberDto) session.getAttribute("logindto");
-//         int mno = memberDto.getMno();
-//        int mno = 2;
-//        MemberDto memberDto = memberService.getMemberDto(mno);
         List<String> seatlist = ticketingService.getseatlist(dno);
         DateEntity dateentity = dateService.getdateentity(dno);
         JSONObject movieinfo = movieService.getmovieinfoselect(dateentity.getMovieEntityDate().getMvid());
 
-        //model.addAttribute("memberDto",memberDto);
         model.addAttribute("movieinfo",movieinfo);
         model.addAttribute("dateinfo" ,dateentity);
         model.addAttribute("seatlist",seatlist);
@@ -110,10 +104,9 @@ public class MovieController {
                                       @RequestParam("tprice")String tprice,
                                       @RequestParam("dno")int dno,
                                       @RequestParam("count")int count){
-//         HttpSession session = request.getSession();
-//         MemberDto memberDto = (MemberDto) session.getAttribute("logindto");
-//         int mno = memberDto.getMno();
-        int mno = 2;
+         HttpSession session = request.getSession();
+         MemberDto memberDto = (MemberDto) session.getAttribute("logindto");
+         int mno = memberDto.getMno();
 
         boolean result = ticketingService.ticketing(tseat,tage,tprice,dno,mno,count);
         if(result){
