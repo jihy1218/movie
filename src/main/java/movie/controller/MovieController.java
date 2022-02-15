@@ -4,6 +4,7 @@ import movie.domain.Dto.MemberDto;
 import movie.domain.Dto.MovieinfoDto;
 import movie.domain.Entity.Date.DateEntity;
 import movie.domain.Entity.Member.MemberEntity;
+import movie.domain.Entity.Ticketing.TicketingRepository;
 import movie.service.DateService;
 import movie.service.MemberService;
 import movie.service.MovieService;
@@ -44,7 +45,7 @@ public class MovieController {
 
     @GetMapping("/ticketingseat/{dno}")
     public  String ticketingseat(@PathVariable("dno")int dno,Model model){
-        List<String> seatlist = ticketingService.getseatlist(dno);
+        List<String> seatlist = ticketingService.getseatlist(dno,0);
         DateEntity dateentity = dateService.getdateentity(dno);
         JSONObject movieinfo = movieService.getmovieinfoselect(dateentity.getMovieEntityDate().getMvid());
 
@@ -160,7 +161,6 @@ public class MovieController {
        JSONObject jsonObject = movieService.getagepercent(mvno);
        return jsonObject;
     }
-
 
 
 }
