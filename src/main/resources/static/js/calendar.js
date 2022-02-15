@@ -392,15 +392,20 @@ function  timeselect(num){
     $("#finalDno").html(time.split('@')[1]);
 }
 // 좌석 선택 화면으로 가기
-function  seatselect(){
+function  seatselect(session){
     var dno = $("#finalDno").html();
     var movie = $("#selectmovieresult").html();
     var date = $("#selectdateresult").html();
-    if(movie==""||date==""||dno==""){
-        alert("선택되지않은 항목이 있습니다.");
-    }else if(movie!=null&&date!=null&&dno!=null){
-        if(confirm("좌석을 선택하시겠습니까?")){
-            location.href="/movie/ticketingseat/"+dno;
+    if(session==null){
+        alert("로그인후 예약진행이 가능합니다.");
+        location.href="/member/login";
+    }else{
+        if(movie==""||date==""||dno==""){
+            alert("선택되지않은 항목이 있습니다.");
+        }else if(movie!=null&&date!=null&&dno!=null){
+            if(confirm("좌석을 선택하시겠습니까?")){
+                location.href="/movie/ticketingseat/"+dno;
+            }
         }
     }
 }

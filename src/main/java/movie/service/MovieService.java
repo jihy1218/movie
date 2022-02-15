@@ -44,7 +44,6 @@ public class MovieService {
         int mno =  movieRepository.save(movieDto.toEntity()).getMvno();
         MovieEntity movieEntity = movieRepository.findById(mno).get();
         String uuidfile = null;
-        System.out.println("mvposter:"+mvposter.getOriginalFilename());
         if(!mvimg.get(0).getOriginalFilename().equals("")){
             for(MultipartFile img : mvimg){
                 UUID uuid = UUID.randomUUID();
@@ -131,11 +130,9 @@ public class MovieService {
             JSONObject jsonObject = (JSONObject)jsonParser.parse(result);
             JSONObject jsonObject2 = (JSONObject) jsonObject.get("boxOfficeResult");
             JSONArray jsonArray = (JSONArray) jsonObject2.get("weeklyBoxOfficeList");
-            System.out.println( jsonArray.toString() );
 
             for( int i = 0 ; i<jsonArray.size() ; i++ ) {
                 JSONObject content = (JSONObject) jsonArray.get(i);
-                System.out.println( content.get("movieNm") );
             }
             return jsonArray;
         } catch (Exception e) {
@@ -182,7 +179,6 @@ public class MovieService {
                         actors += abc.get("peopleNm") + " ,";
                     }
                 }
-                System.out.println(actors);
                Optional<MovieEntity>  movieEntity = movieRepository.findById(temp.getMno());
                List<MoviefileEnity> moviefileEnity =  movieEntity.get().getMoviefileEnities();
                List<MovieinfoDto.MoviefileDto> moviefileDtoList = new ArrayList<>();
@@ -284,8 +280,6 @@ public class MovieService {
             jsonObject0.put("poster",poster);
             jsonObject0.put("movieimg",movieimg);
             jsonObject0.put("movievideo",movievideo);
-            System.out.println(jsonObject0.get("showTm"));
-            System.out.println(jsonObject0.get("poster"));
             return jsonObject0;
         } catch (Exception e) { }
         return null;
@@ -323,8 +317,6 @@ public class MovieService {
                     actors += abc.get("peopleNm") + " ,";
                 }
             }
-            System.out.println(actors);
-
             jsonObject0.put("movieNm",jsonObject3.get("movieNm"));
             jsonObject0.put("showTm",jsonObject3.get("showTm"));
             jsonObject0.put("openDt",jsonObject3.get("openDt"));

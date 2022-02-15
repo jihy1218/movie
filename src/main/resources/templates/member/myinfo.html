@@ -66,15 +66,14 @@
                     </tr>
                     </thead>
                     <tbody>
-
                     <tr>
-                        <td>아이디</td><td colspan="2" th:text="${info.mid}"></td>
+                        <td>아이디</td><td th:text="${info.mid}"></td>
                     </tr>
                     <tr>
                         <td>패스워드</td><td id="tdpassword">·····</td><td><button onclick="passwordchange();" class="btn btn-primary">수정</button></td>
                     </tr>
                     <tr>
-                        <td>연락처</td><td id="tdphone" th:thext="${info.mphone}"></td><td><button onclick="phonechange();" class="btn btn-primary">수정</button></td>
+                        <td>연락처</td><td id="tdphone" th:text="${info.mphone}"></td><td><button onclick="phonechange();" class="btn btn-primary">수정</button></td>
                     </tr>
                     <tr>
                         <td>주소</td><td th:text="${info.maddress}"></td><td><button onclick="addresschange();" class="btn btn-primary">수정</button></td>

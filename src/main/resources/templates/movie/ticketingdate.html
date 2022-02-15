@@ -37,7 +37,7 @@
              <div id="datediv" class="text-center" style="overflow: auto; height: 100px;">
                  <button class="col-md-5 btn my-2" th:each="num : ${#numbers.sequence(0,9)}" th:id="${'time'+num}" th:onclick="timeselect([[${num}]]);"  style="display: none;"></button>
              </div>
-             <button class="col-md-6 offset-3 btn btn-success mt-2" id="seats" onclick="seatselect();">좌석선택</button>
+             <button class="col-md-6 offset-3 btn btn-success mt-2" id="seats" th:onclick="seatselect([[${session.logindto}]]);">좌석선택</button>
              <a th:href="@{/movie/ticketingdate}"><button class="col-md-6 offset-3 btn btn-danger mt-2">RESET</button></a>
          </div>
      </div>

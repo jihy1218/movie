@@ -30,7 +30,6 @@ public class MemberController {
         for(int i=0; i<movieinfoDtos.size(); i++){
             movieinfoDtoList.add(movieinfoDtos.get(i));
         }
-        System.out.println(movieinfoDtoList+"영화이름 다나와");
         model.addAttribute("movie",movieinfoDtoList);
         return "main";
     }
@@ -52,12 +51,9 @@ public class MemberController {
         HttpSession session = request.getSession();
         MemberDto memberDto = (MemberDto) session.getAttribute("logindto");
         MemberDto member = memberService.getMemberDto(memberDto.getMno());
-        model.addAttribute("info",member);
+        model.addAttribute("info", member);
         return "member/myinfo";
     }
-
-
-
 
     //회원가입
     @PostMapping("/member/signupcontroller")
@@ -71,6 +67,7 @@ public class MemberController {
         memberService.membersignup(memberDto);
         return "member/login";
     }
+
     //아이디 중복체크
     @GetMapping("/member/idcheck")
     @ResponseBody
@@ -82,6 +79,7 @@ public class MemberController {
             return "2";
         }
     }
+
     //이메일 중복체크
     @GetMapping("/member/emailcheck")
     @ResponseBody
