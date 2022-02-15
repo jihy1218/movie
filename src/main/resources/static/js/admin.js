@@ -3,8 +3,6 @@
 function moviewrite(){
             //폼태그 가져오기
             var formData = new FormData(form);
-            alert(formData);
-            alert($("mvid").val());
             $.ajax({
                 type:"post",
                 url:"/admin/moviewritecontroller",
@@ -56,7 +54,7 @@ function cnemabtn(location){
     const style = document.getElementById(location).style;
 
     if(style.backgroundColor=='red'){
-        document.getElementById(location).style.backgroundColor = '';
+        document.getElementById(location).style.backgroundColor = 'silver';
         //인덱스 번호 찾기
         const index = cnemaJsonArray.findIndex(x => x.location === location);
         //
@@ -134,16 +132,17 @@ function screenregister(){
             "endtime" : endtime
         },
         success: function(data){
-            if(data==1){
-                alert("성공");
+            if(data==1) {
+                alert("상영시간이 성공적으로 등록되었습니다.");
                 location.href = "/admin/adminmain";
+            }else{
+                alert("오류 발생 [관리자에게 문의]");
             }
         }
     })
 }
 
 function admindelete(type , no){
-
     if (confirm("정말 삭제하시겠습니까??") == true){
             $.ajax({
                 url: "/admin/delete",
@@ -166,5 +165,49 @@ function admindelete(type , no){
     }
 }
 
+function cnemaupdatebtn(location){
+    var cnemaJson = new Object();
+    const style = document.getElementById(location).style;
+
+    if(style.backgroundColor=='red'){
+        document.getElementById(location).style.backgroundColor = 'silver';
+        //인덱스 번호 찾기
+        const index = cnemaJsonArray.findIndex(x => x.location === location);
+        //
+        if (index !== undefined) cnemaJsonArray.splice(index, 1)
+    }else {
+        cnemaJson.location = location;
+        document.getElementById(location).style.backgroundColor = 'red';
+        cnemaJsonArray.push(cnemaJson);
+    }
+    var sJson = JSON.stringify(cnemaJsonArray);
+
+}
+
+// 관 수정
+function cnemaupdate(){
+    var cnema= new Object();
+    var cnematype = $("#cnematype").val();
+    var cnemaname = $("#cnemaname").val();
+    cnema.cnemalocation = cnemaJsonArray;
+    $.ajax({
+        url : "/admin/cnemaupdatecontroller" ,
+        data : {
+            "cnema" : JSON.stringify(cnema),
+            "cnematype" : cnematype,
+            "cnemaname" : cnemaname
+        },
+        contentType: "application/json" ,  //  ajax 타입
+        dataType : 'JSON',
+        success: function(data){
+            if(data==1){
+                alert("등록되었습니다.");
+                location.href = "/admin/adminmain";
+            }
+
+        }
+
+    })
+}
 
 

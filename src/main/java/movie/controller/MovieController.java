@@ -28,10 +28,12 @@ public class MovieController {
     public String ticketing(Model model){
         List<MovieinfoDto> movielist = movieService.getmovieinfo();
         model.addAttribute("movielist",movielist);
+        HttpSession session = request.getSession();
+        MemberDto memberDto = (MemberDto) session.getAttribute("logindto");
+        model.addAttribute("memberDto",memberDto);
         String dates=null;
         for(MovieinfoDto temp : movielist){
             dates =dateService.datelist(temp.getMvno());
-
         }
         model.addAttribute("datelist",dates);
         return "movie/ticketingdate";
@@ -83,7 +85,6 @@ public class MovieController {
                 .movievideo((List<String>)jsonObject.get("movievideo"))
                 .build();
         JSONObject rankjson = movieService.getranking(movieinfoDto.getMvno());
-        System.out.println(rankjson.toString());
         model.addAttribute("rank" ,rankjson);
         model.addAttribute("movieview",movieinfoDto);
         return "movie/movieview";

@@ -25,6 +25,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Controller
@@ -61,13 +62,13 @@ public class AdminController {
     // 관등록 페이지 이동
     @GetMapping("/cnemawrite")
     public String cnemawrite(Model model){
-
         CnemaDto cnemaDto = new CnemaDto(20,10);
         List<String> cnemalist = cnemaDto.getCnemaact();
         model.addAttribute("list" , cnemalist);
+        System.out.println(cnemalist+"테스트");
         return "admin/cnemaregister";
-
     }
+
     @Autowired
     CnemaService cnemaService;
 
@@ -132,15 +133,17 @@ public class AdminController {
     DateService dateService;
 
     @GetMapping("/screenregister")
+    @ResponseBody
     public String screenregister(@RequestParam("ddate")String ddate,
                                  @RequestParam("dtime")String dtime,
                                  @RequestParam("cno")int cno,
                                  @RequestParam("mvno")int mvno,
                                  @RequestParam("endtime")String endtime){
         String time = dtime+"~"+endtime;
-        dateService.datewrite(ddate,time,cno,mvno);
-
-        return "1";
+        boolean result = dateService.datewrite(ddate,time,cno,mvno);
+        if(result) {
+            return "1";
+        }else {return "2";}
     }
 
     @GetMapping("/delete")

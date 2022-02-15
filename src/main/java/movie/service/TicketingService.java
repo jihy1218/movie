@@ -71,9 +71,6 @@ public class TicketingService {
                     ticketlist.add(seatString);
                 }
             }
-            System.out.println("--------------ticketlist----------------");
-            System.out.println("ticketlist :"+ticketlist);
-            System.out.println("--------------ticketlist----------------");
             //예약좌석 제이슨 -> 리스트
 
 
@@ -85,23 +82,17 @@ public class TicketingService {
                     }
                 }
             }
-            System.out.println(list.toString());
             // list = [0,9,19]
             for(Integer temp : list){
-                System.out.println("temp :"+temp);
                 int a = temp;
                 int alength = a%20;
-                System.out.println("값 :"+cnemaactlist.get(temp));
-                System.out.println("alength :"+alength);
                 if(alength!=19){
                     int abc =20-alength;
-                    System.out.println("abc :"+abc);
                     for(int i =temp+1; i<temp+abc; i++){
                         String value = cnemaactlist.get(i);
                         int ch = Integer.parseInt(value.split(",")[1])-1;
                         String fr = value.split(",")[0];
                         cnemaactlist.set(i,fr+","+ch);
-                        System.out.println("바뀐값 :"+cnemaactlist.get(i));
                     }
                 }
                 cnemaactlist.set(temp,"X");
@@ -114,7 +105,6 @@ public class TicketingService {
                     }
                 }
             }
-            System.out.println(cnemaactlist.toString());
 
         }catch (Exception e){
 
