@@ -18,13 +18,13 @@
                  <div class="col-md-2">
                      성인
                      <button class="btn" onclick="btnpcount('adult','-')">-</button>
-                     <span id="adultcount">0</span>
+                     <span id="adultcount" th:text="${adult}">0</span>
                      <button class="btn" onclick="btnpcount('adult','+')">+</button>
                  </div>
                  <div class="col-md-2">
                      청소년
                      <button class="btn" onclick="btnpcount('youth','-')">-</button>
-                     <span id="youthcount">0</span>
+                     <span id="youthcount" th:text="${youth}">0</span>
                      <button class="btn" onclick="btnpcount('youth','+')">+</button>
                  </div>
              </div>

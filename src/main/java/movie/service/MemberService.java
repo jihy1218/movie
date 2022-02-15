@@ -4,6 +4,9 @@ import movie.domain.Dto.IntergratedDto;
 import movie.domain.Dto.MemberDto;
 import movie.domain.Entity.Member.MemberEntity;
 import movie.domain.Entity.Member.MemberRepository;
+import movie.domain.Entity.Ticketing.TicketingEntity;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -176,8 +179,21 @@ public class MemberService implements UserDetailsService {
     public boolean delete(int mno, String passwordconfirm){
         Optional<MemberEntity>entityOptional = memberRepository.findById(mno);
 
+        JSONParser jsonParser = new JSONParser();
+
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         if(  passwordEncoder.matches( passwordconfirm , entityOptional.get().getMpassword() ) ){
+
+            List<TicketingEntity> ticketing= entityOptional.get().getTicketingEntities();
+            for(TicketingEntity ticket : ticketing){
+               try{
+                   JSONObject jsonObject =  (JSONObject) jsonParser.parse(ticket.getTage());
+                   int count = Integer.parseInt(String.valueOf(jsonObject.get("youth")))
+                           + Integer.parseInt(String.valueOf(jsonObject.get("adult"))) ;
+                   ticket.getDateEntityTicket().setDseat(ticket.getDateEntityTicket().getDseat()+count);
+               }catch (Exception e){}
+            }
+
             memberRepository.delete( entityOptional.get() );
             return true;
         }

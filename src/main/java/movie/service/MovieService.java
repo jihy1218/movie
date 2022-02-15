@@ -503,7 +503,7 @@ public class MovieService {
         double advancerate = ((double)totalcount/(double)totalcountall*100);
         DecimalFormat df = new DecimalFormat("###,###");
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("cumulative" , df.format(advancerate));
+        jsonObject.put("cumulative" , df.format(totalcount));
         jsonObject.put("rank" , rankcount+"위");
         jsonObject.put("advancerate" , Math.ceil(advancerate*100)/100.0+"%");
 

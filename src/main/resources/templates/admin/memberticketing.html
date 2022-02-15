@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+  <div th:replace="header.html::header"></div><!--헤더-->
+
+  <div class="container">
+      <table class="table">
+          <tr>
+              <td>예약번호</td><td>에약일자</td><td>좌석</td><td>인원</td><td>영화제목</td><td>관</td><td>총가격</td><td>변경</td><td>취소</td>
+          </tr>
+
+          <tr th:each="list : ${list}">
+              <td th:text="${list.tno}"></td><td th:text="${list.date}"></td><td th:text="${list.seat}"></td>
+              <td th:text="${list.count}"></td><td th:text="${list.movietitle}"></td><td th:text="${list.cnemaname}"></td>
+              <td th:text="${list.price}"></td><td><a th:href="@{'/admin/ticketingupdate/'+${list.tno}}">변경</a></td><td><button class="btn btn-danger" data-bs-target="#ticketdeletemodal" data-bs-toggle="modal">최소</button></td>
+          </tr>
+      </table>
+      <!--   모달     -->
+      <div class="modal fade" tabindex="-1" role="dialog" id="ticketdeletemodal" data-bs-backdrop="static" >
+          <div class="modal-dialog" role="document">
+              <div class="modal-content rounded-4 shadow">
+                  <div class="modal-body p-4 text-center">
+                      <h3 class="mb-0">최종 선택 확인</h3>
+                      <div>
+                          최소하시겠습니다?
+                      </div>
+                  </div>
+                  <div class="modal-footer flex-nowrap p-0">
+                      <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-right" ><strong>예</strong></button>
+                      <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0" data-bs-dismiss="modal">아니요</button>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+  </div>
+
+
+
+  <div th:replace="footer.html::footer"></div><!--푸터-->
+
+</body>
+</html>

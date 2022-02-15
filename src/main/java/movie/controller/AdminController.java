@@ -1,24 +1,27 @@
 package movie.controller;
 
-import movie.domain.Dto.CnemaDto;
-import movie.domain.Dto.DateDto;
-import movie.domain.Dto.MovieDto;
-import movie.domain.Dto.MovieinfoDto;
+import movie.domain.Dto.*;
 import movie.domain.Entity.Cnema.CnemaEntity;
 import movie.domain.Entity.Date.DateEntity;
+import movie.domain.Entity.Member.MemberEntity;
 import movie.service.CnemaService;
 import movie.service.DateService;
 import movie.service.MovieService;
+import movie.service.TicketingService;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
@@ -155,4 +158,81 @@ public class AdminController {
 
 
     }
+
+    @Autowired
+    TicketingService ticketingService;
+
+    @GetMapping("/memberadmin")
+    public String memberadmin(@PageableDefault Pageable pageable , Model model){
+
+        String keyword =request.getParameter("keyword");
+        String search = request.getParameter("search");
+
+        HttpSession session = request.getSession();
+
+        if(keyword!=null || search!=null){
+            session.setAttribute("keyword",keyword);
+            session.setAttribute("search",search);
+        }else{
+            keyword=(String)session.getAttribute("keyword");
+            search=(String)session.getAttribute("search");
+        }
+
+        Page<MemberEntity> memberlist = ticketingService.getmemberlist(pageable ,keyword ,search);
+
+        model.addAttribute("memberlist",memberlist);
+
+        return "admin/memberadmin";
+    }
+
+    @GetMapping("/memberticketing")
+    public String memberticketing(@PageableDefault Pageable pageable , Model model){
+
+        String keyword =request.getParameter("keyword");
+        String search = request.getParameter("search");
+
+        HttpSession session = request.getSession();
+
+        if(keyword!=null || search!=null){
+            session.setAttribute("keyword",keyword);
+            session.setAttribute("search",search);
+        }else{
+            keyword=(String)session.getAttribute("keyword");
+            search=(String)session.getAttribute("search");
+        }
+
+        Page<MemberEntity> memberlist = ticketingService.getmemberlist(pageable ,keyword ,search);
+
+        model.addAttribute("memberlist",memberlist);
+
+        return "admin/memberticketing";
+    }
+    @GetMapping("/ticketinglist/{mno}")
+    public String ticketinglist(@PathVariable("mno") int mno, Model model){
+
+        List<TicketDto> ticketing = ticketingService.getticketlist(mno);
+        model.addAttribute("list",ticketing);
+        return  "admin/memberticketing";
+    }
+
+    @GetMapping("/ticketingupdate/{tno}")
+    public String ticketingupdate(@PathVariable("tno")int tno,Model model){
+        int dno = ticketingService.finddno(tno);
+        List<String> seatlist = ticketingService.getseatlist(dno,tno);
+        DateEntity dateentity = dateService.getdateentity(dno);
+        JSONObject movieinfo = movieService.getmovieinfoselect(dateentity.getMovieEntityDate().getMvid());
+        int adult = ticketingService.getseatcount(tno,1);
+        int youth = ticketingService.getseatcount(tno,2);
+
+        System.out.println("adult :"+adult);
+        System.out.println("youth :"+youth);
+
+        model.addAttribute("adult",adult);
+        model.addAttribute("youth",youth);
+        model.addAttribute("movieinfo",movieinfo);
+        model.addAttribute("dateinfo" ,dateentity);
+        model.addAttribute("seatlist",seatlist);
+        return "admin/ticketingupdate";
+    }
+
 }
