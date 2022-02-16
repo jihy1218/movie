@@ -2,9 +2,11 @@ package movie.controller;
 
 import movie.domain.Dto.MemberDto;
 import movie.domain.Dto.MovieinfoDto;
+import movie.domain.Dto.TicketDto;
 import movie.domain.Entity.Member.MemberEntity;
 import movie.service.MemberService;
 import movie.service.MovieService;
+import movie.service.TicketingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,13 +47,19 @@ public class MemberController {
 
         return "member/signup";
     }
+    @Autowired
+    TicketingService ticketingService;
     //회원정보 페이지 연결
     @GetMapping("/member/myinfo")
     public String myinfo(Model model) {
         HttpSession session = request.getSession();
         MemberDto memberDto = (MemberDto) session.getAttribute("logindto");
         MemberDto member = memberService.getMemberDto(memberDto.getMno());
+        int mno = memberDto.getMno();
+        List<TicketDto> ticketDto = ticketingService.getticketlist(mno);
+
         model.addAttribute("info", member);
+        model.addAttribute("ticket",ticketDto);
         return "member/myinfo";
     }
 
@@ -177,5 +185,7 @@ public class MemberController {
        else{ return 2;}
 
     }
+
+
 
 }//class end

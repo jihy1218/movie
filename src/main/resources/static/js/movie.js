@@ -102,30 +102,50 @@ $(document).ready(function(){
 
 });
 
+// 댓글 등록
 
-function replywrite(){
 
- var r_contents =$("#rcontents").val();
- var mvno =$("#mvno").val();
- alert(r_contents);
- alert(mvno);
+    function replywrite(){
 
- //댓글내용 미 입력시 댓글 저장 막기
-    if(r_contents==""){alert("댓글 내용을 입력해주세요!");return;}
-     $.ajax({
-        url: "/movie/replywrite/",
-        data:{"mvno" : mvno ,"rcontents" : r_contents},
-        success : function(data){
-        if(data ==1){
-        $('#replytable').load( location.href+' #replytable');
-        //댓글 입력창 공백
-        $("#r_contents").val("");
-        }else if(data ==2){
-            alert("로그인후 사용 가능합니다");return;
+     var rcontents =$("#rcontents").val();
+     var mvno =$("#mvno").val();
+
+     //댓글내용 미 입력시 댓글 저장 막기
+        if(rcontents==""){alert("댓글 내용을 입력해주세요!");return;}
+         $.ajax({
+            url: "/movie/replywrite/",
+            data:{"mvno" : mvno ,"rcontents" : rcontents},
+            success : function( data ){
+
+           if(data==1){
+            window.location.reload();
+            //댓글 입력창 공백
+            $("#rcontents").val("");
+            }else if(data ==2){
+                alert("로그인후 사용 가능합니다");return;
+            }
+            }
+        });
+
+    }
+
+    //댓글등록 끝
+    //댓글 삭제
+    function replydelete(rno){
+
+    $.ajax({
+        url:"/movie/replydelete/",
+        data:{"rno":rno},
+        success: function(result){
+            if(result==1){
+            alert("삭제 되었습니다")
+            window.location.reload();
+            }else{
+            alert("삭제 실패되었습니다")
+            }
+
         }
-        }
+
     });
 
 }
-
-

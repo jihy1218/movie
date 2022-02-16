@@ -4,6 +4,8 @@ import movie.domain.Dto.*;
 import movie.domain.Entity.Cnema.CnemaEntity;
 import movie.domain.Entity.Date.DateEntity;
 import movie.domain.Entity.Member.MemberEntity;
+import movie.domain.Entity.Ticketing.TicketingEntity;
+import movie.domain.Entity.Ticketing.TicketingRepository;
 import movie.domain.Entity.Payment.PaymentEntity;
 import movie.service.CnemaService;
 import movie.service.DateService;
@@ -219,6 +221,7 @@ public class AdminController {
         return  "admin/memberticketing";
     }
 
+
     @GetMapping("/ticketingupdate/{tno}")
     public String ticketingupdate(@PathVariable("tno")int tno,Model model){
         int dno = ticketingService.finddno(tno);
@@ -238,6 +241,10 @@ public class AdminController {
         model.addAttribute("seatlist",seatlist);
         return "admin/ticketingupdate";
     }
+
+
+}
+
 
     //어드민 예약취소
     @GetMapping("/ticketcancel")
