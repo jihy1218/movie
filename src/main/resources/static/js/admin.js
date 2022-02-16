@@ -165,49 +165,21 @@ function admindelete(type , no){
     }
 }
 
-function cnemaupdatebtn(location){
-    var cnemaJson = new Object();
-    const style = document.getElementById(location).style;
-
-    if(style.backgroundColor=='red'){
-        document.getElementById(location).style.backgroundColor = 'silver';
-        //인덱스 번호 찾기
-        const index = cnemaJsonArray.findIndex(x => x.location === location);
-        //
-        if (index !== undefined) cnemaJsonArray.splice(index, 1)
-    }else {
-        cnemaJson.location = location;
-        document.getElementById(location).style.backgroundColor = 'red';
-        cnemaJsonArray.push(cnemaJson);
-    }
-    var sJson = JSON.stringify(cnemaJsonArray);
-
-}
-
-// 관 수정
-function cnemaupdate(){
-    var cnema= new Object();
-    var cnematype = $("#cnematype").val();
-    var cnemaname = $("#cnemaname").val();
-    cnema.cnemalocation = cnemaJsonArray;
+function  typeupdate(pno,ptype) {
     $.ajax({
-        url : "/admin/cnemaupdatecontroller" ,
-        data : {
-            "cnema" : JSON.stringify(cnema),
-            "cnematype" : cnematype,
-            "cnemaname" : cnemaname
-        },
-        contentType: "application/json" ,  //  ajax 타입
-        dataType : 'JSON',
-        success: function(data){
-            if(data==1){
-                alert("등록되었습니다.");
-                location.href = "/admin/adminmain";
+        url : "/admin/typeupdate",
+        data : {"pno" : pno , "ptype" : ptype},
+        success : function (result){
+            if(result==1){
+                alert("상태가 변경되었습니다.");
+                location.reload();
+            }else{
+                $("#updatemsg").html("현재 상태와 동일한 상태입니다.");
             }
-
         }
+    });
 
-    })
+
 }
 
 
