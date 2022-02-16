@@ -393,36 +393,22 @@ public class TicketingService {
             List<PaymentEntity> paymentEntity = paymentRepository.monthSales(startday,endday);
             // 월 매출
             try{
+                int result = 0;
+                int price = 0;
                 for(PaymentEntity temp : paymentEntity){
                     JSONObject jsonObject = (JSONObject) jsonParser.parse(temp.getPpeople());
                     String adult = String.valueOf(jsonObject.get("adult")) ;
                     String youth = String.valueOf(jsonObject.get("youth")) ;
                     int adults = Integer.parseInt(adult);
                     int youths = Integer.parseInt(youth);
-                    // 여기서 부터 안되는중
-                    String month="";
-                    if(i<10){
-                        month="0"+i;
-                        if(temp.getCreatedDate().getMonth().equals(month)){
-                            int result = adults+youths;
-                            System.out.println(result);
-                        }
-                    }else{
-                        month=i+"";
-                        if(temp.getCreatedDate().getMonth().equals(month)){
-                            int result = adults+youths;
-                            System.out.println(result);
-                        }
-                    }
-
+                    result += adults+youths;
+                    price += Integer.parseInt(temp.getPprice());
                 }
-            }catch (Exception e){
-
-            }
-
+                    String ass = price+"@"+result;
+                    list.add(ass);
+            }catch (Exception e){  }
         }
-        System.out.println(list.toString());
-        return null;
+        return list;
     }
 
 }

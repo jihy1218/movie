@@ -291,8 +291,15 @@ public class AdminController {
     // 매출 페이지 이동
     @GetMapping("/sales")
     public String sales(){
-        ticketingService.monthSales();
         return "admin/sales";
+    }
+    // 매출페이지 차트 데이터 넣기
+    @GetMapping("/salesdata")
+    @ResponseBody
+    public List<String> salesdata(@RequestParam("year")String year){
+        List<String> ass = ticketingService.monthSales();
+        System.out.println(ass.toString());
+        return ass;
     }
 
 }// class end
