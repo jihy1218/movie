@@ -1,6 +1,7 @@
 package movie.service;
 
 import movie.domain.Dto.CnemaDto;
+import movie.domain.Dto.MemberDto;
 import movie.domain.Dto.TicketDto;
 import movie.domain.Entity.Cnema.CnemaRepository;
 import movie.domain.Entity.Date.DateEntity;
@@ -22,6 +23,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
@@ -141,6 +145,12 @@ public class TicketingService {
     @Autowired
     MemberRepository memberRepository;
 
+    @Autowired
+    PaymentRepository paymentRepository;
+
+    @Autowired
+    HttpServletRequest request;
+
     @Transactional
     public boolean ticketing(String tseat,String tage,String tprice,
                              int dno,int mno,int count){
@@ -162,6 +172,21 @@ public class TicketingService {
         dateentity.getTicketingEntities().add(ticketingRepository.findById(tno).get());
         memberEntity.getTicketingEntities().add(ticketingRepository.findById(tno).get());
 
+        JSONObject jsonObject = movieService.getmovieinfoselect(dateentity.getMovieEntityDate().getMvid());
+
+        HttpSession session = request.getSession();
+        MemberDto memberDto= (MemberDto)session.getAttribute("logindto");
+        PaymentEntity paymentEntity = PaymentEntity.builder()
+                .mid(memberDto.getMid())
+                .pmoviename(String.valueOf(jsonObject.get("movieNm")))
+                .ppeople(tage)
+                .pprice(tprice)
+                .pseat(tseat)
+                .ptime(dateentity.getDdate()+"•"+dateentity.getDtime())
+                .ptype("결제완료")
+                .tno(ticketing.getTno())
+                .build();
+        paymentRepository.save(paymentEntity);
         return true;
     }
 
@@ -250,6 +275,18 @@ public class TicketingService {
         }catch(Exception e){}
         return 0;
     }
+
+    //어드민예약ㅇ취소
+    @Transactional
+    public boolean ticketcancel(int tno){
+        TicketingEntity ticketing = ticketingRepository.findById(tno).get();
+        ticketingRepository.delete(ticketing);
+
+        PaymentEntity paymentEntity = paymentRepository.findBytno(tno);
+        paymentEntity.setPtype("환불요청");
+
+        return true;
+   }
 
     @Autowired
     PaymentRepository paymentRepository;
