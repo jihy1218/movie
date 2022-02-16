@@ -6,6 +6,7 @@ import movie.domain.Entity.Date.DateEntity;
 import movie.domain.Entity.Member.MemberEntity;
 import movie.domain.Entity.Ticketing.TicketingEntity;
 import movie.domain.Entity.Ticketing.TicketingRepository;
+import movie.domain.Entity.Payment.PaymentEntity;
 import movie.service.CnemaService;
 import movie.service.DateService;
 import movie.service.MovieService;
@@ -245,3 +246,67 @@ public class AdminController {
 }
 
 
+    //어드민 예약취소
+    @GetMapping("/ticketcancel")
+    @ResponseBody
+    public String ticketcancel(@RequestParam("tno")int tno){
+
+        System.out.println("abc  :"+tno);
+
+        boolean result = ticketingService.ticketcancel(tno);
+        if(result){
+            return  "1";
+        }
+        return "2";
+    }
+
+    // 환불관리 페이지 이동
+    @GetMapping("/paymentmanagement")
+    public String paymentmanagement(@PageableDefault Pageable pageable,Model model){
+
+        String keyword=request.getParameter("keyword");
+        String search=request.getParameter("search");
+
+        HttpSession session = request.getSession();
+/*        HttpSession session = request.getSession();
+        if(keyword!=null||search!=null){
+            session.setAttribute("keyword2",keyword);
+            session.setAttribute("search2", search);
+        }else{
+            keyword=(String)session.getAttribute("keyword2");
+            search=(String)session.getAttribute("search2");
+        }
+        }*/
+
+        Page<PaymentEntity> paymentEntities = ticketingService.paymentlist(pageable,keyword,search);
+        model.addAttribute("payment",paymentEntities);
+        return "admin/paymentmanagement";
+    }
+
+    // 환불관리 페이지 상태업데이트
+    @GetMapping("/typeupdate")
+    @ResponseBody
+    public String typeupdate(@RequestParam("pno")int pno,@RequestParam("ptype")String ptype){
+        boolean result = ticketingService.typeupdate(pno,ptype);
+        if(result){
+            return "1";
+        }else{
+            return "2";
+        }
+    }
+
+    // 매출 페이지 이동
+    @GetMapping("/sales")
+    public String sales(){
+        return "admin/sales";
+    }
+    // 매출페이지 차트 데이터 넣기
+    @GetMapping("/salesdata")
+    @ResponseBody
+    public List<String> salesdata(@RequestParam("year")String year){
+        List<String> ass = ticketingService.monthSales();
+        System.out.println(ass.toString());
+        return ass;
+    }
+
+}// class end

@@ -1,6 +1,7 @@
 package movie.service;
 
 import movie.domain.Dto.CnemaDto;
+import movie.domain.Dto.MemberDto;
 import movie.domain.Dto.TicketDto;
 import movie.domain.Entity.Cnema.CnemaRepository;
 import movie.domain.Entity.Date.DateEntity;
@@ -8,6 +9,8 @@ import movie.domain.Entity.Date.DateRepository;
 import movie.domain.Entity.Member.MemberEntity;
 import movie.domain.Entity.Member.MemberRepository;
 import movie.domain.Entity.Movie.MovieRepository;
+import movie.domain.Entity.Payment.PaymentEntity;
+import movie.domain.Entity.Payment.PaymentRepository;
 import movie.domain.Entity.Ticketing.TicketingEntity;
 import movie.domain.Entity.Ticketing.TicketingRepository;
 import org.json.simple.JSONArray;
@@ -18,12 +21,15 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service
 public class TicketingService {
@@ -139,6 +145,12 @@ public class TicketingService {
     @Autowired
     MemberRepository memberRepository;
 
+    @Autowired
+    PaymentRepository paymentRepository;
+
+    @Autowired
+    HttpServletRequest request;
+
     @Transactional
     public boolean ticketing(String tseat,String tage,String tprice,
                              int dno,int mno,int count){
@@ -160,6 +172,21 @@ public class TicketingService {
         dateentity.getTicketingEntities().add(ticketingRepository.findById(tno).get());
         memberEntity.getTicketingEntities().add(ticketingRepository.findById(tno).get());
 
+        JSONObject jsonObject = movieService.getmovieinfoselect(dateentity.getMovieEntityDate().getMvid());
+
+        HttpSession session = request.getSession();
+        MemberDto memberDto= (MemberDto)session.getAttribute("logindto");
+        PaymentEntity paymentEntity = PaymentEntity.builder()
+                .mid(memberDto.getMid())
+                .pmoviename(String.valueOf(jsonObject.get("movieNm")))
+                .ppeople(tage)
+                .pprice(tprice)
+                .pseat(tseat)
+                .ptime(dateentity.getDdate()+"•"+dateentity.getDtime())
+                .ptype("결제완료")
+                .tno(ticketing.getTno())
+                .build();
+        paymentRepository.save(paymentEntity);
         return true;
     }
 
@@ -264,6 +291,140 @@ public class TicketingService {
         return 0;
     }
 
+    //어드민예약ㅇ취소
+    @Transactional
+    public boolean ticketcancel(int tno){
+        TicketingEntity ticketing = ticketingRepository.findById(tno).get();
+        ticketingRepository.delete(ticketing);
+
+        PaymentEntity paymentEntity = paymentRepository.findBytno(tno);
+        paymentEntity.setPtype("환불요청");
+
+        return true;
+   }
+
+    // 환불관리 리스트 출력
+    public Page<PaymentEntity> paymentlist(Pageable pageable,String keyword, String search){
+        int page=0;
+        if(pageable.getPageNumber()==0){page=0;}    // 0이면 0페이지(기본페이지)
+        else{page=pageable.getPageNumber()-1;}      // 1페이지 이상일때는 -1해서
+        // 페이지 속성 페이지번호, 페이지당 게시물수, 정렬
+        pageable=PageRequest.of(page,2,Sort.by(Sort.Direction.DESC,"pno"));
+
+        // 검색이 있을경우
+        if(keyword!=null&&keyword.equals("pmoviename")){
+            System.out.println("2");
+            Page<PaymentEntity> paymentEntity = replacePate(paymentRepository.findByPmoviename(search,pageable));
+            return paymentEntity;
+        }
+        if(keyword!=null&&keyword.equals("tno")){
+            System.out.println("3");
+            Page<PaymentEntity> paymentEntity = replacePate(paymentRepository.findByTno(search,pageable));
+            return paymentEntity;
+        }
+        if(keyword!=null&&keyword.equals("mid")){
+            System.out.println("4");
+            Page<PaymentEntity> paymentEntity = replacePate(paymentRepository.findByMid(search,pageable));
+            return paymentEntity;
+        }
+
+
+
+        Page<PaymentEntity> paymentEntity = replacePate(paymentRepository.findAll(pageable));
+        return paymentEntity;
+
+    }
+
+
+    //페이지 가공
+    public Page<PaymentEntity> replacePate(Page<PaymentEntity> page){
+        List<PaymentEntity> list = page.getContent();
+        System.out.println(list.toString());
+        try{
+            for(int i=0; i<list.size(); i++){
+                JSONObject jsonObject = (JSONObject)jsonParser.parse(list.get(i).getPpeople());
+                String peple = "성인 :"+String.valueOf(jsonObject.get("adult"))+" 청소년 :"
+                        +String.valueOf(jsonObject.get("youth")) ;
+                list.get(i).setPpeople(peple);
+                jsonObject = (JSONObject)jsonParser.parse(list.get(i).getPseat());
+                JSONArray jsonArray = (JSONArray) jsonObject.get("tseat");
+                String seat = "";
+                for(int j=0; j<jsonArray.size();j++){
+                    JSONObject jsonObject1 = (JSONObject)jsonArray.get(j);
+                    if(j==0){
+                        seat = String.valueOf(jsonObject1.get("seat")).replace(",","");
+                    }else{
+                        seat += ","+String.valueOf(jsonObject1.get("seat")).replace(",","");
+                    }
+                }
+                list.get(i).setPseat(seat);
+            }
+
+        }catch (Exception e){}
+        System.out.println(list.toString());
+        return page;
+    }
+
+    // 특정 결제번호 상태 변경하기
+    @Transactional
+    public boolean typeupdate(int pno, String ptype){
+        PaymentEntity paymentEntity = paymentRepository.findById(pno).get();    // 해당 번호 결제 레코드 호출
+        if(paymentEntity.getPtype().equals(ptype)) {    // 결제레코드의 타입과 같으면
+            return false;   // 돌려보냄
+        }else{
+            paymentEntity.setPtype(ptype); return true; // 결제 상태 저장
+        }
+    }
+
+    // 월 별 매출 가져오기
+    public List<String> monthSales(){
+        Calendar calendar = Calendar.getInstance();
+        Date date = new Date();
+        int year = 2022;
+        List<String> list = new ArrayList<>();
+        for(int i=1; i<13;i++){
+            String startday="";
+            String endday="";
+            date.setMonth(i);
+            calendar.set(year,date.getMonth()-1, date.getDate());
+            int firstday = calendar.getMinimum(Calendar.DAY_OF_MONTH);
+            String firstday2 = "";
+            if(firstday<10){
+                firstday2 = "0"+firstday;
+            }else{
+                firstday2=firstday+"";
+            }
+            if(i<10){
+                startday = year+"-"+"0"+i+"-"+firstday2;
+            }else {
+                startday = year + "-" + i + "-" + firstday2;
+            }
+            int lastday = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+            if(i<10){
+                endday = year+"-"+"0"+i+"-"+lastday;
+            }else {
+                endday = year + "-" + i + "-" + lastday;
+            }
+            List<PaymentEntity> paymentEntity = paymentRepository.monthSales(startday,endday);
+            // 월 매출
+            try{
+                int result = 0;
+                int price = 0;
+                for(PaymentEntity temp : paymentEntity){
+                    JSONObject jsonObject = (JSONObject) jsonParser.parse(temp.getPpeople());
+                    String adult = String.valueOf(jsonObject.get("adult")) ;
+                    String youth = String.valueOf(jsonObject.get("youth")) ;
+                    int adults = Integer.parseInt(adult);
+                    int youths = Integer.parseInt(youth);
+                    result += adults+youths;
+                    price += Integer.parseInt(temp.getPprice());
+                }
+                    String ass = price+"@"+result;
+                    list.add(ass);
+            }catch (Exception e){  }
+        }
+        return list;
+    }
 
 
 
