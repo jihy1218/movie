@@ -179,7 +179,33 @@ function  typeupdate(pno,ptype) {
         }
     });
 
-
 }
+
+
+
+function datesearch(){
+   var date1 = $("#date1").val();
+   var date2 = $("#date2").val();
+
+   document.getElementById("datasearch1").value = date1;
+   document.getElementById("datasearch2").value = date2;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
