@@ -4,6 +4,8 @@ import movie.domain.Dto.*;
 import movie.domain.Entity.Cnema.CnemaEntity;
 import movie.domain.Entity.Date.DateEntity;
 import movie.domain.Entity.Member.MemberEntity;
+import movie.domain.Entity.Ticketing.TicketingEntity;
+import movie.domain.Entity.Ticketing.TicketingRepository;
 import movie.service.CnemaService;
 import movie.service.DateService;
 import movie.service.MovieService;
@@ -218,6 +220,7 @@ public class AdminController {
         return  "admin/memberticketing";
     }
 
+
     @GetMapping("/ticketingupdate/{tno}")
     public String ticketingupdate(@PathVariable("tno")int tno,Model model){
         int dno = ticketingService.finddno(tno);
@@ -238,4 +241,7 @@ public class AdminController {
         return "admin/ticketingupdate";
     }
 
+
 }
+
+

@@ -12,6 +12,10 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -337,36 +341,69 @@ public class MovieService {
         int mvno = movieRepository.findMvno(mvid);
         return mvno;
     }
-   /*// 영화 번호 로 정보 불러오기
-    public MovieDto getMovieDto(int mno){
-        Optional<MovieEntity> movieEntity = movieRepository.findBymno(mno);
-        return  MovieDto.builder()
-                .mno(mno)
-                .mvid(movieEntity.get().getMvid())
-                .mvimg(movieEntity.get().getMvimg())
-                .build();
 
-    }*/
-
-    @Autowired
-    MemberRepository memberRepository;
-    @Autowired
-    ReplyRepository replyRepository;
     //댓글 등록
-    //2/11 여기에서  영화 번호 넣고 시작하면된다 js에도 영화 번호 넣어야함
-    public boolean replywrite1(int mvno,String rcontents , int mno){
-        Optional<MemberEntity>  memberEntity = memberRepository.findById(mno);
-        Optional<MovieEntity> movieEntity = movieRepository.findById(mvno);
-        ReplyEntity replyEntity =ReplyEntity.builder()
-            .rcontents(rcontents)
-            .memberEntityReply(memberEntity.get())
-            .movieEntityReply(movieEntity.get())
-            .build();
 
-        //  리플에 저장 // 멤버리스트에저장 //  하여튼 거시기 저장
+    @Autowired
+    private ReplyRepository replyRepository;
+    @Autowired
+    private MemberRepository memberRepository;
+
+    public boolean replywrite1(int mvno, String rcontents, int mno){
+
+        Optional <MovieEntity> movieOptional= movieRepository.findById(mvno);
+        Optional <MemberEntity> memberOptional = memberRepository.findById(mno);
+        ReplyEntity replyEntity = ReplyEntity.builder()
+                .rcontents(rcontents)
+                .memberEntityReply(memberOptional.get())
+                .movieEntityReply(movieOptional.get())
+                .build();
         replyRepository.save(replyEntity);
-        return true;
+        movieOptional.get().getReplyEntities().add(replyEntity);
+        memberOptional.get().getReplyEntities().add(replyEntity);
+        return false;
+
     }
+
+
+
+
+    //해당 영화 댓글 출력
+    public Page<ReplyEntity>getreplylist(String mvid, Pageable pageable ){
+
+        // 페이지 번호
+        int page =  0;
+        if( pageable.getPageNumber() == 0) page = 0;        // 0이면 1 페이지
+        else page = pageable.getPageNumber()-1 ;                // 1이면-1 ,1 페이지 2이면-1 2페이지
+        // 페이지 속성 [ PageRequest.of( 페이지번호 , 페이당 게시물수 , 정렬기준 )
+        pageable = PageRequest.of(  page, 5 , Sort.by( Sort.Direction.DESC , "rno") );
+
+/*        Optional<MovieEntity>movieOptional=movieRepository.findBymvid(mvid);
+
+        List<ReplyEntity>replyEntitys =movieOptional.get().getReplyEntities();*/
+        /*System.out.println(replyEntitys.toString()+"service");*/
+        return replyRepository.findAll(pageable);
+    }
+
+
+    // 해당 영화 댓글 삭제
+
+
+    public boolean replydelete(int rno){
+
+        Optional<ReplyEntity>entityOptional = replyRepository.findById(rno);
+        if(entityOptional.get() !=null){
+            replyRepository.delete(entityOptional.get());
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+
+
+
 
     @Autowired
     TicketingRepository ticketingRepository;
