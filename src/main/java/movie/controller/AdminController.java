@@ -242,10 +242,6 @@ public class AdminController {
         return "admin/ticketingupdate";
     }
 
-
-}
-
-
     //어드민 예약취소
     @GetMapping("/ticketcancel")
     @ResponseBody
@@ -304,7 +300,7 @@ public class AdminController {
     @GetMapping("/salesdata")
     @ResponseBody
     public List<String> salesdata(@RequestParam("year")String year){
-        List<String> ass = ticketingService.monthSales();
+        List<String> ass = ticketingService.monthSales(year);
         System.out.println(ass.toString());
         return ass;
     }

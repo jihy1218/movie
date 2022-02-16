@@ -377,16 +377,16 @@ public class TicketingService {
     }
 
     // 월 별 매출 가져오기
-    public List<String> monthSales(){
+    public List<String> monthSales(String year){
         Calendar calendar = Calendar.getInstance();
         Date date = new Date();
-        int year = 2022;
         List<String> list = new ArrayList<>();
+        int years = Integer.parseInt(year);
         for(int i=1; i<13;i++){
             String startday="";
             String endday="";
             date.setMonth(i);
-            calendar.set(year,date.getMonth()-1, date.getDate());
+            calendar.set(years,date.getMonth()-1, date.getDate());
             int firstday = calendar.getMinimum(Calendar.DAY_OF_MONTH);
             String firstday2 = "";
             if(firstday<10){
@@ -395,15 +395,15 @@ public class TicketingService {
                 firstday2=firstday+"";
             }
             if(i<10){
-                startday = year+"-"+"0"+i+"-"+firstday2;
+                startday = years+"-"+"0"+i+"-"+firstday2;
             }else {
-                startday = year + "-" + i + "-" + firstday2;
+                startday = years + "-" + i + "-" + firstday2;
             }
             int lastday = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
             if(i<10){
-                endday = year+"-"+"0"+i+"-"+lastday;
+                endday = years+"-"+"0"+i+"-"+lastday;
             }else {
-                endday = year + "-" + i + "-" + lastday;
+                endday = years + "-" + i + "-" + lastday;
             }
             List<PaymentEntity> paymentEntity = paymentRepository.monthSales(startday,endday);
             // 월 매출
