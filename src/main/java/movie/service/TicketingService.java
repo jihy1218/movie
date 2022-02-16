@@ -235,17 +235,22 @@ public class TicketingService {
                     ticketing.getDateEntityTicket().getDdate()+" "+ticketing.getDateEntityTicket().getDtime()
             );
             JSONObject jsonObject2 = (JSONObject)jsonParser.parse(ticketing.getTseat());
+            System.out.println("jsonObject2 (: "+jsonObject2);
+            System.out.println("jsonObject2.get (: "+jsonObject2.get("tseat"));
             JSONArray jsonArray = (JSONArray) jsonObject2.get("tseat");
             String seat = "";
             for( int i = 0; i<jsonArray.size(); i++){
                 JSONObject jsonObject = (JSONObject)jsonArray.get(i);
+                System.out.println("jsonObject: "+jsonObject);
                 seat = seat + " " +jsonObject.get("seat")+"석";
+                System.out.println("seat: "+seat);
             }
             dto.setSeat(seat);
             JSONObject jsonObject = (JSONObject)jsonParser.parse(ticketing.getTage());
             dto.setCount("어른 :"+String.valueOf(jsonObject.get("adult"))+
                     " 청소년 :"+String.valueOf(jsonObject.get("youth")));
             JSONObject mvjson = movieService.getmovieinfoselect(ticketing.getDateEntityTicket().getMovieEntityDate().getMvid());
+            System.out.println("mvjson:"+mvjson);
             dto.setMovietitle(String.valueOf(mvjson.get("movieNm")));
             dto.setCnemaname(ticketing.getDateEntityTicket().getCnemaEntityDate().getCname());
             dto.setPrice(ticketing.getTprice());
@@ -257,6 +262,16 @@ public class TicketingService {
         }
 
     }
+
+
+
+
+
+
+
+
+
+
 
     public int finddno(int tno){
         return ticketingRepository.findById(tno).get().getDateEntityTicket().getDno();
@@ -362,16 +377,16 @@ public class TicketingService {
     }
 
     // 월 별 매출 가져오기
-    public List<String> monthSales(){
+    public List<String> monthSales(String year){
         Calendar calendar = Calendar.getInstance();
         Date date = new Date();
-        int year = 2022;
         List<String> list = new ArrayList<>();
+        int years = Integer.parseInt(year);
         for(int i=1; i<13;i++){
             String startday="";
             String endday="";
             date.setMonth(i);
-            calendar.set(year,date.getMonth()-1, date.getDate());
+            calendar.set(years,date.getMonth()-1, date.getDate());
             int firstday = calendar.getMinimum(Calendar.DAY_OF_MONTH);
             String firstday2 = "";
             if(firstday<10){
@@ -380,49 +395,39 @@ public class TicketingService {
                 firstday2=firstday+"";
             }
             if(i<10){
-                startday = year+"-"+"0"+i+"-"+firstday2;
+                startday = years+"-"+"0"+i+"-"+firstday2;
             }else {
-                startday = year + "-" + i + "-" + firstday2;
+                startday = years + "-" + i + "-" + firstday2;
             }
             int lastday = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
             if(i<10){
-                endday = year+"-"+"0"+i+"-"+lastday;
+                endday = years+"-"+"0"+i+"-"+lastday;
             }else {
-                endday = year + "-" + i + "-" + lastday;
+                endday = years + "-" + i + "-" + lastday;
             }
             List<PaymentEntity> paymentEntity = paymentRepository.monthSales(startday,endday);
             // 월 매출
             try{
+                int result = 0;
+                int price = 0;
                 for(PaymentEntity temp : paymentEntity){
                     JSONObject jsonObject = (JSONObject) jsonParser.parse(temp.getPpeople());
                     String adult = String.valueOf(jsonObject.get("adult")) ;
                     String youth = String.valueOf(jsonObject.get("youth")) ;
                     int adults = Integer.parseInt(adult);
                     int youths = Integer.parseInt(youth);
-                    // 여기서 부터 안되는중
-                    String month="";
-                    if(i<10){
-                        month="0"+i;
-                        if(temp.getCreatedDate().getMonth().equals(month)){
-                            int result = adults+youths;
-                            System.out.println(result);
-                        }
-                    }else{
-                        month=i+"";
-                        if(temp.getCreatedDate().getMonth().equals(month)){
-                            int result = adults+youths;
-                            System.out.println(result);
-                        }
-                    }
-
+                    result += adults+youths;
+                    price += Integer.parseInt(temp.getPprice());
                 }
-            }catch (Exception e){
-
-            }
-
+                    String ass = price+"@"+result;
+                    list.add(ass);
+            }catch (Exception e){  }
         }
-        System.out.println(list.toString());
-        return null;
+        return list;
     }
+
+
+
+
 
 }

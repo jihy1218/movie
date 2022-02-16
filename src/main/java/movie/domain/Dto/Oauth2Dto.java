@@ -11,7 +11,7 @@ import java.util.Map;
 
 @Getter @Setter
 public class Oauth2Dto {
-
+//-----------------------추가하기
     //이름
     String name;
     //이메일
@@ -23,7 +23,7 @@ public class Oauth2Dto {
 
     //풀생성자
     @Builder
-    public Oauth2Dto(String name, String email, Map<String, Object> attribute, String nameattributekey) {
+    public Oauth2Dto(String name, String email, Map<String, Object> attribute, String nameattributekey) { //-----------------------추가하기
         this.name = name;
         this.email = email;
         this.attribute = attribute;
@@ -41,7 +41,7 @@ public class Oauth2Dto {
         Map<String,Object>kakao_account =(Map<String,Object>) attribute.get("kakao_account");
         Map<String,Object>profile = (Map<String,Object>) kakao_account.get("profile");
 
-        return Oauth2Dto.builder()
+        return Oauth2Dto.builder()//-----------------------추가하기
                 .name((String)profile.get("nickname"))
                 .email((String) kakao_account.get("email"))
                 .attribute(attribute)
@@ -79,7 +79,7 @@ public class Oauth2Dto {
     public MemberEntity toEntity(){
 
         return MemberEntity.builder().mname(name).memail(email).mgrade(Role.Member).mid(email.split("@")[0]).build();
-
+        //-----------------------추가하기
     }
 
 }

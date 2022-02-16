@@ -4,6 +4,8 @@ import movie.domain.Dto.*;
 import movie.domain.Entity.Cnema.CnemaEntity;
 import movie.domain.Entity.Date.DateEntity;
 import movie.domain.Entity.Member.MemberEntity;
+import movie.domain.Entity.Ticketing.TicketingEntity;
+import movie.domain.Entity.Ticketing.TicketingRepository;
 import movie.domain.Entity.Payment.PaymentEntity;
 import movie.service.CnemaService;
 import movie.service.DateService;
@@ -219,6 +221,7 @@ public class AdminController {
         return  "admin/memberticketing";
     }
 
+
     @GetMapping("/ticketingupdate/{tno}")
     public String ticketingupdate(@PathVariable("tno")int tno,Model model){
         int dno = ticketingService.finddno(tno);
@@ -291,8 +294,15 @@ public class AdminController {
     // 매출 페이지 이동
     @GetMapping("/sales")
     public String sales(){
-        ticketingService.monthSales();
         return "admin/sales";
+    }
+    // 매출페이지 차트 데이터 넣기
+    @GetMapping("/salesdata")
+    @ResponseBody
+    public List<String> salesdata(@RequestParam("year")String year){
+        List<String> ass = ticketingService.monthSales(year);
+        System.out.println(ass.toString());
+        return ass;
     }
 
 }// class end
