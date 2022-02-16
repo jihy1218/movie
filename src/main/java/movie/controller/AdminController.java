@@ -270,4 +270,17 @@ public class AdminController {
         model.addAttribute("payment",paymentEntities);
         return "admin/paymentmanagement";
     }
-}
+
+    // 환불관리 페이지 상태업데이트
+    @GetMapping("/typeupdate")
+    @ResponseBody
+    public String typeupdate(@RequestParam("pno")int pno,@RequestParam("ptype")String ptype){
+        boolean result = ticketingService.typeupdate(pno,ptype);
+        if(result){
+            return "1";
+        }else{
+            return "2";
+        }
+    }
+
+}// class end

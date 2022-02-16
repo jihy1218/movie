@@ -21,6 +21,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServlet;
@@ -288,8 +289,6 @@ public class TicketingService {
         return true;
    }
 
-    @Autowired
-    PaymentRepository paymentRepository;
     // 환불관리 리스트 출력
     public Page<PaymentEntity> paymentlist(Pageable pageable,String keyword, String search){
         int page=0;
@@ -303,7 +302,17 @@ public class TicketingService {
         if(keyword!=null&&keyword.equals("mid")){return paymentRepository.findByMid(search,pageable);}
 
         return paymentRepository.findAll(pageable);
+    }
 
+    // 특정 결제번호 상태 변경하기
+    @Transactional
+    public boolean typeupdate(int pno, String ptype){
+        PaymentEntity paymentEntity = paymentRepository.findById(pno).get();    // 해당 번호 결제 레코드 호출
+        if(paymentEntity.getPtype().equals(ptype)) {    // 결제레코드의 타입과 같으면
+            return false;   // 돌려보냄
+        }else{
+            paymentEntity.setPtype(ptype); return true; // 결제 상태 저장
+        }
     }
 
 }
