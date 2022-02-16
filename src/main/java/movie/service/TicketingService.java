@@ -297,10 +297,50 @@ public class TicketingService {
         // 페이지 속성 페이지번호, 페이지당 게시물수, 정렬
         pageable=PageRequest.of(page,10,Sort.by(Sort.Direction.DESC,"pno"));
         // 검색이 있을경우
-        if(keyword!=null&&keyword.equals("pmoviename")){return paymentRepository.findByPmoviename(search,pageable);}
-        if(keyword!=null&&keyword.equals("tno")){return paymentRepository.findByTno(search,pageable);}
-        if(keyword!=null&&keyword.equals("mid")){return paymentRepository.findByMid(search,pageable);}
+        if(keyword!=null&&keyword.equals("pmoviename")){
+            Page<PaymentEntity> paymentEntity =paymentRepository.findByPmoviename(search,pageable);
+            return paymentEntity;
+        }
+        if(keyword!=null&&keyword.equals("tno")){
+            Page<PaymentEntity> paymentEntity = replacePate(paymentRepository.findAll(pageable));
+            return paymentEntity;
+        }
+        if(keyword!=null&&keyword.equals("mid")){
+            Page<PaymentEntity> paymentEntity = replacePate(paymentRepository.findAll(pageable));
+            return paymentEntity;
+        }
+        Page<PaymentEntity> paymentEntity = replacePate(paymentRepository.findAll(pageable));
+        return paymentEntity;
 
+    }
+
+
+    //페이지 가공
+    public Page<PaymentEntity> replacePate(Page<PaymentEntity> page){
+        List<PaymentEntity> list = page.getContent();
+        try{
+            for(int i=0; i<list.size(); i++){
+                JSONObject jsonObject = (JSONObject)jsonParser.parse(list.get(i).getPpeople());
+                String peple = "성인 :"+String.valueOf(jsonObject.get("adult"))+" 청소년 :"
+                        +String.valueOf(jsonObject.get("youth")) ;
+                list.get(i).setPpeople(peple);
+                jsonObject = (JSONObject)jsonParser.parse(list.get(i).getPseat());
+                JSONArray jsonArray = (JSONArray) jsonObject.get("tseat");
+                String seat = "";
+                for(int j=0; j<jsonArray.size();j++){
+                    JSONObject jsonObject1 = (JSONObject)jsonArray.get(j);
+                    if(j==0){
+                        seat = String.valueOf(jsonObject1.get("seat")).replace(",","");
+                    }else{
+                        seat += ","+String.valueOf(jsonObject1.get("seat")).replace(",","");
+                    }
+                }
+                list.get(i).setPseat(seat);
+                page.getContent().set(0,list.get(i));
+            }
+
+        }catch (Exception e){}
+        return page;
         return paymentRepository.findAll(pageable);
     }
 
@@ -314,5 +354,6 @@ public class TicketingService {
             paymentEntity.setPtype(ptype); return true; // 결제 상태 저장
         }
     }
+
 
 }
