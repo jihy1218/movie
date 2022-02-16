@@ -256,8 +256,10 @@ public class AdminController {
     // 환불관리 페이지 이동
     @GetMapping("/paymentmanagement")
     public String paymentmanagement(@PageableDefault Pageable pageable,Model model){
+
         String keyword=request.getParameter("keyword");
         String search=request.getParameter("search");
+
         HttpSession session = request.getSession();
         if(keyword!=null||search!=null){
             session.setAttribute("keyword2",keyword);
@@ -266,7 +268,6 @@ public class AdminController {
             keyword=(String)session.getAttribute("keyword2");
             search=(String)session.getAttribute("search2");
         }
-
         Page<PaymentEntity> paymentEntities = ticketingService.paymentlist(pageable,keyword,search);
         model.addAttribute("payment",paymentEntities);
         return "admin/paymentmanagement";

@@ -17,4 +17,7 @@ public interface PaymentRepository extends JpaRepository<PaymentEntity,Integer> 
     Page<PaymentEntity> findByTno(@Param("search")String search, Pageable pageable);
     @Query(nativeQuery = true,value="select * from payment where mid like %:search%")
     Page<PaymentEntity> findByMid(@Param("search")String search, Pageable pageable);
+
+    @Query(nativeQuery = true , value = "SELECT *, created_date FROM payment WHERE DATE(created_date) BETWEEN :date1 AND :date2 ")
+    Page<PaymentEntity> findByDate(@Param("date1")String date1 , @Param("date2")String date2, Pageable pageable);
 }

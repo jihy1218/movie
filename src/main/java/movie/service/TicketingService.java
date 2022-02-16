@@ -295,20 +295,27 @@ public class TicketingService {
         if(pageable.getPageNumber()==0){page=0;}    // 0이면 0페이지(기본페이지)
         else{page=pageable.getPageNumber()-1;}      // 1페이지 이상일때는 -1해서
         // 페이지 속성 페이지번호, 페이지당 게시물수, 정렬
-        pageable=PageRequest.of(page,10,Sort.by(Sort.Direction.DESC,"pno"));
+        pageable=PageRequest.of(page,2,Sort.by(Sort.Direction.DESC,"pno"));
+
         // 검색이 있을경우
         if(keyword!=null&&keyword.equals("pmoviename")){
-            Page<PaymentEntity> paymentEntity =paymentRepository.findByPmoviename(search,pageable);
+            System.out.println("2");
+            Page<PaymentEntity> paymentEntity = replacePate(paymentRepository.findByPmoviename(search,pageable));
             return paymentEntity;
         }
         if(keyword!=null&&keyword.equals("tno")){
-            Page<PaymentEntity> paymentEntity = replacePate(paymentRepository.findAll(pageable));
+            System.out.println("3");
+            Page<PaymentEntity> paymentEntity = replacePate(paymentRepository.findByTno(search,pageable));
             return paymentEntity;
         }
         if(keyword!=null&&keyword.equals("mid")){
-            Page<PaymentEntity> paymentEntity = replacePate(paymentRepository.findAll(pageable));
+            System.out.println("4");
+            Page<PaymentEntity> paymentEntity = replacePate(paymentRepository.findByMid(search,pageable));
             return paymentEntity;
         }
+
+
+
         Page<PaymentEntity> paymentEntity = replacePate(paymentRepository.findAll(pageable));
         return paymentEntity;
 
@@ -318,6 +325,7 @@ public class TicketingService {
     //페이지 가공
     public Page<PaymentEntity> replacePate(Page<PaymentEntity> page){
         List<PaymentEntity> list = page.getContent();
+        System.out.println(list.toString());
         try{
             for(int i=0; i<list.size(); i++){
                 JSONObject jsonObject = (JSONObject)jsonParser.parse(list.get(i).getPpeople());
@@ -336,12 +344,11 @@ public class TicketingService {
                     }
                 }
                 list.get(i).setPseat(seat);
-                page.getContent().set(0,list.get(i));
             }
 
         }catch (Exception e){}
+        System.out.println(list.toString());
         return page;
-        return paymentRepository.findAll(pageable);
     }
 
     // 특정 결제번호 상태 변경하기
