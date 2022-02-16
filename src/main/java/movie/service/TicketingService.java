@@ -28,9 +28,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service
 public class TicketingService {
@@ -362,5 +361,68 @@ public class TicketingService {
         }
     }
 
+    // 월 별 매출 가져오기
+    public List<String> monthSales(){
+        Calendar calendar = Calendar.getInstance();
+        Date date = new Date();
+        int year = 2022;
+        List<String> list = new ArrayList<>();
+        for(int i=1; i<13;i++){
+            String startday="";
+            String endday="";
+            date.setMonth(i);
+            calendar.set(year,date.getMonth()-1, date.getDate());
+            int firstday = calendar.getMinimum(Calendar.DAY_OF_MONTH);
+            String firstday2 = "";
+            if(firstday<10){
+                firstday2 = "0"+firstday;
+            }else{
+                firstday2=firstday+"";
+            }
+            if(i<10){
+                startday = year+"-"+"0"+i+"-"+firstday2;
+            }else {
+                startday = year + "-" + i + "-" + firstday2;
+            }
+            int lastday = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+            if(i<10){
+                endday = year+"-"+"0"+i+"-"+lastday;
+            }else {
+                endday = year + "-" + i + "-" + lastday;
+            }
+            List<PaymentEntity> paymentEntity = paymentRepository.monthSales(startday,endday);
+            // 월 매출
+            try{
+                for(PaymentEntity temp : paymentEntity){
+                    JSONObject jsonObject = (JSONObject) jsonParser.parse(temp.getPpeople());
+                    String adult = String.valueOf(jsonObject.get("adult")) ;
+                    String youth = String.valueOf(jsonObject.get("youth")) ;
+                    int adults = Integer.parseInt(adult);
+                    int youths = Integer.parseInt(youth);
+                    // 여기서 부터 안되는중
+                    String month="";
+                    if(i<10){
+                        month="0"+i;
+                        if(temp.getCreatedDate().getMonth().equals(month)){
+                            int result = adults+youths;
+                            System.out.println(result);
+                        }
+                    }else{
+                        month=i+"";
+                        if(temp.getCreatedDate().getMonth().equals(month)){
+                            int result = adults+youths;
+                            System.out.println(result);
+                        }
+                    }
+
+                }
+            }catch (Exception e){
+
+            }
+
+        }
+        System.out.println(list.toString());
+        return null;
+    }
 
 }

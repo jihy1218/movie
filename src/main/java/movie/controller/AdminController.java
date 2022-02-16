@@ -261,6 +261,7 @@ public class AdminController {
         String search=request.getParameter("search");
 
         HttpSession session = request.getSession();
+/*        HttpSession session = request.getSession();
         if(keyword!=null||search!=null){
             session.setAttribute("keyword2",keyword);
             session.setAttribute("search2", search);
@@ -268,6 +269,8 @@ public class AdminController {
             keyword=(String)session.getAttribute("keyword2");
             search=(String)session.getAttribute("search2");
         }
+        }*/
+
         Page<PaymentEntity> paymentEntities = ticketingService.paymentlist(pageable,keyword,search);
         model.addAttribute("payment",paymentEntities);
         return "admin/paymentmanagement";
@@ -283,6 +286,13 @@ public class AdminController {
         }else{
             return "2";
         }
+    }
+
+    // 매출 페이지 이동
+    @GetMapping("/sales")
+    public String sales(){
+        ticketingService.monthSales();
+        return "admin/sales";
     }
 
 }// class end

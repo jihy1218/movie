@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:replace="header.html::header"></div><!--헤더-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+<script th:src="@{/js/sales.js}"></script>
+<div class="container">
+    <canvas id="chart"></canvas>
+</div>
+<div th:replace="footer.html::footer"></div><!--푸터-->
+</body>
+</html>
