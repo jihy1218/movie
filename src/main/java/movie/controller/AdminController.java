@@ -238,4 +238,18 @@ public class AdminController {
         return "admin/ticketingupdate";
     }
 
+    //어드민 예약취소
+    @GetMapping("/ticketcancel")
+    @ResponseBody
+    public String ticketcancel(@RequestParam("tno")int tno){
+
+        System.out.println("abc  :"+tno);
+
+        boolean result = ticketingService.ticketcancel(tno);
+        if(result){
+            return  "1";
+        }
+        return "2";
+    }
+
 }

@@ -28,7 +28,7 @@ public class PaymentEntity extends BaseTimeEntity {
     private String pprice ;
     @Column(name="tno")
     private int tno;
-    @Column(name="mno")
-    private int mno;
+    @Column(name="mid")
+    private String mid;
 
 }
