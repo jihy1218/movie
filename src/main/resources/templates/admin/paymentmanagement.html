@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:replace="header.html::header"></div><!--헤더-->
+<div class="container">
+    <table class="table">
+        <tr>
+            <th>예약번호</th><th>영화명</th><th>일시</th><th>인원</th><th>좌석</th><th>금액</th><th>아이디</th><th>상태</th><th>비고</th>
+        </tr>
+        <tr th:each="pay : ${payment}">
+            <td th:text="${pay.tno}"></td><td th:text="${pay.pmoviename}"></td><td th:text="${pay.ptime}"></td><td th:text="${pay.ppeople}"></td>
+            <td th:text="${pay.pseat}"></td><td th:text="${pay.pprice}"></td><td th:text="${pay.mid}"></td><td th:text="${pay.ptype}"></td><td><button class="btn btn-warning" th:onclick="typechange([[${pay.pno}]]);">상태변경</button></td>
+        </tr>
+
+    </table>
+</div>
+<div th:replace="footer.html::footer"></div><!--푸터-->
+</body>
+</html>

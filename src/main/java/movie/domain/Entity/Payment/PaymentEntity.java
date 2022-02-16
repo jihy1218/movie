@@ -14,21 +14,21 @@ public class PaymentEntity extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="pno")
     private int pno;
-    @Column(name="pmoviename")
+    @Column(name="pmoviename") // 예약한 영화명
     private String pmoviename;
-    @Column(name="ptime ")
+    @Column(name="ptime ")      // 예약한 날짜
     private String ptime ;
-    @Column(name="ppeople ")
+    @Column(name="ppeople ")     // 예약한 인원
     private String ppeople ;
-    @Column(name="pseat ")
+    @Column(name="pseat ")      // 예약한 좌석
     private String pseat ;
-    @Column(name="ptype ")
+    @Column(name="ptype ")      // 결제완료 ,환불처리중, 환불완료
     private String ptype ;
-    @Column(name="pprice ")
+    @Column(name="pprice ")     // 취소 금액 & 결제금액
     private String pprice ;
-    @Column(name="tno")
+    @Column(name="tno")         // 예약번호
     private int tno;
-    @Column(name="mid")
+    @Column(name="mid")         // 회원아이디
     private String mid;
 
 }

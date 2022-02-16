@@ -4,6 +4,7 @@ import movie.domain.Dto.*;
 import movie.domain.Entity.Cnema.CnemaEntity;
 import movie.domain.Entity.Date.DateEntity;
 import movie.domain.Entity.Member.MemberEntity;
+import movie.domain.Entity.Payment.PaymentEntity;
 import movie.service.CnemaService;
 import movie.service.DateService;
 import movie.service.MovieService;
@@ -252,4 +253,21 @@ public class AdminController {
         return "2";
     }
 
+    // 환불관리 페이지 이동
+    @GetMapping("/paymentmanagement")
+    public String paymentmanagement(@PageableDefault Pageable pageable,Model model){
+        String keyword=request.getParameter("keyword");
+        String search=request.getParameter("search");
+        HttpSession session = request.getSession();
+        if(keyword!=null||search!=null){
+            session.setAttribute("keyword2",keyword);
+            session.setAttribute("search2", search);
+        }else{
+            keyword=(String)session.getAttribute("keyword2");
+            search=(String)session.getAttribute("search2");
+        }
+        Page<PaymentEntity> paymentEntities = ticketingService.paymentlist(pageable,keyword,search);
+        model.addAttribute("payment",paymentEntities);
+        return "admin/paymentmanagement";
+    }
 }

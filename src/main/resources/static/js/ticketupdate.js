@@ -71,7 +71,3 @@ function ticketcancel(tno){
 
 
 
-
-
-
-
