@@ -40,7 +40,8 @@ public class MovieService {
 
     @Transactional
     public boolean moviewrite(String mvid, List<MultipartFile> mvimg, List<MultipartFile> mvvideo ,MultipartFile mvposter){
-        String dirPo = "C:\\Users\\505\\Desktop\\Spring\\movie\\src\\main\\resources\\static\\poster";
+        /*String dirPo = "C:\\Users\\505\\Desktop\\Spring\\movie\\src\\main\\resources\\static\\poster";*/
+        String dirPo = "C:\\Users\\505\\Desktop\\Spring\\moviedj\\src\\main\\resources\\static\\poster";
         String dirVi = "C:\\Users\\505\\Desktop\\movie\\src\\main\\resources\\static\\video";
         MovieDto movieDto = MovieDto.builder()
                 .mvid(mvid)
@@ -342,6 +343,7 @@ public class MovieService {
         return mvno;
     }
 
+
     //댓글 등록
 
     @Autowired
@@ -378,15 +380,17 @@ public class MovieService {
         // 페이지 속성 [ PageRequest.of( 페이지번호 , 페이당 게시물수 , 정렬기준 )
         pageable = PageRequest.of(  page, 5 , Sort.by( Sort.Direction.DESC , "rno") );
 
-/*        Optional<MovieEntity>movieOptional=movieRepository.findBymvid(mvid);
+       Optional<MovieEntity>movieOptional=movieRepository.findBymvid(mvid);
+        System.out.println("service123:"+movieOptional);
+        int mvno = movieOptional.get().getMvno();
+        Page<ReplyEntity> rno = replyRepository.findRno(String.valueOf(mvno),pageable);
 
-        List<ReplyEntity>replyEntitys =movieOptional.get().getReplyEntities();*/
+       /*  List<ReplyEntity>replyEntitys =movieOptional.get().getReplyEntities();*/
         /*System.out.println(replyEntitys.toString()+"service");*/
-        return replyRepository.findAll(pageable);
+        return rno;
     }
 
 
-    // 해당 영화 댓글 삭제
 
 
     public boolean replydelete(int rno){

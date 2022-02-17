@@ -66,6 +66,7 @@ function cnemabtn(location){
     }
     var sJson = JSON.stringify(cnemaJsonArray);
 
+
 }
 
 // 관 등록

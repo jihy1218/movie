@@ -49,11 +49,6 @@ public class MemberEntity extends BaseTimeEntity {
     //해당 Role에 key반환 메소드드
     public String getRoleKey(){return this.mgrade.getKey();}
 
-
-
-
-
-
     @OneToMany(mappedBy = "memberEntityReply", cascade = CascadeType.ALL) // 댓글리스트
     private List<ReplyEntity> replyEntities = new ArrayList<>();
     @OneToMany(mappedBy = "memberEntityTicket" , cascade = CascadeType.ALL) // 티켓 리스트

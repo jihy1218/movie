@@ -4,6 +4,7 @@ import movie.domain.Dto.IntergratedDto;
 import movie.domain.Dto.MemberDto;
 import movie.domain.Entity.Member.MemberEntity;
 import movie.domain.Entity.Member.MemberRepository;
+import movie.domain.Entity.Member.Role;
 import movie.domain.Entity.Ticketing.TicketingEntity;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -89,9 +90,11 @@ public class MemberService implements UserDetailsService {
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(memberEntity.getRoleKey()));
         //세션부여
-        MemberDto loginDto = MemberDto.builder().mid(memberEntity.getMid()).mno(memberEntity.getMno()).build();
+        MemberDto loginDto = MemberDto.builder().mid(memberEntity.getMid()).mno(memberEntity.getMno()).mage(memberEntity.getMage()).msex(memberEntity.getMsex()).build();
         HttpSession session = request.getSession();
+
         session.setAttribute("logindto",loginDto);
+
 
         //회원정보와 권한을 갖는 UserDetails 반환
         return new IntergratedDto(memberEntity, authorities);
@@ -143,7 +146,9 @@ public class MemberService implements UserDetailsService {
                     temppassword.append((char)((int)(random.nextInt(26))+97));
                 }
                 builder.append("<div>"+temppassword+"</div><br><h3 style='color : red;'>받으신후 비밀번호를 변경해 주세요!!</h3></body></html>");
-                memberEntity.setMpassword(temppassword.toString()); // 랜덤 난수로 비밀번호 변경
+                BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+                memberEntity.setMpassword(passwordEncoder.encode(temppassword.toString()));
+               /* memberEntity.setMpassword(temppassword.toString()); // 랜덤 난수로 비밀번호 변경*/
                 try{
                     MimeMessage message = javaMailSender.createMimeMessage();
                     MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(message,true,"UTF-8");

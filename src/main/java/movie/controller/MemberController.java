@@ -35,6 +35,7 @@ public class MemberController {
         model.addAttribute("movie",movieinfoDtoList);
         return "main";
     }
+
     //로그인페이지 연결
     @GetMapping("/member/login")
     public String login() {
@@ -56,6 +57,7 @@ public class MemberController {
         MemberDto memberDto = (MemberDto) session.getAttribute("logindto");
         MemberDto member = memberService.getMemberDto(memberDto.getMno());
         int mno = memberDto.getMno();
+
         List<TicketDto> ticketDto = ticketingService.getticketlist(mno);
 
         model.addAttribute("info", member);

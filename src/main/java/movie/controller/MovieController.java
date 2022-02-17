@@ -1,6 +1,7 @@
 package movie.controller;
 
 import movie.domain.Dto.MemberDto;
+import movie.domain.Dto.MovieDto;
 import movie.domain.Dto.MovieinfoDto;
 import movie.domain.Entity.Date.DateEntity;
 import movie.domain.Entity.Member.MemberEntity;
@@ -77,6 +78,8 @@ public class MovieController {
         // 댓글
        Page<ReplyEntity> replyEntitiys = movieService.getreplylist(mvid,pageable);
 
+       System.out.println(" mvid controller:"+mvid);
+
        System.out.println("controller2 :"+replyEntitiys);
         MovieinfoDto movieinfoDto = MovieinfoDto.builder()
                 .mvno(movieService.getMvno(mvid))
@@ -126,6 +129,7 @@ public class MovieController {
         HttpSession session = request.getSession();
         MemberDto memberDto = (MemberDto) session.getAttribute("logindto");
         int mno = memberDto.getMno();
+
         if(memberDto==null){
             return "2";
         }else{
