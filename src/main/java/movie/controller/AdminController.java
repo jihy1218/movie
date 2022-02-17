@@ -301,7 +301,6 @@ public class AdminController {
     @ResponseBody
     public List<String> salesdata(@RequestParam("year")String year){
         List<String> ass = ticketingService.monthSales(year);
-        System.out.println(ass.toString());
         return ass;
     }
 

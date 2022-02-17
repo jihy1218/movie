@@ -43,16 +43,12 @@ function payment(ctype,dno){
                     "count" : ycount+acount
                 },
                 success : function(result){
-                    if(result==1){
+                    if(result!=0){
                         alert("결제완료");
-                        location.href="/";
+                        location.href="/movie/reservation/"+result;
                     }else{
                         alert("결제오류");
-                        location.href="/"
                     }
-
-
-;
                 }
             });
         }

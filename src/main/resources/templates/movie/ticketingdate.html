@@ -6,53 +6,64 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Title</title>
     <link th:href="@{/css/calendar.css}" rel="stylesheet">
+    <style>
+    </style>
 </head>
 <body>
- <div th:replace="header.html::header"></div><!--헤더-->
- <div class="container">
-     <div class="row">
-         <div class="col-md-6" style="height: 700px; border: lightpink solid 3px; border-radius: 9%; overflow: auto; margin-right:15px;" >
-             <div class="row">
-                 <div class="col-md-5 m-4" th:each="movie : ${movielist}">
-                    <div class="card" style=" border: lightpink solid 3px; border-radius: 10%;overflow: hidden">
-                        <button style="border: none" th:onclick="movieselect([[${movie.mvno}]],[[${movie.movieNm}]]);"><img class="card-top" th:src="@{'/poster/'+${movie.poster}}" style="width: 100%;"></button>
-                        <div class="card-body">
-                            <p class="card-text text-center" style="font-weight: bold;" th:text="${movie.movieNm}"></p>
+<div th:replace="header.html::header"></div><!--헤더-->
+<div style="background-color: #444444; padding: 40px 0 40px 0;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 text-center" style="background-color: black;color : white; padding: 13px 0 5px 0;">
+                <h3 id="selectmovieresult">영화 선택</h3>
+            </div>
+            <div class="col-md-6 text-center" style="background-color: black;color : white; padding: 13px 0 5px 0;">
+                <h3 id="selectdateresult">날짜 선택</h3>
+            </div>
+            <div class="col-md-6" style="height: 800px; overflow: auto; background-color: white;" >
+                <div class="row">
+                    <div class="col-md-5 m-4" th:each="movie : ${movielist}">
+                        <div class="card" style=" border-radius: 10%;overflow: hidden">
+                            <button style="border: none" th:onclick="movieselect([[${movie.mvno}]],[[${movie.movieNm}]]);"><img class="card-top" th:src="@{'/poster/'+${movie.poster}}" style="width: 100%;"></button>
+                            <div class="card-body">
+                                <p class="card-text text-center" style="font-weight: bold;" th:text="${movie.movieNm}"></p>
+                            </div>
                         </div>
                     </div>
-                 </div>
-             </div>
-         </div>
-         <div class="col-md-5"  style="height: 700px; border: lightpink solid 3px; border-radius: 9%; overflow: auto;">
-             <form class="mt-3">
-                 <input type="month" onchange="monthselect();" id="monthselect1" value="2022-02" >
-             </form>
-             <table class="table text-center">
-                 <tr>
-                     <th>일</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th>토</th>
-                 </tr>
-             </table>
-             <div id="calendar" class="mt-3" style="height: 300px;"></div>
-             <br><br><br>
-             <div id="datediv" class="text-center" style="overflow: auto; height: 100px;">
-                 <button class="col-md-5 btn my-2" th:each="num : ${#numbers.sequence(0,9)}" th:id="${'time'+num}" th:onclick="timeselect([[${num}]]);"  style="display: none;"></button>
-             </div>
-             <button class="col-md-6 offset-3 btn btn-success mt-2" id="seats" th:onclick="seatselect([[${session.logindto}]]);">좌석선택</button>
-             <a th:href="@{/movie/ticketingdate}"><button class="col-md-6 offset-3 btn btn-danger mt-2">RESET</button></a>
-         </div>
-     </div>
- </div>
- <div class="text-center" style="position: fixed; right: 50px;top:200px;width: 300px;height: 400px;border: solid 2px #96C0B7;">
-     <h3>선택 내역</h3>
-     <span id="selectmovieresult" style="font-weight: bold;"></span><br>
-     <span id="selectmvnoresult"  style="display: none;"></span>
-     <span id="moviedate" style="display: none;"></span>
-     <span id="selectdateresult" style="font-weight: bold;"></span><br>
-     <span id="movietime" style="display: none;"></span>
-     <span id="selecttimeresult" style="font-weight: bold;"></span><br>
-     <span id="finalDno" style="display: none;"></span>
- </div>
- <script th:src="@{/js/calendar.js}"></script>
- <div th:replace="footer.html::footer"></div><!--푸터-->
+                </div>
+            </div>
+            <div class="col-md-6"  style="height: 800px; overflow: auto;background-color: white;">
+                <div>
+                    <form class="my-3 col-md-4 offset-4">
+                        <input type="month" class="form-control" onchange="monthselect();" id="monthselect1" value="2022-02" >
+                    </form>
+                    <table class="table text-center" style="width: 500px;margin: 0 auto;">
+                        <tr>
+                            <th>일</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th>토</th>
+                        </tr>
+                    </table>
+                    <div id="calendar" class="mt-3" style="width:500px;height: 350px;margin:0 auto;"></div>
+                    <br><br><br>
+                    <div id="datediv" style="overflow: auto; height: 100px; width: 500px; margin:0 auto; padding: 0 30px 0 30px;">
+                        <button class="col-md-5 btn m-2" th:each="num : ${#numbers.sequence(0,9)}" th:id="${'time'+num}" th:onclick="timeselect([[${num}]]);"  style="display: none;"></button>
+                    </div>
+                    <button class="col-md-4 offset-4 btn btn-dark mt-2" id="seats" th:onclick="seatselect([[${session.logindto}]]);">좌석선택</button>
+                    <a th:href="@{/movie/ticketingdate}"><button class="col-md-4 offset-4 btn btn-danger mt-2">RESET</button></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="text-center" style="display: none;">
+        <!--<span id="selectmovieresult" style="font-weight: bold;"></span><br>-->
+        <span id="selectmvnoresult"  style="display: none;"></span>
+        <span id="moviedate" style="display: none;"></span>
+        <!--<span id="selectdateresult" style="font-weight: bold;"></span><br>-->
+        <span id="movietime" style="display: none;"></span>
+        <span id="selecttimeresult" style="font-weight: bold; display: none;"></span><br>
+        <span id="finalDno" style="display: none;"></span>
+    </div>
+    <script th:src="@{/js/calendar.js}"></script>
+</div>
+<div th:replace="footer.html::footer"></div><!--푸터-->
 </body>
 </html>
