@@ -55,7 +55,6 @@ $( document ).ready(function() {
     $.ajax({
         url:"/member/reviewtime",
         success: function(data){
-            alert(data);
           for (var i = 0; i < data.length; i++) {
             if (new Date() >= new Date(data[i])) {
               document.getElementById("rvbtn"+data[i]).style.display ="";
