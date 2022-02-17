@@ -21,7 +21,7 @@ public class MemberDto{
     private String memail;
     private String mage;
     private String maddress;
-    private Role mgrade; // 회원등급
+    private String mgrade; // 회원등급
 
 
     //Dto --> entity

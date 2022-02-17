@@ -110,6 +110,8 @@ $(document).ready(function(){
      var rcontents =$("#rcontents").val();
      var mvno =$("#mvno").val();
 
+     alert(mvno);
+
      //댓글내용 미 입력시 댓글 저장 막기
         if(rcontents==""){alert("댓글 내용을 입력해주세요!");return;}
          $.ajax({

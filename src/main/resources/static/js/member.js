@@ -62,10 +62,6 @@ $( document ).ready(function() {
           }
         }
     })
-   if (new Date() >= new Date('12/01/2018 21:00:00') ) { // 언제부터
-
-
-    }
 
 });
         //리뷰작성
