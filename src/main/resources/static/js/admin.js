@@ -1,5 +1,4 @@
 
-
 function moviewrite(){
             //폼태그 가져오기
             var formData = new FormData(form);

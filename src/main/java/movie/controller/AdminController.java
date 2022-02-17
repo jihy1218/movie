@@ -46,7 +46,6 @@ public class AdminController {
 
     @GetMapping("/adminmain")
     public String adminmain(Model model){
-
         List<CnemaEntity> cnemaEntityList = cnemaService.getCnemalist();
         model.addAttribute("cnemalist" , cnemaEntityList);
         List<MovieinfoDto> movieDtos = movieService.getmovieinfo();
@@ -264,15 +263,6 @@ public class AdminController {
         String search=request.getParameter("search");
 
         HttpSession session = request.getSession();
-/*        HttpSession session = request.getSession();
-        if(keyword!=null||search!=null){
-            session.setAttribute("keyword2",keyword);
-            session.setAttribute("search2", search);
-        }else{
-            keyword=(String)session.getAttribute("keyword2");
-            search=(String)session.getAttribute("search2");
-        }
-        }*/
 
         Page<PaymentEntity> paymentEntities = ticketingService.paymentlist(pageable,keyword,search);
         model.addAttribute("payment",paymentEntities);
@@ -301,7 +291,6 @@ public class AdminController {
     @ResponseBody
     public List<String> salesdata(@RequestParam("year")String year){
         List<String> ass = ticketingService.monthSales(year);
-        System.out.println(ass.toString());
         return ass;
     }
 

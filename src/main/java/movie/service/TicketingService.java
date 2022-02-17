@@ -151,8 +151,9 @@ public class TicketingService {
     @Autowired
     HttpServletRequest request;
 
+    //티켓팅
     @Transactional
-    public boolean ticketing(String tseat,String tage,String tprice,
+    public int ticketing(String tseat,String tage,String tprice,
                              int dno,int mno,int count){
         DateEntity dateentity = dateRepository.findById(dno).get();
         MemberEntity memberEntity = memberRepository.findById(mno).get();
@@ -184,10 +185,11 @@ public class TicketingService {
                 .pseat(tseat)
                 .ptime(dateentity.getDdate()+"•"+dateentity.getDtime())
                 .ptype("결제완료")
+                .reviewact(1)
                 .tno(ticketing.getTno())
                 .build();
         paymentRepository.save(paymentEntity);
-        return true;
+        return tno;
     }
 
     public Page<MemberEntity> getmemberlist(Pageable pageable , String keyword,String search){
@@ -263,16 +265,6 @@ public class TicketingService {
 
     }
 
-
-
-
-
-
-
-
-
-
-
     public int finddno(int tno){
         return ticketingRepository.findById(tno).get().getDateEntityTicket().getDno();
     }
@@ -309,7 +301,7 @@ public class TicketingService {
         if(pageable.getPageNumber()==0){page=0;}    // 0이면 0페이지(기본페이지)
         else{page=pageable.getPageNumber()-1;}      // 1페이지 이상일때는 -1해서
         // 페이지 속성 페이지번호, 페이지당 게시물수, 정렬
-        pageable=PageRequest.of(page,2,Sort.by(Sort.Direction.DESC,"pno"));
+        pageable=PageRequest.of(page,10,Sort.by(Sort.Direction.DESC,"pno"));
 
         // 검색이 있을경우
         if(keyword!=null&&keyword.equals("pmoviename")){
@@ -328,12 +320,26 @@ public class TicketingService {
             return paymentEntity;
         }
 
-
-
         Page<PaymentEntity> paymentEntity = replacePate(paymentRepository.findAll(pageable));
+
         return paymentEntity;
 
     }
+
+    //고객 결제내역
+    public Page<PaymentEntity> memberpaymentmember(String mid , Pageable pageable){
+        int page=0;
+        if(pageable.getPageNumber()==0){page=0;}    // 0이면 0페이지(기본페이지)
+        else{page=pageable.getPageNumber()-1;}      // 1페이지 이상일때는 -1해서
+        // 페이지 속성 페이지번호, 페이지당 게시물수, 정렬
+        pageable = PageRequest.of(page,10);
+        System.out.println("mid:"+mid);
+        System.out.println("page :"+pageable);
+        Page<PaymentEntity> paymentEntity = replacePate(paymentRepository.findBymno(mid,pageable));
+        System.out.println(paymentEntity.toString());
+        return paymentEntity;
+    }
+
 
 
     //페이지 가공
@@ -424,6 +430,35 @@ public class TicketingService {
             }catch (Exception e){  }
         }
         return list;
+    }
+    // tno로 예약내역가져오기
+    public TicketDto getTicket(int tno){
+        TicketingEntity ticketing = ticketingRepository.findById(tno).get();
+        String date = ticketing.getDateEntityTicket().getDdate()+" "+ticketing.getDateEntityTicket().getDtime();
+        try{
+            JSONObject jsonObject = (JSONObject)jsonParser.parse(ticketing.getTseat());
+            JSONArray jsonArray = (JSONArray) jsonObject.get("tseat");
+            String seat="";
+            for(int i=0; i<jsonArray.size();i++){
+                JSONObject jsonObject1 = (JSONObject) jsonArray.get(i);
+                String sseat = (String)jsonObject1.get("seat");
+                String line = sseat.split(",")[0];
+                String num = sseat.split(",")[1];
+
+                seat = seat + " "+line+"열"+num+"번";
+            }
+            JSONObject jsonObject1 = (JSONObject)jsonParser.parse(ticketing.getTage());
+            JSONObject movienamejson = movieService.getmovieinfoselect(ticketing.getDateEntityTicket().getMovieEntityDate().getMvid());
+            return TicketDto.builder()
+                    .tno(tno)
+                    .seat(seat)
+                    .count("성인 : "+String.valueOf(jsonObject1.get("adult"))+" 청소년 : "+String.valueOf(jsonObject1.get("youth")))
+                    .price(ticketing.getTprice())
+                    .movietitle(String.valueOf(movienamejson.get("movieNm")))
+                    .cnemaname(ticketing.getDateEntityTicket().getCnemaEntityDate().getCname())
+                    .date(date)
+                    .build();
+        }catch (Exception e){ } return null;
     }
 
 

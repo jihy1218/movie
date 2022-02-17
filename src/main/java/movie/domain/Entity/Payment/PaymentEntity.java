@@ -30,5 +30,7 @@ public class PaymentEntity extends BaseTimeEntity {
     private int tno;
     @Column(name="mid")         // 회원아이디
     private String mid;
+    @Column(name="reviewact")   //리뷰확인
+    private int reviewact;
 
 }

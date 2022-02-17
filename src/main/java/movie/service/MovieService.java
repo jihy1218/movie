@@ -1,5 +1,6 @@
 package movie.service;
 
+import movie.domain.Dto.MemberDto;
 import movie.domain.Dto.MovieDto;
 import movie.domain.Dto.MovieinfoDto;
 import movie.domain.Entity.Date.DateEntity;
@@ -19,6 +20,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import java.beans.Transient;
 import java.io.BufferedReader;
@@ -26,6 +29,8 @@ import java.io.File;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -385,8 +390,8 @@ public class MovieService {
         int mvno = movieOptional.get().getMvno();
         Page<ReplyEntity> rno = replyRepository.findRno(String.valueOf(mvno),pageable);
 
-       /*  List<ReplyEntity>replyEntitys =movieOptional.get().getReplyEntities();*/
-        /*System.out.println(replyEntitys.toString()+"service");*/
+
+        List<ReplyEntity>replyEntitys =movieOptional.get().getReplyEntities();
         return rno;
     }
 
@@ -541,6 +546,30 @@ public class MovieService {
         jsonObject.put("advancerate" , Math.ceil(advancerate*100)/100.0+"%");
 
         return jsonObject;
+    }
+    @Autowired
+    HttpServletRequest request;
+
+    public List<String> reviewtime(){
+        HttpSession session = request.getSession();
+        MemberDto memberDto =(MemberDto)session.getAttribute("logindto");
+        List<TicketingEntity> ticketlist= memberRepository.findById(memberDto.getMno()).get().getTicketingEntities();
+        List<String> result = new ArrayList<String>();
+        Date now = new Date();
+//        List<TicketingEntity> ticketlist= memberRepository.findById(8).get().getTicketingEntities();
+        System.out.println("ti :"+ticketlist);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-M-dd HH:mm");
+        try{
+            for(TicketingEntity ticketing : ticketlist){
+                String time =ticketing.getDateEntityTicket().getDtime().split("~")[1];
+                String date = ticketing.getDateEntityTicket().getDdate()+" "+time;
+                Date date2 = formatter.parse(date);
+                if(date2.before(now)){
+                    result.add(ticketing.getTno()+"");
+                }
+            }
+        }catch (Exception e){}
+        return result;
     }
 
 

@@ -53,6 +53,8 @@ public class MemberEntity extends BaseTimeEntity {
     private List<ReplyEntity> replyEntities = new ArrayList<>();
     @OneToMany(mappedBy = "memberEntityTicket" , cascade = CascadeType.ALL) // 티켓 리스트
     private List<TicketingEntity> ticketingEntities = new ArrayList<>();
+    @OneToMany(mappedBy = "memberEntityreview" , cascade = CascadeType.ALL) // 티켓 리스트
+    private List<ReviewEntity> reviewEntities = new ArrayList<>();
 
 
 }

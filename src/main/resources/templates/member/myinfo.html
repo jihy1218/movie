@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="/css/member.css">
 </head>
 <body>
 <div th:replace="header.html::header"></div><!--헤더-->
@@ -18,27 +19,51 @@
             <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
                 <table class="table">
                     <tr>
-                        <th >예약 번호</th>
-                        <th >예약 일자</th>
-                        <th >좌석 </th>
-                        <th>인원</th>
-                        <th >영화 제목</th>
-                        <th >관 </th>
-                        <th >총가격</th>
+                        <th>예약번호</th><th>영화명</th><th>일시</th><th>인원</th><th>좌석</th><th>금액</th><th>아이디</th><th>상태</th><th>비고</th>
                     </tr>
-                    <tr th:each="ticket : ${ticket}">
-                        <td th:text="${ticket.tno}"></td>
-                        <td th:text="${ticket.date}"></td>
-                        <td th:text="${ticket.seat}"></td>
-                        <td th:text="${ticket.count}"></td>
-                        <td th:text="${ticket.movietitle}"></td>
-                        <td th:text="${ticket.cnemaname}"></td>
-                        <td th:text="${ticket.price}"></td>
-
+                    <tr th:each="pay : ${payment}">
+                        <td th:text="${pay.tno}"></td><td th:text="${pay.pmoviename}"></td><td th:text="${pay.ptime}"></td><td th:text="${pay.ppeople}"></td>
+                        <td th:text="${pay.pseat}"></td><td th:text="${#numbers.formatInteger(pay.pprice, 0, 'COMMA')+'원'}"></td><td th:text="${pay.mid}"></td><td th:text="${pay.ptype}"></td>
+                        <td th:if="${pay.reviewact==1}"><button th:data-bs-target="${'#modalactive'+pay.pno}" data-bs-toggle="modal" style="display: none" th:id="${'rvbtn'+pay.tno}">리뷰작성</button></td>
+                        <td th:if="${pay.reviewact==2}">리뷰작성완료</td>
+                        <td><!--상태변경모달-->
+                            <div class="modal fade" tabindex="-1" role="dialog" th:id="${'modalactive'+pay.pno}" >
+                                <div class="modal-dialog modal-lg" role="document">
+                                    <div class="modal-content rounded-4 shadow">
+                                        <div class="modal-body p-4 text-center">
+                                            <h5 class="mb-0" style="font-weight: bold;">리뷰작성</h5>
+                                            <br>
+                                            <div class="star-rating space-x-4 mx-auto">
+                                                <input type="radio" id="5-stars" name="rating" value="5" v-model="ratings"/>
+                                                <label for="5-stars" class="star pr-4">★</label>
+                                                <input type="radio" id="4-stars" name="rating" value="4" v-model="ratings"/>
+                                                <label for="4-stars" class="star">★</label>
+                                                <input type="radio" id="3-stars" name="rating" value="3" v-model="ratings"/>
+                                                <label for="3-stars" class="star">★</label>
+                                                <input type="radio" id="2-stars" name="rating" value="2" v-model="ratings"/>
+                                                <label for="2-stars" class="star">★</label>
+                                                <input type="radio" id="1-star" name="rating" value="1" v-model="ratings" />
+                                                <label for="1-star" class="star">★</label>
+                                            </div>
+                                            <input type="text" style="width:700px;" th:id="${'reviewcontents'+pay.tno}" placeholder="리뷰를작성하세요">
+                                        </div>
+                                        <div class="modal-footer flex-nowrap p-0">
+                                        평점 :<select th:id="${'reviewgrade'+pay.tno}">
+                                                <option value="5">5</option>
+                                                <option value="4">4</option>
+                                                <option value="3">3</option>
+                                                <option value="2">2</option>
+                                                <option value="1">1</option>
+                                            </select>
+                                            <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none rounded-0" th:onclick="review([[${pay.tno}]]);"><strong>리뷰작성</strong></button>
+                                            <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none rounded-0" data-bs-dismiss="modal"><strong>취소</strong></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
                     </tr>
                 </table>
-
-
             </div>
             <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
                 <input type="hidden" th:value="${info.mno}" id="infomno">
@@ -102,6 +127,24 @@
         </div>
     </div>
 
+
+    <!--모달-->
+    <div class="modal modal-lg fade" tabindex="-1" role="dialog" id="paymentmodal" data-bs-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content rounded-4 shadow">
+                <div class="modal-body p-4 text-center">
+                    <h3 class="mb-0">리뷰 작성성</h3>
+                   <div>
+                    <input type="text" style="width: 500px;" id="reviewcontent">
+                    </div>
+                </div>
+                <div class="modal-footer flex-nowrap p-0">
+                    <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-right"><strong>결제</strong></button>
+                    <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0" data-bs-dismiss="modal">돌아가기</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 </body>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+  .movie {
+      font-size: 1.5rem;
+  }
+</style>
+<body>
+<div th:replace="header.html::header"></div><!--헤더-->
+<div class="container text-center">
+    <h1 style="margin: 50px 0 50px 0;">예매가 완료되었습니다.</h1>
+    <div class="row">
+        <div class="col-md-4 offset-2 text-start">
+            <h2 class="text-center">예약 내역</h2>
+            <span class="movie">영화명 : </span><span class="movie" th:text="${ticket.movietitle}"></span><br>
+            <span class="movie">상영관 : </span><span class="movie" th:text="${ticket.cnemaname}"></span><br>
+            <span class="movie">상영 일시 : </span><span class="movie" th:text="${ticket.date}"></span><br>
+            <span class="movie">결제 금액 : </span><span class="movie" th:text="${#numbers.formatInteger(ticket.price, 0, 'COMMA')+'원'}"></span><br>
+            <span class="movie">예약한 좌석 : </span><span class="movie" th:text="${ticket.seat}"></span><br>
+            <span class="movie">예약한 인원 : </span><span class="movie" th:text="${ticket.count}"></span><br>
+            <div class="text-center mt-5">
+                <a href="/"><button class="btn btn-dark btn-lg">SMS 전송</button></a>
+                <a  th:href="@{/member/myinfo}" ><button class="btn btn-dark btn-lg">예매내역 전체보기</button></a>
+            </div>
+            <div class="text-center mt-3">
+                <a href="/"><button class="btn btn-danger btn-lg" style="width: 308px;">메인으로</button></a>
+            </div>
+        </div>
+        <div class="col-md-3 offset-1">
+            <img src="/img/ad.jpg">
+        </div>
+    </div>
+</div>
+
+<div th:replace="footer.html::footer"></div><!--푸터-->
+</body>
+</html>
