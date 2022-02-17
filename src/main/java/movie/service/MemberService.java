@@ -4,7 +4,13 @@ import movie.domain.Dto.IntergratedDto;
 import movie.domain.Dto.MemberDto;
 import movie.domain.Entity.Member.MemberEntity;
 import movie.domain.Entity.Member.MemberRepository;
+import movie.domain.Entity.Member.ReviewEntity;
+import movie.domain.Entity.Member.ReviewRepository;
+import movie.domain.Entity.Movie.MovieEntity;
+import movie.domain.Entity.Movie.MovieRepository;
+import movie.domain.Entity.Payment.PaymentRepository;
 import movie.domain.Entity.Ticketing.TicketingEntity;
+import movie.domain.Entity.Ticketing.TicketingRepository;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -209,5 +215,38 @@ public class MemberService implements UserDetailsService {
    /* BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         memberDto.setMpassword(passwordEncoder.encode(memberDto.getMpassword()));
         memberRepository.save(memberDto.toEntity());*/
+
+    @Autowired
+    ReviewRepository reviewRepository;
+
+    @Autowired
+    MovieRepository movieRepository;
+    @Autowired
+    TicketingRepository ticketingRepository;
+    @Autowired
+    PaymentRepository paymentRepository;
+    //리뷰 작성
+    @Transactional
+    public boolean reviewwrite(int tno,int grade,String reviewcontents){
+        HttpSession session = request.getSession();
+        MemberDto memberDto =(MemberDto) session.getAttribute("logindto");
+        TicketingEntity ticketing = ticketingRepository.findById(tno).get();
+
+        int pno = paymentRepository.findpnobytno(ticketing.getTno());
+        paymentRepository.getById(pno).setReviewact(2);
+
+        MovieEntity movieEntity =ticketing.getDateEntityTicket().getMovieEntityDate();
+        ReviewEntity reviewEntity = ReviewEntity.builder()
+                .recontents(reviewcontents)
+                .regrade(grade)
+                .memberEntityreview(memberRepository.getById(memberDto.getMno()))
+                .movieEntityreview(movieRepository.getById(movieEntity.getMvno()))
+                .build();
+        reviewRepository.save(reviewEntity);
+        movieEntity.getReviewEntities().add(reviewEntity);
+        MemberEntity memberEntity = memberRepository.findById(memberDto.getMno()).get();
+        memberEntity.getReviewEntities().add(reviewEntity);
+        return  true;
+    }
 
 }//class end
