@@ -265,16 +265,6 @@ public class TicketingService {
 
     }
 
-
-
-
-
-
-
-
-
-
-
     public int finddno(int tno){
         return ticketingRepository.findById(tno).get().getDateEntityTicket().getDno();
     }
@@ -440,6 +430,35 @@ public class TicketingService {
             }catch (Exception e){  }
         }
         return list;
+    }
+    // tno로 예약내역가져오기
+    public TicketDto getTicket(int tno){
+        TicketingEntity ticketing = ticketingRepository.findById(tno).get();
+        String date = ticketing.getDateEntityTicket().getDdate()+" "+ticketing.getDateEntityTicket().getDtime();
+        try{
+            JSONObject jsonObject = (JSONObject)jsonParser.parse(ticketing.getTseat());
+            JSONArray jsonArray = (JSONArray) jsonObject.get("tseat");
+            String seat="";
+            for(int i=0; i<jsonArray.size();i++){
+                JSONObject jsonObject1 = (JSONObject) jsonArray.get(i);
+                String sseat = (String)jsonObject1.get("seat");
+                String line = sseat.split(",")[0];
+                String num = sseat.split(",")[1];
+
+                seat = seat + " "+line+"열"+num+"번";
+            }
+            JSONObject jsonObject1 = (JSONObject)jsonParser.parse(ticketing.getTage());
+            JSONObject movienamejson = movieService.getmovieinfoselect(ticketing.getDateEntityTicket().getMovieEntityDate().getMvid());
+            return TicketDto.builder()
+                    .tno(tno)
+                    .seat(seat)
+                    .count("성인 : "+String.valueOf(jsonObject1.get("adult"))+" 청소년 : "+String.valueOf(jsonObject1.get("youth")))
+                    .price(ticketing.getTprice())
+                    .movietitle(String.valueOf(movienamejson.get("movieNm")))
+                    .cnemaname(ticketing.getDateEntityTicket().getCnemaEntityDate().getCname())
+                    .date(date)
+                    .build();
+        }catch (Exception e){ } return null;
     }
 
 

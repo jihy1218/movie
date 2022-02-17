@@ -2,9 +2,11 @@ package movie.controller;
 
 import movie.domain.Dto.MemberDto;
 import movie.domain.Dto.MovieinfoDto;
+import movie.domain.Dto.TicketDto;
 import movie.domain.Entity.Date.DateEntity;
 import movie.domain.Entity.Member.MemberEntity;
 import movie.domain.Entity.Movie.ReplyEntity;
+import movie.domain.Entity.Ticketing.TicketingEntity;
 import movie.domain.Entity.Ticketing.TicketingRepository;
 import movie.service.DateService;
 import movie.service.MemberService;
@@ -148,7 +150,7 @@ public class MovieController {
 
     @GetMapping("/ticketingcontroller")
     @ResponseBody
-    public String ticketingcontroller(@RequestParam("tseat")String tseat,
+    public int ticketingcontroller(@RequestParam("tseat")String tseat,
                                       @RequestParam("tage")String tage,
                                       @RequestParam("tprice")String tprice,
                                       @RequestParam("dno")int dno,
@@ -158,8 +160,11 @@ public class MovieController {
          int mno = memberDto.getMno();
 
         int result = ticketingService.ticketing(tseat,tage,tprice,dno,mno,count);
-        return "1";
-
+        if(result!=0){
+            return result;
+        }else{
+            return 0;
+        }
 
     }
 
@@ -192,6 +197,15 @@ public class MovieController {
        JSONObject jsonObject = movieService.getagepercent(mvno);
        return jsonObject;
     }
+
+    // 예약확인 페이지
+    @GetMapping("/reservation/{tno}")
+    public String reservation(@PathVariable("tno")int tno,Model model){
+        TicketDto ticketing = ticketingService.getTicket(tno);
+        model.addAttribute("ticket",ticketing);
+       return "movie/reservation";
+    }
+
 
 
 }

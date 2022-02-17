@@ -292,7 +292,7 @@ var moviedate2=null;
 function movieselect(mvno,movieNm){
     $("#selectmovieresult").html(movieNm);
     $("#selectmvnoresult").html(mvno);
-    $("#selectdateresult").html("");
+    $("#selectdateresult").html("날짜 선택");
     $("#selecttimeresult").html("");
     $("#finalDno").html("");
     $.ajax({
@@ -357,13 +357,12 @@ function dateclick(day) {
                 $("#selectdateresult").html(day);
                 // 시간 버튼 출력
                 for(var k=0;k<dtimelist.split(',').length;k++){
-                        $("#time"+k).html("<span style='font-weight: bold;'>"+dtimelist.split(',')[k]+"</span><br>"+"<span style='margin-right: 20px;'>"+JSON.stringify(content[k]["dseat"])+"/"+JSON.stringify(content[k]["fullseat"])+"</span>"+"<span>"+JSON.stringify(content[k]["cno"])+"관</span>"+"<span style='display: none;'>@"+JSON.stringify(content[k]["dno"])+"</span>"); // 시간 적기
-                        $("#time"+k).attr('style','display:');
-                        $("#time"+k).attr('style','background-color:#BBFFC9');
-                    for(var j=dtimelist.split(',').length;j<10;j++){
-                        $("#time"+j).html(""); // 시간 적기
-                        $("#time"+j).attr('style','display:none:');
-                    }
+                    $("#time"+k).html("<span style='font-weight: bold;'>"+dtimelist.split(',')[k]+"</span><br>"+"<span style='margin-right: 20px;'>"+JSON.stringify(content[k]["dseat"])+"/"+JSON.stringify(content[k]["fullseat"])+"</span>"+"<span>"+JSON.stringify(content[k]["cno"])+"관</span>"+"<span style='display: none;'>@"+JSON.stringify(content[k]["dno"])+"</span>"); // 시간 적기
+                    $("#time"+k).attr('style','background-color:#FCFCFC; border: #dddddd solid 2px; border-radius:3%;');
+                }
+                for(var j=dtimelist.split(',').length;j<10;j++){
+                    $("#time"+j).html(""); // 시간 적기
+                    $("#time"+j).attr('style','display:none;');
                 }
                 count++; // 카운트 추가
                 day2=day; // day2라는 빈 객체에 day를 넣음
@@ -372,12 +371,11 @@ function dateclick(day) {
                 // 시간 버튼 출력
                 for(var k=0;k<dtimelist.split(',').length;k++){
                     $("#time"+k).html("<span style='font-weight: bold;'>"+dtimelist.split(',')[k]+"</span><br>"+"<span style='margin-right: 20px;'>"+JSON.stringify(content[k]["dseat"])+"/"+JSON.stringify(content[k]["fullseat"])+"</span>"+"<span>"+JSON.stringify(content[k]["cno"])+"관</span>"+"<span style='display: none;'>@"+JSON.stringify(content[k]["dno"])+"</span>"); // 시간 적기
-                    $("#time"+k).attr('style','display:');
-                    $("#time"+k).attr('style','background-color:#BBFFC9');
-                    for(var j=dtimelist.split(',').length;j<10;j++){
-                        $("#time"+j).html(""); // 시간 적기
-                        $("#time"+j).attr('style','display:none:');
-                    }
+                    $("#time"+k).attr('style','background-color:#FCFCFC; border: #dddddd solid 2px; border-radius:3%;');
+                }
+                for(var j=dtimelist.split(',').length;j<10;j++){
+                    $("#time"+j).html(""); // 시간 적기
+                    $("#time"+j).attr('style','display:none;');
                 }
                 count=0; // 카운트는 0으로
                 day2=day; // day2에 다시 day를 넣어줌
