@@ -14,6 +14,4 @@ public interface MovieRepository extends JpaRepository<MovieEntity,Integer> {
     Optional<MovieEntity> findBymvid(String  mvid);
    /* Optional<MovieEntity> findBymno(int mno);*/
 
-
-
 }

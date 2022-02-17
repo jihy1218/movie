@@ -18,7 +18,7 @@
           <tr th:each="list : ${list}">
               <td th:text="${list.tno}"></td><td th:text="${list.date}"></td><td th:text="${list.seat}"></td>
               <td th:text="${list.count}"></td><td th:text="${list.movietitle}"></td><td th:text="${list.cnemaname}"></td>
-              <td th:text="${list.price}"></td><td><a th:href="@{'/admin/ticketingupdate/'+${list.tno}}">변경</a></td><td><button class="btn btn-danger" th:onclick="ticketcancel([[${list.tno}]])">최소</button></td>
+              <td th:text="${list.price}"></td><td><a th:href="@{'/admin/ticketingupdate/'+${list.tno}}">변경</a></td><td><button class="btn btn-danger" th:onclick="ticketcancel([[${list.tno}]])">취소</button></td>
           </tr>
       </table>
 
