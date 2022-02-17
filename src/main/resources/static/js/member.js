@@ -55,6 +55,7 @@ $( document ).ready(function() {
     $.ajax({
         url:"/member/reviewtime",
         success: function(data){
+            alert(data);
           for (var i = 0; i < data.length; i++) {
             if (new Date() >= new Date(data[i])) {
               document.getElementById("rvbtn"+data[i]).style.display ="";
@@ -62,10 +63,6 @@ $( document ).ready(function() {
           }
         }
     })
-   if (new Date() >= new Date('12/01/2018 21:00:00') ) { // 언제부터
-
-
-    }
 
 });
         //리뷰작성
