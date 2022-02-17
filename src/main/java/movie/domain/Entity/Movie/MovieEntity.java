@@ -3,6 +3,7 @@ package movie.domain.Entity.Movie;
 import lombok.*;
 import movie.domain.Entity.BaseTimeEntity;
 import movie.domain.Entity.Date.DateEntity;
+import movie.domain.Entity.Member.ReviewEntity;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ import java.util.List;
 @Entity
 @Table(name="movie")
 @NoArgsConstructor@AllArgsConstructor
-@Setter@Getter@ToString(exclude ={"replyEntities","dateEntityList","moviefileEnities"})@Builder
+@Setter@Getter@ToString(exclude ={"replyEntities","dateEntityList","moviefileEnities","reviewEntities"})@Builder
 public class MovieEntity  extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,5 +32,8 @@ public class MovieEntity  extends BaseTimeEntity {
     @Builder.Default
     @OneToMany(mappedBy = "movieEntityFile", cascade = CascadeType.ALL)  // 영화 파일 리스트
     private List<MoviefileEnity> moviefileEnities = new ArrayList<>();
+
+    @OneToMany(mappedBy = "movieEntityreview" , cascade = CascadeType.ALL) // 티켓 리스트
+    private List<ReviewEntity> reviewEntities = new ArrayList<>();
 
 }

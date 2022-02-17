@@ -48,6 +48,56 @@ function sample4_execDaumPostcode() {
        }).open();
 }
 /* 다음주소 api end */
+
+//일정시간이후부터 실행되는
+$( document ).ready(function() {
+
+    $.ajax({
+        url:"/member/reviewtime",
+        success: function(data){
+          for (var i = 0; i < data.length; i++) {
+            if (new Date() >= new Date(data[i])) {
+              document.getElementById("rvbtn"+data[i]).style.display ="";
+            }
+          }
+        }
+    })
+   if (new Date() >= new Date('12/01/2018 21:00:00') ) { // 언제부터
+
+
+    }
+
+});
+        //리뷰작성
+        function review(tno){
+            var grade = document.getElementById("reviewgrade"+tno).value ;
+            var reviewcontents = document.getElementById("reviewcontents"+tno).value;
+            var temp = $(':radio[name="rating"]:checked').val();
+            alert(temp);
+            if(reviewcontents==""){
+                alert("리뷰를 작성해주세요");
+                return;
+            }
+
+            $.ajax({
+                url : "/member/reviewwrite",
+                data:{
+                    "tno" : tno,
+                    "grade" : grade,
+                    "reviewcontents" : reviewcontents
+                },
+                success: function(data){
+                   if(data==1){
+                    alert("감사합니다");
+                    location.reload();
+                   }
+
+                }
+            })
+        }
+
+
+
 /*회원가입 유효성 검사*/
 
 $(function(){

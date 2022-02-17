@@ -4,10 +4,14 @@ import movie.domain.Dto.MemberDto;
 import movie.domain.Dto.MovieinfoDto;
 import movie.domain.Dto.TicketDto;
 import movie.domain.Entity.Member.MemberEntity;
+import movie.domain.Entity.Payment.PaymentEntity;
 import movie.service.MemberService;
 import movie.service.MovieService;
 import movie.service.TicketingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -51,15 +55,14 @@ public class MemberController {
     TicketingService ticketingService;
     //회원정보 페이지 연결
     @GetMapping("/member/myinfo")
-    public String myinfo(Model model) {
+    public String myinfo(@PageableDefault Pageable pageable, Model model) {
         HttpSession session = request.getSession();
         MemberDto memberDto = (MemberDto) session.getAttribute("logindto");
         MemberDto member = memberService.getMemberDto(memberDto.getMno());
         int mno = memberDto.getMno();
-        List<TicketDto> ticketDto = ticketingService.getticketlist(mno);
-
+        Page<PaymentEntity> paymentEntities = ticketingService.memberpaymentmember(member.getMid(),pageable);
+        model.addAttribute("payment",paymentEntities);
         model.addAttribute("info", member);
-        model.addAttribute("ticket",ticketDto);
         return "member/myinfo";
     }
 
@@ -184,6 +187,29 @@ public class MemberController {
         if(result){ return 1;}
        else{ return 2;}
 
+    }
+
+
+
+    @GetMapping("/member/reviewwrite")
+    @ResponseBody
+    public String reviewwrite(@RequestParam("tno")int tno,
+                              @RequestParam("grade")int grade,
+                              @RequestParam("reviewcontents")String reviewcontents){
+        boolean result = memberService.reviewwrite(tno,grade,reviewcontents);
+
+        if(result){
+            return "1";
+        }else{
+            return "2";
+        }
+    }
+    @GetMapping("/member/reviewtime")
+    @ResponseBody
+    public List<String> reviewtime(){
+        List<String> list = movieService.reviewtime();
+        System.out.println(list.toString());
+        return list;
     }
 
 

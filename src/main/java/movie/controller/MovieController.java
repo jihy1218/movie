@@ -157,12 +157,9 @@ public class MovieController {
          MemberDto memberDto = (MemberDto) session.getAttribute("logindto");
          int mno = memberDto.getMno();
 
-        boolean result = ticketingService.ticketing(tseat,tage,tprice,dno,mno,count);
-        if(result){
-            return "1";
-        }else{
-            return "2";
-        }
+        int result = ticketingService.ticketing(tseat,tage,tprice,dno,mno,count);
+        return "1";
+
 
     }
 
