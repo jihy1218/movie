@@ -9,7 +9,10 @@
   <div th:replace="header.html::header"></div><!--헤더-->
 
   <div class="container">
-    <h3>맴버관리 페이지</h3>
+      <div class="row">
+          <span class="col-md-2" style="font-size: 1.5rem">회원관리</span>
+          <div class="col-md-2 offset-8 d-flex justify-content-end"><a th:href="@{/admin/adminmain}"><button >뒤로가기</button></a></div>
+      </div>
       <table class="table">
           <tr>
               <td>회원번호</td><td>이름</td><td>나이</td><td>이메일</td><td>아이디</td><td>성별</td><td>예약여부</td>

@@ -21,7 +21,7 @@ public interface PaymentRepository extends JpaRepository<PaymentEntity,Integer> 
     @Query(nativeQuery = true,value="select * from payment where mid=:mid ")
     Page<PaymentEntity> findBymno(@Param("mid")String mid, Pageable pageable);
 
-    @Query(nativeQuery = true,value="select * from ticketing where tno=:tno ")
+    @Query(nativeQuery = true,value="select pno from payment where tno=:tno ")
     Integer findpnobytno(@Param("tno")int tno);
     // 매출용
     @Query(nativeQuery = true,value = "SELECT * FROM payment WHERE ptype='결제완료' and DATE(created_date) BETWEEN :startday AND :endday")
