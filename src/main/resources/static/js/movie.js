@@ -151,39 +151,24 @@ $(document).ready(function(){
     });
 
 }
+
+function replyadd( ){
+    var mvid = $("#mvid").val();
+
+    const table = document.getElementById('spreadsheet');
+    const tbody = table.tBodies[0].rows.length;
+      $.ajax({
+        url: "/movie/replyadd" ,
+        data : { "mvid" : mvid , "tbody" : tbody } ,
+        success : function( data ){
+           $("#spreadsheet>tbody").append(data);
+        }
+      });
+
+}
 //댓글 삭제 끝 ------------------------------------------------------------
 // 무한 스크롤시작 -------------------------------------------------------
 
-
-$(document).ready(function() {
-  var win = $(window);
-  var doc = $(document);
-
-  // Each time the user scrolls
-  win.scroll(function() {
-    // Vertical end reached?
-    if (doc.height() - win.height() == win.scrollTop()) {
-      // New row
-      var tr = $('<tr />').append($('<th />')).appendTo($('#spreadsheet'));
-
-      // Current number of columns to create
-      var n_cols = $('#spreadsheet tr:first-child th').length;
-      for (var i = 0; i < n_cols; ++i)
-        tr.append($('<td />'));
-    }
-
-    // Horizontal end reached?
-    if (doc.width() - win.width() == win.scrollLeft()) {
-      // New column in the heading row
-      $('#spreadsheet tr:first-child').append($('<th />'));
-
-      // New column in each row
-      $('#spreadsheet tr:not(:first-child)').each(function() {
-        $(this).append($('<td />'));
-      });
-    }
-  });
-});
 
 
 //무한스크롤 끝---------------------------------------------------------
