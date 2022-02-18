@@ -100,6 +100,8 @@ public class MovieController {
                 .movievideo((List<String>)jsonObject.get("movievideo"))
                 .build();
         JSONObject rankjson = movieService.getranking(movieinfoDto.getMvno());
+        double star = movieService.getstar(mvid);
+        model.addAttribute("star",star);
         model.addAttribute("rank" ,rankjson);
         model.addAttribute("movieview",movieinfoDto);
        model.addAttribute("replyEntitiys",replyEntitiys );

@@ -53,7 +53,7 @@ function cnemabtn(location){
     const style = document.getElementById(location).style;
 
     if(style.backgroundColor=='red'){
-        document.getElementById(location).style.backgroundColor = 'silver';
+        document.getElementById(location).style.backgroundColor = 'white';
         //인덱스 번호 찾기
         const index = cnemaJsonArray.findIndex(x => x.location === location);
         //
