@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
+
+
 </head>
 <body>
 <div th:replace="header.html::header"></div><!--헤더-->
@@ -18,7 +21,7 @@
                         <img th:src="@{'/poster/'+${movieview.movieimg[0]}}" class="d-block w-100">
                     </div>
                     <div class="carousel-item" th:each="num : ${#numbers.sequence(1,movieview.movieimg.size()-1)}">
-                         <img th:src="@{'/poster/'+${movieview.movieimg[num]}}" class="d-block w-100">
+                        <img th:src="@{'/poster/'+${movieview.movieimg[num]}}" class="d-block w-100">
                     </div>
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
@@ -139,7 +142,7 @@
                         </div>
                     </div>
                     <div id="retable" >
-                        <table class="table" >
+                        <table class="table" id="spreadsheet" >
                             <!-- <tr>
                                  <th widh="10%">작성자 <br><span style="font-size:5px;">작성일</span></th>
                                  <th widh="70%">내용 </th>
@@ -159,38 +162,45 @@
                                 </td>
                             </tr>
 
+
                         </table>
 
                     </div>
 
+
                 </div>
 
 
-            <ul class="pagination justify-content-center"
+
+
+
+
+
+           <!-- <ul class="pagination justify-content-center"
                 th:with="start=${T(Math).floor(replyEntitiys.number/10) * 10 + 1 } ,
                     last=${ start + 9 < replyEntitiys.totalPages ?  start + 9 : replyEntitiys.totalPages }">
-           <!--   첫페이지이동 -->
+            &lt;!&ndash;  첫페이지이동 &ndash;&gt;
                 <li class="page-item">
                     <a class="page-link" th:href="@{'/movie/movieview/'+${movieview.mvid}(page=1)}"> << </a>
                 </li>
-                <!--이전페이지이동-->
+              &lt;!&ndash; 이전페이지이동&ndash;&gt;
                 <li class="page-item" >
                     <a class="page-link" th:href="${replyEntitiys.first} ? '#' : @{'/movie/movieview/'+${movieview.mvid}(page=${ replyEntitiys.number })}"> < </a>
                 </li>
-                <!-- 페이지번호 -->
+              &lt;!&ndash;  페이지번호 &ndash;&gt;
                 <li class="page-item" th:each="page : ${#numbers.sequence( start , last ) }">
                     <a class="page-link" th:href="@{'/movie/movieview/'+${movieview.mvid}(page=${page})}" th:text="${page}"> </a>
                 </li>
 
-               <!-- 다음페이지이동-->
+               &lt;!&ndash;다음페이지이동&ndash;&gt;
                 <li class="page-item">
                     <a class="page-link" th:href="${replyEntitiys.last} ? '#' : @{'/movie/movieview/'+${movieview.mvid}(page=${replyEntitiys.number+2})}"> > </a>
                 </li>
-                   <!-- 마지막페이지 이동 -->
+               &lt;!&ndash;마지막페이지 이동&ndash;&gt;
                 <li class="page-item">
                     <a class="page-link" th:href="@{'/movie/movieview/'+${movieview.mvid}(page=${replyEntitiys.totalPages})}"> >> </a>
                 </li>
-            </ul>
+            </ul>-->
 
             </div>
 
