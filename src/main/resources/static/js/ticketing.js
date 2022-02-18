@@ -123,7 +123,7 @@ function btntcount(place){
     const style = document.getElementById(place).style;
 
     if(style.backgroundColor=='red'){
-        document.getElementById(place).style.backgroundColor = 'silver';
+        document.getElementById(place).style.backgroundColor = 'white';
 
         count--;
 
