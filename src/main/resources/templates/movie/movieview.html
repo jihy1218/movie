@@ -21,7 +21,7 @@
                         <img th:src="@{'/poster/'+${movieview.movieimg[0]}}" class="d-block w-100">
                     </div>
                     <div class="carousel-item" th:each="num : ${#numbers.sequence(1,movieview.movieimg.size()-1)}">
-<!--                        <img th:src="@{'/poster/'+${movieview.movieimg[num]}}" class="d-block w-100">-->
+                        <img th:src="@{'/poster/'+${movieview.movieimg[num]}}" class="d-block w-100">
                     </div>
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
