@@ -108,8 +108,14 @@ public class MemberService implements UserDetailsService {
 
 
     // 회원 정보 불러오기 메소드 ( 진행중 지형 )
-    public MemberDto getMemberDto(int mno){
+    public MemberDto getMemberDto(int mno,int tbody){
         Optional<MemberEntity> memberEntity = memberRepository.findById(mno);
+      /*
+      List<MemberEntity> resultlist = new ArrayList<>();
+      int count = 3;
+      for (int i = tbody; i<tbody+count ; i ++){
+          resultlist.add()
+      }*/
         return MemberDto.builder()
                 .mno(mno)
                 .mid(memberEntity.get().getMid())

@@ -15,7 +15,7 @@ import java.util.List;
 @Entity
 @Table(name="member")
 @NoArgsConstructor@AllArgsConstructor
-@Setter@Getter@ToString@Builder
+@Setter@Getter@ToString(exclude = "replyEntities")@Builder
 public class MemberEntity extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

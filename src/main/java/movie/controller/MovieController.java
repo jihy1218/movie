@@ -73,12 +73,22 @@ public class MovieController {
     @Autowired
     private DateService dateService;
 
+    @GetMapping("/replyadd")
+    public String replyadd(@RequestParam("mvid")String mvid , Model model ,
+                           @RequestParam("tbody")int tbody){
+
+        List<ReplyEntity> replyEntitiys = movieService.getreplylist(mvid , tbody );
+        model.addAttribute("replyEntitiys",replyEntitiys );
+
+        return "movie/replytable";
+    }
+
    @GetMapping("/movieview/{mvid}")
-    public String movieview(@PathVariable("mvid")String mvid, Model model,@PageableDefault Pageable pageable){ // 영화번호에 해당하는 엔티티 뽑아와야뎀
+    public String movieview(@PathVariable("mvid")String mvid, Model model){ // 영화번호에 해당하는 엔티티 뽑아와야뎀
         JSONObject jsonObject = movieService.getmovieinfoselect(mvid);
-       System.out.println("controller :"+pageable);
+
         // 댓글
-       Page<ReplyEntity> replyEntitiys = movieService.getreplylist(mvid,pageable);
+       List<ReplyEntity> replyEntitiys = movieService.getreplylist(mvid , 0);
 
        System.out.println(" mvid controller:"+mvid);
 

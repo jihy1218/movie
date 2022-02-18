@@ -17,17 +17,20 @@
         </div>
         <div class="tab-content col-md-9" id="v-pills-tabContent">
             <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
-                <table class="table">
+                <table class="table" id="spreadsheet1">
                     <tr>
                         <th>예약번호</th><th>영화명</th><th>일시</th><th>인원</th><th>좌석</th><th>금액</th><th>아이디</th><th>상태</th><th>비고</th>
                     </tr>
-                    <tr th:each="pay : ${payment}">
-                        <td th:text="${pay.tno}"></td><td th:text="${pay.pmoviename}"></td><td th:text="${pay.ptime}"></td><td th:text="${pay.ppeople}"></td>
-                        <td th:text="${pay.pseat}"></td><td th:text="${#numbers.formatInteger(pay.pprice, 0, 'COMMA')+'원'}"></td><td th:text="${pay.mid}"></td><td th:text="${pay.ptype}"></td>
-                        <td th:if="${pay.reviewact==1}"><button data-bs-target="#reviewmodal" data-bs-toggle="modal" style="display: none" th:id="${'rvbtn'+pay.tno}" th:onclick="ontno([[${pay.tno}]])">리뷰작성</button></td>
-                        <td th:if="${pay.reviewact==2}" th:id="${'rvbtn'+pay.tno}" >리뷰작성완료</td>
-                    </tr>
+                    <tbody>
+                        <tr th:each="pay : ${payment}">
+                            <td th:text="${pay.tno}"></td><td th:text="${pay.pmoviename}"></td><td th:text="${pay.ptime}"></td><td th:text="${pay.ppeople}"></td>
+                            <td th:text="${pay.pseat}"></td><td th:text="${#numbers.formatInteger(pay.pprice, 0, 'COMMA')+'원'}"></td><td th:text="${pay.mid}"></td><td th:text="${pay.ptype}"></td>
+                            <td th:if="${pay.reviewact==1}"><button data-bs-target="#reviewmodal" data-bs-toggle="modal" style="display: none" th:id="${'rvbtn'+pay.tno}" th:onclick="ontno([[${pay.tno}]])">리뷰작성</button></td>
+                            <td th:if="${pay.reviewact==2}" th:id="${'rvbtn'+pay.tno}" >리뷰작성완료</td>
+                        </tr>
+                    </tbody>
                 </table>
+                <button class="form-control" onclick="replyadd1()"> 더 보기 ⬇</button>
             </div>
             <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
                 <input type="hidden" th:value="${info.mno}" id="infomno">
