@@ -64,6 +64,15 @@ $( document ).ready(function() {
         }
     })
 
+        $.ajax({
+            url:"/member/reviewtime2",
+            success: function(data){
+              for (var i = 0; i < data.length; i++) {
+
+              }
+            }
+        })
+
 });
         var tno = 0;
 

@@ -555,10 +555,8 @@ public class MovieService {
     //탑4 무비
     //예매율,순위,누적관객
     public JSONObject gettop4(){
-        List<String> list = new ArrayList<>();
         Map<String,Integer> rankmap = new HashMap();
         List<MovieEntity> movielist = movieRepository.findAll();
-
         for(MovieEntity movie : movielist){
             List<DateEntity> date = movie.getDateEntityList();
             int moviecount = 0;
@@ -575,17 +573,40 @@ public class MovieService {
             }
             rankmap.put(movie.getMvno()+"",moviecount);
         }
+        List<String> listKeySet = new ArrayList<>(rankmap.keySet());
+        Collections.sort(listKeySet, (value1, value2) -> (rankmap.get(value2).compareTo(rankmap.get(value1))));
 
+        JSONObject moviejson = this.getmovieinfoselec(movieRepository.getById(2).getMvid());
+
+//        MovieinfoDto movieinfoDto = MovieinfoDto.builder()
+//                .mvno(2)
+//                .mvid(movieRepository.getById(2).getMvid())
+//                .movieNm((String)moviejson.get("movieNm"))
+//                .openDt((String)moviejson.get("openDt"))
+//                .showTm(Integer.valueOf((String) moviejson.get("showTm")))
+//                .nations((String)moviejson.get("nations"))
+//                .genres((String)moviejson.get("genres"))
+//                .directors((String)moviejson.get("directors"))
+//                .actors((String)moviejson.get("actors"))
+//                .companyNm((String)moviejson.get("companyNm"))
+//                .watchGradeNm((String)moviejson.get("watchGradeNm"))
+//                .poster((String)moviejson.get("poster"))
+//                .movieimg((List<String>)moviejson.get("movieimg"))
+//                .movievideo((List<String>)moviejson.get("movievideo"))
+//                .build();
+//
+//        System.out.println(movieinfoDto.toString());
         return null;
     }
     @Autowired
     HttpServletRequest request;
 
-    public List<String> reviewtime(){
+    public List<String> reviewtime(int type){
         HttpSession session = request.getSession();
         MemberDto memberDto =(MemberDto)session.getAttribute("logindto");
         List<TicketingEntity> ticketlist= memberRepository.findById(memberDto.getMno()).get().getTicketingEntities();
         List<String> result = new ArrayList<String>();
+        List<String> result2 = new ArrayList<String>();
         Date now = new Date();
 //        List<TicketingEntity> ticketlist= memberRepository.findById(8).get().getTicketingEntities();
         System.out.println("ti :"+ticketlist);
@@ -597,10 +618,17 @@ public class MovieService {
                 Date date2 = formatter.parse(date);
                 if(date2.before(now)){
                     result.add(ticketing.getTno()+"");
+                }else{
+                    result2.add(ticketing.getTno()+"");
                 }
             }
         }catch (Exception e){}
-        return result;
+        if(type==1){
+            return result;
+        }else{
+            return result2;
+        }
+
     }
 
     public double getstar(String mvid){

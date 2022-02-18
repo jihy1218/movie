@@ -221,7 +221,15 @@ public class MemberController {
     @GetMapping("/member/reviewtime")
     @ResponseBody
     public List<String> reviewtime(){
-        List<String> list = movieService.reviewtime();
+        List<String> list = movieService.reviewtime(1);
+        System.out.println(list.toString());
+        return list;
+    }
+
+    @GetMapping("/member/reviewtime2")
+    @ResponseBody
+    public List<String> reviewtime2(){
+        List<String> list = movieService.reviewtime(2);
         System.out.println(list.toString());
         return list;
     }
