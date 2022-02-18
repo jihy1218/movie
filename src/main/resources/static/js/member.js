@@ -76,6 +76,7 @@ $( document ).ready(function() {
         function review(){
             var reviewcontents = document.getElementById("reviewcontents").value;
             var temp = $(':radio[name="rating"]:checked').val();
+            alert(tno);
             if(reviewcontents==""){
                 alert("리뷰를 작성해주세요");
                 return;

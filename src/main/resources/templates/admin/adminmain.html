@@ -7,47 +7,77 @@
 <body>
 <div th:replace="header.html::header"></div><!--헤더-->
     <br><br><br><br><br>
+
     <div class="container">
         <a th:href="@{/admin/memberadmin}"><button class="btn btn-primary"> 회원관리 </button></a>
-        <a th:href="@{/admin/paymentmanagement}"><button class="btn btn-danger"> 환불관리 </button></a>
-        <a th:href="@{/admin/sales}"><button class="btn btn-danger"> 매출 </button></a>
-        <div class="row">
-            <div class="col-md-4">
-                <a th:href="@{/admin/cnemawrite}"><button class="btn btn-primary"> 관등록 </button></a>
-                <table class="table p-5">
-                    <tr>
-                        <td>관</td><td>종류</td><td>좌석수</td>
-                    </tr>
-                    <tr th:each="cnema : ${cnemalist}">
-                        <td th:text="${cnema.cname}"></td><td th:text="${cnema.ctype}"></td><td th:text="${cnema.ccount}"></td>
-                        <td><a href="#" class="button" th:onclick="admindelete(1,[[${cnema.cno}]])">X</a></td>
-                    </tr>
-                </table>
+        <a th:href="@{/admin/paymentmanagement}"><button class="btn btn-primary"> 환불관리 </button></a>
+        <a th:href="@{/admin/sales}"><button class="btn btn-primary"> 매출 </button></a>
+        <div style="padding-top: 30px;">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="userinfo-tab" data-bs-toggle="tab"
+                            data-bs-target="#userinfo" type="button" role="tab" aria-controls="userinfo"
+                            aria-selected="true">관</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="myreview-tab" data-bs-toggle="tab"
+                            data-bs-target="#myreview" type="button" role="tab"
+                            aria-controls="myreview" aria-selected="false">영화</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="wishlist-tab" data-bs-toggle="tab"
+                            data-bs-target="#wishlist" type="button" role="tab"
+                            aria-controls="wishlist" aria-selected="false">스케쥴</button>
+                </li>
+            </ul>
+        </div>
+        <!-- 내용 -->
+        <div class="tab-content" id="myTabContent" style="padding: 30px;">
+            <div class="tab-pane fade show active" id="userinfo" role="tabpanel"
+                 aria-labelledby="userinfo-tab">
+                <div>
+                    <a th:href="@{/admin/cnemawrite}" ><button class="btn btn-secondary" > 관등록 </button></a>
+                    <table class="table p-5">
+                        <tr>
+                            <td>관</td><td>종류</td><td>좌석수</td>
+                        </tr>
+                        <tr th:each="cnema : ${cnemalist}">
+                            <td th:text="${cnema.cname}"></td><td th:text="${cnema.ctype}"></td><td th:text="${cnema.ccount}"></td>
+                            <td><a href="#" class="button" th:onclick="admindelete(1,[[${cnema.cno}]])">X</a></td>
+                        </tr>
+                    </table>
+                </div>
             </div>
-            <div class="col-md-4">
-                <a th:href="@{/admin/moviewrite}"><button class="btn btn-primary"> 영화등록 </button></a>
-                <table class="table p-5">
-                    <tr>
-                        <td>영화아이디</td><td>영화제목</td><td>영화개봉일</td>
-                    </tr>
-                    <tr th:each="movie : ${movieinfo}">
-                        <td th:text="${movie.mvid}"></td><td th:text="${movie.movieNm}"></td><td th:text="${movie.openDt}"></td>
-                        <td><a href="#" class="button" th:onclick="admindelete(2,[[${movie.mvno}]])">X</a></td>
-                    </tr>
-                </table>
+            <div class="tab-pane fade" id="myreview" role="tabpanel"
+                 aria-labelledby="myreview-tab" >
+                <div>
+                    <a th:href="@{/admin/moviewrite}"><button class="btn btn-secondary"> 영화등록 </button></a>
+                    <table class="table p-5">
+                        <tr>
+                            <td>영화아이디</td><td>영화제목</td><td>영화개봉일</td>
+                        </tr>
+                        <tr th:each="movie : ${movieinfo}">
+                            <td th:text="${movie.mvid}"></td><td th:text="${movie.movieNm}"></td><td th:text="${movie.openDt}"></td>
+                            <td><a href="#" class="button" th:onclick="admindelete(2,[[${movie.mvno}]])">X</a></td>
+                        </tr>
+                    </table>
+                </div>
             </div>
-            <div class="col-md-4">
-                <a th:href="@{/admin/moviedate}" ><button class="btn btn-primary"> 시간등록 </button></a>
-                <table class="table p-5">
-                    <tr>
-                        <td>날짜</td><td>시간</td><td>관</td><td>영화아이디</td><td>좌석수</td>
-                    </tr>
-                    <tr th:each="date : ${datelist}">
-                        <td th:text="${date.ddate}"></td><td th:text="${date.dtime}"></td>
-                        <td th:text="${date.cnemaEntityDate.cname}"></td><td th:text="${date.movieEntityDate.mvid}"></td><td th:text="${date.dseat}"></td>
-                        <td><a href="#" class="button" th:onclick="admindelete(3,[[${date.dno}]])">X</a></td>
-                    </tr>
-                </table>
+            <div class="tab-pane fade" id="wishlist" role="tabpanel"
+                 aria-labelledby="wishlist-tab">
+                <div>
+                    <a th:href="@{/admin/moviedate}" ><button class="btn btn-secondary"> 시간등록 </button></a>
+                    <table class="table p-5">
+                        <tr>
+                            <td>날짜</td><td>시간</td><td>관</td><td>영화아이디</td><td>좌석수</td>
+                        </tr>
+                        <tr th:each="date : ${datelist}">
+                            <td th:text="${date.ddate}"></td><td th:text="${date.dtime}"></td>
+                            <td th:text="${date.cnemaEntityDate.cname}"></td><td th:text="${date.movieEntityDate.mvid}"></td><td th:text="${date.dseat}"></td>
+                            <td><a href="#" class="button" th:onclick="admindelete(3,[[${date.dno}]])">X</a></td>
+                        </tr>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
