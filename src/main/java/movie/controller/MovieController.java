@@ -212,6 +212,22 @@ public class MovieController {
        return "movie/reservation";
     }
 
+    // 무비홈 페이지 매핑
+    @GetMapping("/moviehome")
+    public String movieHome(Model model){
+        List<MovieinfoDto> movieinfoDtos = movieService.getmovieinfo();
+        List<MovieinfoDto> movieinfoDtoList = new ArrayList<>();
+        for(int i=0; i<movieinfoDtos.size(); i++){
+            movieinfoDtoList.add(movieinfoDtos.get(i));
+        }
+        model.addAttribute("movie",movieinfoDtoList);
+       return "movie/moviehome";
+    }
+    // 준비중 페이지 매핑
+    @GetMapping("/repair")
+    public String repair(){
+       return "repair";
+    }
 
 
 
