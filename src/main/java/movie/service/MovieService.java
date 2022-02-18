@@ -46,8 +46,8 @@ public class MovieService {
 
     @Transactional
     public boolean moviewrite(String mvid, List<MultipartFile> mvimg, List<MultipartFile> mvvideo ,MultipartFile mvposter){
-        /*String dirPo = "C:\\Users\\505\\Desktop\\Spring\\movie\\src\\main\\resources\\static\\poster";*/
-        String dirPo = "C:\\Users\\505\\Desktop\\Spring\\moviedj\\src\\main\\resources\\static\\poster";
+        String dirPo = "C:\\Users\\505\\Desktop\\Spring\\movie\\src\\main\\resources\\static\\poster";
+        /*String dirPo = "C:\\Users\\505\\Desktop\\Spring\\moviedj\\src\\main\\resources\\static\\poster";*/
         String dirVi = "C:\\Users\\505\\Desktop\\movie\\src\\main\\resources\\static\\video";
         MovieDto movieDto = MovieDto.builder()
                 .mvid(mvid)
