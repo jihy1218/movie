@@ -406,3 +406,18 @@ function mdelete(){
 
 
 
+function replyadd1( ){
+
+
+   const table = document.getElementById('spreadsheet1');
+    const tbody = table.tBodies[0].rows.length;
+      $.ajax({
+        url: "/member/infoadd" ,
+        data : {  "tbody" : tbody } ,
+        success : function( data ){
+        alert(data);
+         /*  $("#spreadsheet>tbody").append(data);*/
+        }
+      });
+
+}

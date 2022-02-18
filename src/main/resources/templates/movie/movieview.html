@@ -21,7 +21,7 @@
                         <img th:src="@{'/poster/'+${movieview.movieimg[0]}}" class="d-block w-100">
                     </div>
                     <div class="carousel-item" th:each="num : ${#numbers.sequence(1,movieview.movieimg.size()-1)}">
-                        <img th:src="@{'/poster/'+${movieview.movieimg[num]}}" class="d-block w-100">
+<!--                        <img th:src="@{'/poster/'+${movieview.movieimg[num]}}" class="d-block w-100">-->
                     </div>
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
@@ -131,6 +131,7 @@
                 <div class="col-md-6 offset-3">
                     <div  class="input-group offset-1">
                         <input type="hidden" th:value="${movieview.mvno}" id="mvno">
+                        <input type="hidden" th:value="${movieview.mvid}" id="mvid">
                         <div>
                             <h6> 댓글 작성 </h6>
                         </div>
@@ -148,23 +149,23 @@
                                  <th widh="70%">내용 </th>
                                  <th widh="10%">비고</th>
                              </tr>-->
-                            <tr th:each="reply:${replyEntitiys}">
-                                <td>
-                                    <div th:text="${reply.rno}"></div>
-                                <td>
-                                <td>
-                                    <div style="font-size:8px;" th:text="${reply.memberEntityReply.mid}"></div>
-                                    <div style="font-size:8px;" th:text="${#temporals.format(reply.createdDate, 'MM-dd hh:mm')}"></div>
-                                <td>
-                                <td th:text="${reply.rcontents}">내용</td>
-                                <td>
-                                    <button class="btn btn-danger btn-sm"  th:onclick="replydelete([[${reply.rno}]])">삭제</button>
-                                </td>
-                            </tr>
-
-
+                            <tbody>
+                                <tr th:each="reply:${replyEntitiys}">
+                                    <td>
+                                        <div th:text="${reply.rno}"></div>
+                                    </td>
+                                    <td>
+                                        <div style="font-size:8px;" th:text="${reply.memberEntityReply.mid}"></div>
+                                        <div style="font-size:8px;" th:text="${#temporals.format(reply.createdDate, 'MM-dd hh:mm')}"></div>
+                                    </td>
+                                    <td th:text="${reply.rcontents}">내용</td>
+                                    <td>
+                                        <button class="btn btn-danger btn-sm"  th:onclick="replydelete([[${reply.rno}]])">삭제</button>
+                                    </td>
+                                </tr>
+                            </tbody>
                         </table>
-
+                        <button class="form-control" onclick="replyadd()"> 더 보기 ⬇</button>
                     </div>
 
 

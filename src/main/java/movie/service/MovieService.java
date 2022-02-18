@@ -377,23 +377,26 @@ public class MovieService {
 
 
     //해당 영화 댓글 출력
-    public Page<ReplyEntity>getreplylist(String mvid, Pageable pageable ){
+    public List<ReplyEntity>getreplylist(String mvid ,int tbody ){
 
-        // 페이지 번호
-        int page =  0;
-        if( pageable.getPageNumber() == 0) page = 0;        // 0이면 1 페이지
-        else page = pageable.getPageNumber()-1 ;                // 1이면-1 ,1 페이지 2이면-1 2페이지
-        // 페이지 속성 [ PageRequest.of( 페이지번호 , 페이당 게시물수 , 정렬기준 )
-        pageable = PageRequest.of(  page, 5 , Sort.by( Sort.Direction.DESC , "rno") );
+//        // 페이지 번호
+//        int page =  0;
+//        if( pageable.getPageNumber() == 0) page = 0;        // 0이면 1 페이지
+//        else page = pageable.getPageNumber()-1 ;                // 1이면-1 ,1 페이지 2이면-1 2페이지
+//        // 페이지 속성 [ PageRequest.of( 페이지번호 , 페이당 게시물수 , 정렬기준 )
+//        pageable = PageRequest.of(  page, 5 , Sort.by( Sort.Direction.DESC , "rno") );
 
-       Optional<MovieEntity>movieOptional=movieRepository.findBymvid(mvid);
-        System.out.println("service123:"+movieOptional);
+        Optional<MovieEntity>movieOptional=movieRepository.findBymvid(mvid);
+
         int mvno = movieOptional.get().getMvno();
-        Page<ReplyEntity> rno = replyRepository.findRno(String.valueOf(mvno),pageable);
+        List<ReplyEntity> rno = replyRepository.findRno(String.valueOf(mvno));
 
-
-        List<ReplyEntity>replyEntitys =movieOptional.get().getReplyEntities();
-        return rno;
+        List<ReplyEntity> resultlist = new ArrayList<>();
+        int count = 3;
+        for( int i = tbody ; i<tbody+count ; i++ ){
+            resultlist.add(  rno.get(i) );
+        }
+        return resultlist;
     }
 
 
