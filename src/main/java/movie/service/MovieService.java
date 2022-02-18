@@ -548,6 +548,33 @@ public class MovieService {
 
         return jsonObject;
     }
+
+    //탑4 무비
+    //예매율,순위,누적관객
+    public JSONObject gettop4(){
+        List<String> list = new ArrayList<>();
+        Map<String,Integer> rankmap = new HashMap();
+        List<MovieEntity> movielist = movieRepository.findAll();
+
+        for(MovieEntity movie : movielist){
+            List<DateEntity> date = movie.getDateEntityList();
+            int moviecount = 0;
+            for(DateEntity datetemp : date){
+                List<TicketingEntity> ticket = datetemp.getTicketingEntities();
+                for(TicketingEntity tickettemp : ticket){
+                    try{
+                        JSONParser jsonParser = new JSONParser();
+                        JSONObject ticketjson = (JSONObject) jsonParser.parse(tickettemp.getTage());
+                        moviecount += Integer.parseInt(String.valueOf(ticketjson.get("youth")));
+                        moviecount += Integer.parseInt(String.valueOf(ticketjson.get("adult")));
+                    }catch(Exception e){}
+                }
+            }
+            rankmap.put(movie.getMvno()+"",moviecount);
+        }
+
+        return null;
+    }
     @Autowired
     HttpServletRequest request;
 
