@@ -14,4 +14,7 @@ public interface MovieRepository extends JpaRepository<MovieEntity,Integer> {
     Optional<MovieEntity> findBymvid(String  mvid);
    /* Optional<MovieEntity> findBymno(int mno);*/
 
+    @Query(nativeQuery = true,value = "select * from movie where mvid=:mvid")
+    MovieEntity findentitybymvid(@Param("mvid")String mvid);
+
 }
