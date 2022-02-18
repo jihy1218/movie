@@ -64,12 +64,17 @@ $( document ).ready(function() {
     })
 
 });
+        var tno = 0;
+
+        function ontno(tno1){
+            tno = tno1;
+        }
+
+
         //리뷰작성
-        function review(tno){
-            var grade = document.getElementById("reviewgrade"+tno).value ;
-            var reviewcontents = document.getElementById("reviewcontents"+tno).value;
+        function review(){
+            var reviewcontents = document.getElementById("reviewcontents").value;
             var temp = $(':radio[name="rating"]:checked').val();
-            alert(temp);
             if(reviewcontents==""){
                 alert("리뷰를 작성해주세요");
                 return;
@@ -79,7 +84,7 @@ $( document ).ready(function() {
                 url : "/member/reviewwrite",
                 data:{
                     "tno" : tno,
-                    "grade" : grade,
+                    "grade" : temp,
                     "reviewcontents" : reviewcontents
                 },
                 success: function(data){

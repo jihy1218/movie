@@ -6,6 +6,7 @@ import movie.domain.Dto.MovieinfoDto;
 import movie.domain.Entity.Date.DateEntity;
 import movie.domain.Entity.Member.MemberEntity;
 import movie.domain.Entity.Member.MemberRepository;
+import movie.domain.Entity.Member.ReviewEntity;
 import movie.domain.Entity.Movie.*;
 import movie.domain.Entity.Ticketing.TicketingEntity;
 import movie.domain.Entity.Ticketing.TicketingRepository;
@@ -570,6 +571,16 @@ public class MovieService {
             }
         }catch (Exception e){}
         return result;
+    }
+
+    public double getstar(String mvid){
+        int total = 0;
+        MovieEntity movieEntity=movieRepository.findentitybymvid(mvid);
+        for(ReviewEntity reviewlist : movieEntity.getReviewEntities()){
+            total += reviewlist.getRegrade();
+        }
+        double gradle = (double) total / (double) (5*movieEntity.getReviewEntities().size()) * 100.0;
+        return gradle;
     }
 
 
