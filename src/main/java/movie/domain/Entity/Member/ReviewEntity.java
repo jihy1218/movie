@@ -12,7 +12,8 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Setter
 @Getter
-@ToString
+@ToString(exclude = "movieEntityreview")
+
 @Builder
 public class ReviewEntity {
     @Id

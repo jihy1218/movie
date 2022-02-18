@@ -58,6 +58,7 @@ $( document ).ready(function() {
           for (var i = 0; i < data.length; i++) {
             if (new Date() >= new Date(data[i])) {
               document.getElementById("rvbtn"+data[i]).style.display ="";
+
             }
           }
         }
@@ -75,6 +76,7 @@ $( document ).ready(function() {
         function review(){
             var reviewcontents = document.getElementById("reviewcontents").value;
             var temp = $(':radio[name="rating"]:checked').val();
+            alert(tno);
             if(reviewcontents==""){
                 alert("리뷰를 작성해주세요");
                 return;

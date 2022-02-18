@@ -243,7 +243,7 @@ public class MemberService implements UserDetailsService {
         MemberDto memberDto =(MemberDto) session.getAttribute("logindto");
         TicketingEntity ticketing = ticketingRepository.findById(tno).get();
 
-        int pno = paymentRepository.findpnobytno(ticketing.getTno());
+        int pno = paymentRepository.findpnobytno(tno);
         paymentRepository.getById(pno).setReviewact(2);
 
         MovieEntity movieEntity =ticketing.getDateEntityTicket().getMovieEntityDate();
