@@ -37,6 +37,7 @@ public class MemberController {
         for(int i=0; i<movieinfoDtos.size(); i++){
             movieinfoDtoList.add(movieinfoDtos.get(i));
         }
+        movieService.crawlingdaum();
         model.addAttribute("movie",movieinfoDtoList);
         return "main";
     }

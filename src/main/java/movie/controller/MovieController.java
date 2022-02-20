@@ -230,7 +230,9 @@ public class MovieController {
         for(int i=0; i<movieinfoDtos.size(); i++){
             movieinfoDtoList.add(movieinfoDtos.get(i));
         }
-        movieService.gettop4();
+        List<MovieinfoDto> top4list = movieService.gettop4();
+        System.out.println(top4list.toString());
+        model.addAttribute("top4",top4list);
         model.addAttribute("movie",movieinfoDtoList);
        return "movie/moviehome";
     }

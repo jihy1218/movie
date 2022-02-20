@@ -13,6 +13,10 @@ import movie.domain.Entity.Ticketing.TicketingRepository;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -27,6 +31,7 @@ import javax.transaction.Transactional;
 import java.beans.Transient;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.text.DecimalFormat;
@@ -554,9 +559,10 @@ public class MovieService {
 
     //탑4 무비
     //예매율,순위,누적관객
-    public JSONObject gettop4(){
+    public  List<MovieinfoDto> gettop4(){
         Map<String,Integer> rankmap = new HashMap();
         List<MovieEntity> movielist = movieRepository.findAll();
+        List<MovieinfoDto> movieinfoDtoList = new ArrayList<MovieinfoDto>();
         for(MovieEntity movie : movielist){
             List<DateEntity> date = movie.getDateEntityList();
             int moviecount = 0;
@@ -575,28 +581,29 @@ public class MovieService {
         }
         List<String> listKeySet = new ArrayList<>(rankmap.keySet());
         Collections.sort(listKeySet, (value1, value2) -> (rankmap.get(value2).compareTo(rankmap.get(value1))));
+        for(int i =0; i<4; i++){
+            int num =Integer.parseInt(listKeySet.get(i));
+            JSONObject jsonObject =this.getmovieinfoselect(movieRepository.getById(num).getMvid());
+            MovieinfoDto movieinfoDto = MovieinfoDto.builder()
+                    .mvno(num)
+                    .mvid(movieRepository.getById(num).getMvid())
+                    .movieNm((String)jsonObject.get("movieNm"))
+                    .openDt((String)jsonObject.get("openDt"))
+                    .showTm(Integer.valueOf((String) jsonObject.get("showTm")))
+                    .nations((String)jsonObject.get("nations"))
+                    .genres((String)jsonObject.get("genres"))
+                    .directors((String)jsonObject.get("directors"))
+                    .actors((String)jsonObject.get("actors"))
+                    .companyNm((String)jsonObject.get("companyNm"))
+                    .watchGradeNm((String)jsonObject.get("watchGradeNm"))
+                    .poster((String)jsonObject.get("poster"))
+                    .movieimg((List<String>)jsonObject.get("movieimg"))
+                    .movievideo((List<String>)jsonObject.get("movievideo"))
+                    .build();
+            movieinfoDtoList.add(movieinfoDto);
+        }
 
-        JSONObject moviejson = this.getmovieinfoselec(movieRepository.getById(2).getMvid());
-
-//        MovieinfoDto movieinfoDto = MovieinfoDto.builder()
-//                .mvno(2)
-//                .mvid(movieRepository.getById(2).getMvid())
-//                .movieNm((String)moviejson.get("movieNm"))
-//                .openDt((String)moviejson.get("openDt"))
-//                .showTm(Integer.valueOf((String) moviejson.get("showTm")))
-//                .nations((String)moviejson.get("nations"))
-//                .genres((String)moviejson.get("genres"))
-//                .directors((String)moviejson.get("directors"))
-//                .actors((String)moviejson.get("actors"))
-//                .companyNm((String)moviejson.get("companyNm"))
-//                .watchGradeNm((String)moviejson.get("watchGradeNm"))
-//                .poster((String)moviejson.get("poster"))
-//                .movieimg((List<String>)moviejson.get("movieimg"))
-//                .movievideo((List<String>)moviejson.get("movievideo"))
-//                .build();
-//
-//        System.out.println(movieinfoDto.toString());
-        return null;
+        return movieinfoDtoList;
     }
     @Autowired
     HttpServletRequest request;
@@ -639,6 +646,39 @@ public class MovieService {
         }
         double gradle = (double) total / (double) (5*movieEntity.getReviewEntities().size()) * 100.0;
         return gradle;
+    }
+
+    public String crawlingdaum(){
+
+        // Jsoup를 이용해서 http://www.cgv.co.kr/movies/ 크롤링
+        String url = "https://movie.daum.net/contents/1boon/"; //크롤링할 url지정
+        Document doc = null;        //Document에는 페이지의 전체 소스가 저장된다
+
+        try {
+            doc = Jsoup.connect(url).get();
+            //select를 이용하여 원하는 태그를 선택한다. select는 원하는 값을 가져오기 위한 중요한 기능이다.
+            Elements element = doc.select("div.section_contents");
+            System.out.println(element.toString());
+            Elements element2 = element.select("div.item_contents");
+            for(Element temp : element2){
+                System.out.println(element2.toString());
+            }
+            System.out.println("============================================================");
+
+            //Iterator을 사용하여 하나씩 값 가져오기
+            Iterator<Element> ie1 = element.select("div.item_contents").iterator();
+            while (ie1.hasNext()) {
+                System.out.println(ie1.next().select("strong.tit_thumb").toString());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        System.out.println("============================================================");
+
+
+        return null;
     }
 
 
