@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+  <div th:replace="header.html::header"></div><!--헤더-->
+
+  <div class="container">
+      <div class="row">
+          <span class="col-md-2" style="font-size: 1.5rem">회원관리</span>
+          <div class="col-md-2 offset-8 d-flex justify-content-end"><a th:href="@{/admin/adminmain}"><button >뒤로가기</button></a></div>
+      </div>
+      <table class="table">
+          <tr>
+              <td>회원번호</td><td>이름</td><td>나이</td><td>이메일</td><td>아이디</td><td>성별</td><td>예약여부</td>
+          </tr>
+          <tr th:each="member : ${memberlist}">
+              <td th:text="${member.mno}"></td><td th:text="${member.mname}"></td><td th:text="${member.mage}"></td>
+              <td th:text="${member.memail}"></td><td th:text="${member.mid}"></td><td th:text="${member.msex}"></td><td><a th:href="@{ '/admin/ticketinglist/' + ${member.mno}}">예약목록</a></td>
+          </tr>
+      </table>
+
+      <ul class="pagination justify-content-center"
+            th:with = "start=${T(Math).floor(memberlist.number/10)*10+1},
+                            last=${ start + 9 < memberlist.totalPages ? start + 9 : memberlist.totalPages}">
+          <!--첫페이지 -->
+          <li class="page-item">
+              <a class="page-link" th:href="@{/admin/memberadmin(page=1)}"><<</a>
+          </li>
+
+          <li class="page-item "th:class="${memberlist.first} ? 'disabled' ">
+              <a class="page-link" th:href="${memberlist.first} ? '#' : @{/admin/memberadmin(page=${ memberlist.number })}"> < </a>
+          </li>
+
+          <li class="page-item" th:each="page : ${#numbers.sequence(start,last)}">
+              <a class="page-link" th:href="@{/admin/memberadmin(page=${page})}" th:text="${page}"></a>
+          </li>
+
+          <li class="page-item" th:class="${memberlist.last} ? 'disabled'">
+              <a class="page-link" th:href="${memberlist.last} ? '#' : @{/admin/memberadmin(page=${memberlist.number+2})}">></a>
+          </li>
+
+          <li class="page-item">
+              <a class="page-link" th:href="@{/admin/memberadmin(page=${memberlist.totalPages})}">>></a>
+          </li>
+
+      </ul>
+
+  </div>
+
+  <form action="/admin/memberadmin" method="get" class="col-md-5 offset-4 input-group my-3 g-0" >
+      <div class="col-md-1">
+          <select name="keyword" class="form-select">
+              <option value="mno">회원번호</option>
+              <option value="mid">아이디</option>
+              <option value="mname">이름</option>
+          </select>
+      </div>
+      <div class="col-md-2">
+          <input type="type" name="search" class="form-control">
+      </div>
+      <div class="col-md-1">
+          <input type="submit" value="검색" class="form-control">
+      </div>
+  </form>
+
+  <div th:replace="footer.html::footer"></div><!--푸터-->
+
+</body>
+</html>

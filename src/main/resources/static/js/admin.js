@@ -1,10 +1,7 @@
 
-
 function moviewrite(){
             //폼태그 가져오기
             var formData = new FormData(form);
-            alert(formData);
-            alert($("mvid").val());
             $.ajax({
                 type:"post",
                 url:"/admin/moviewritecontroller",
@@ -56,7 +53,7 @@ function cnemabtn(location){
     const style = document.getElementById(location).style;
 
     if(style.backgroundColor=='red'){
-        document.getElementById(location).style.backgroundColor = '';
+        document.getElementById(location).style.backgroundColor = 'white';
         //인덱스 번호 찾기
         const index = cnemaJsonArray.findIndex(x => x.location === location);
         //
@@ -67,7 +64,7 @@ function cnemabtn(location){
         cnemaJsonArray.push(cnemaJson);
     }
     var sJson = JSON.stringify(cnemaJsonArray);
-    alert(sJson);
+
 
 }
 
@@ -121,9 +118,10 @@ function screenregister(){
            alert("영화를 선택해주세요.")
            return;
     }
-
-
-
+    var date1 = ddate.split('-')[0];
+    var date2 = ddate.split('-')[1].replace(/(^0+)/, "");
+    var date3 = ddate.split('-')[2].replace(/(^0+)/, "");
+    ddate = date1 +'-'+date2+'-'+date3;
     $.ajax({
         url : "/admin/screenregister",
         data : {
@@ -134,16 +132,17 @@ function screenregister(){
             "endtime" : endtime
         },
         success: function(data){
-            if(data==1){
-                alert("성공");
+            if(data==1) {
+                alert("상영시간이 성공적으로 등록되었습니다.");
                 location.href = "/admin/adminmain";
+            }else{
+                alert("오류 발생 [관리자에게 문의]");
             }
         }
     })
 }
 
 function admindelete(type , no){
-
     if (confirm("정말 삭제하시겠습니까??") == true){
             $.ajax({
                 url: "/admin/delete",
@@ -165,6 +164,48 @@ function admindelete(type , no){
         return;
     }
 }
+
+function  typeupdate(pno,ptype) {
+    $.ajax({
+        url : "/admin/typeupdate",
+        data : {"pno" : pno , "ptype" : ptype},
+        success : function (result){
+            if(result==1){
+                alert("상태가 변경되었습니다.");
+                location.reload();
+            }else{
+                $("#updatemsg").html("현재 상태와 동일한 상태입니다.");
+            }
+        }
+    });
+
+}
+
+
+
+function datesearch(){
+   var date1 = $("#date1").val();
+   var date2 = $("#date2").val();
+
+   document.getElementById("datasearch1").value = date1;
+   document.getElementById("datasearch2").value = date2;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

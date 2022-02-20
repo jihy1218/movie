@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:replace="header.html::header"></div><!--헤더-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+<script th:src="@{/js/sales.js}"></script>
+<div class="container">
+    <div class="row">
+        <span class="col-md-2" style="font-size: 1.5rem">연매출</span>
+        <div class="col-md-2 offset-8 d-flex justify-content-end"><a th:href="@{/admin/adminmain}"><button >뒤로가기</button></a></div>
+    </div>
+        <input type="text" id="years" placeholder="매출 확인할 연도를 입력하세요." value="2022">
+    <button onclick="salesdata();">확인</button>
+    <h3 id="chartresult"></h3>
+    <canvas id="chart"></canvas>
+</div>
+<div th:replace="footer.html::footer"></div><!--푸터-->
+</body>
+</html>

@@ -48,6 +48,68 @@ function sample4_execDaumPostcode() {
        }).open();
 }
 /* 다음주소 api end */
+
+//일정시간이후부터 실행되는
+$( document ).ready(function() {
+
+    $.ajax({
+        url:"/member/reviewtime",
+        success: function(data){
+          for (var i = 0; i < data.length; i++) {
+            if (new Date() >= new Date(data[i])) {
+              document.getElementById("rvbtn"+data[i]).style.display ="";
+
+            }
+          }
+        }
+    })
+
+        $.ajax({
+            url:"/member/reviewtime2",
+            success: function(data){
+              for (var i = 0; i < data.length; i++) {
+
+              }
+            }
+        })
+
+});
+        var tno = 0;
+
+        function ontno(tno1){
+            tno = tno1;
+        }
+
+
+        //리뷰작성
+        function review(){
+            var reviewcontents = document.getElementById("reviewcontents").value;
+            var temp = $(':radio[name="rating"]:checked').val();
+            alert(tno);
+            if(reviewcontents==""){
+                alert("리뷰를 작성해주세요");
+                return;
+            }
+
+            $.ajax({
+                url : "/member/reviewwrite",
+                data:{
+                    "tno" : tno,
+                    "grade" : temp,
+                    "reviewcontents" : reviewcontents
+                },
+                success: function(data){
+                   if(data==1){
+                    alert("감사합니다");
+                    location.reload();
+                   }
+
+                }
+            })
+        }
+
+
+
 /*회원가입 유효성 검사*/
 
 $(function(){
@@ -196,7 +258,7 @@ $(function(){
 });
 /*회원가입 유효성 검사끝*/
 /*로그인*/
-function login(){
+/*function login(){
 
        var mid = $("#login_mid").val();
         var mpassword = $("#login_mpassword").val();
@@ -218,7 +280,7 @@ function login(){
      }
 
    });
-}
+}*/
 /*로그인 끝*/
 // 아이디찾기
 function findid(){
@@ -333,6 +395,40 @@ function addresschange(){
         });
     }
 }
+//////////////////////회원 탈퇴
+function mdelete(){
+    var passwordconfirm = $("#passwordconfirm").val();
+    $.ajax({
+        url:"/member/delete",
+        data:{"passwordconfirm" : passwordconfirm},
+        success : function(data){
+        if(data==1){
+            alert("회원 탈퇴 성공")
+            location.href="/member/logout"
+        }else{
+            $("#deleteresult").html("[회원탈퇴실패]비밀번호가 다릅니다")
+        }
+
+        }
+
+    });
+
+}
 
 
 
+function replyadd1( ){
+
+
+   const table = document.getElementById('spreadsheet1');
+    const tbody = table.tBodies[0].rows.length;
+      $.ajax({
+        url: "/member/infoadd" ,
+        data : {  "tbody" : tbody } ,
+        success : function( data ){
+        alert(data);
+         /*  $("#spreadsheet>tbody").append(data);*/
+        }
+      });
+
+}

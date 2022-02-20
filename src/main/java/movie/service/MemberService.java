@@ -4,6 +4,16 @@ import movie.domain.Dto.IntergratedDto;
 import movie.domain.Dto.MemberDto;
 import movie.domain.Entity.Member.MemberEntity;
 import movie.domain.Entity.Member.MemberRepository;
+import movie.domain.Entity.Member.Role;
+import movie.domain.Entity.Member.ReviewEntity;
+import movie.domain.Entity.Member.ReviewRepository;
+import movie.domain.Entity.Movie.MovieEntity;
+import movie.domain.Entity.Movie.MovieRepository;
+import movie.domain.Entity.Payment.PaymentRepository;
+import movie.domain.Entity.Ticketing.TicketingEntity;
+import movie.domain.Entity.Ticketing.TicketingRepository;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -86,9 +96,11 @@ public class MemberService implements UserDetailsService {
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(memberEntity.getRoleKey()));
         //세션부여
-        MemberDto loginDto = MemberDto.builder().mid(memberEntity.getMid()).mno(memberEntity.getMno()).build();
+        MemberDto loginDto = MemberDto.builder().mid(memberEntity.getMid()).mno(memberEntity.getMno()).mage(memberEntity.getMage()).msex(memberEntity.getMsex()).build();
         HttpSession session = request.getSession();
+
         session.setAttribute("logindto",loginDto);
+
 
         //회원정보와 권한을 갖는 UserDetails 반환
         return new IntergratedDto(memberEntity, authorities);
@@ -96,9 +108,16 @@ public class MemberService implements UserDetailsService {
 
 
     // 회원 정보 불러오기 메소드 ( 진행중 지형 )
-    public MemberDto getMemberDto(int mno){
+    public MemberDto getMemberDto(int mno,int tbody){
         Optional<MemberEntity> memberEntity = memberRepository.findById(mno);
+      /*
+      List<MemberEntity> resultlist = new ArrayList<>();
+      int count = 3;
+      for (int i = tbody; i<tbody+count ; i ++){
+          resultlist.add()
+      }*/
         return MemberDto.builder()
+                .mno(mno)
                 .mid(memberEntity.get().getMid())
                 .mname(memberEntity.get().getMname())
                 .memail(memberEntity.get().getMemail())
@@ -139,7 +158,9 @@ public class MemberService implements UserDetailsService {
                     temppassword.append((char)((int)(random.nextInt(26))+97));
                 }
                 builder.append("<div>"+temppassword+"</div><br><h3 style='color : red;'>받으신후 비밀번호를 변경해 주세요!!</h3></body></html>");
-                memberEntity.setMpassword(temppassword.toString()); // 랜덤 난수로 비밀번호 변경
+                BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+                memberEntity.setMpassword(passwordEncoder.encode(temppassword.toString()));
+               /* memberEntity.setMpassword(temppassword.toString()); // 랜덤 난수로 비밀번호 변경*/
                 try{
                     MimeMessage message = javaMailSender.createMimeMessage();
                     MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(message,true,"UTF-8");
@@ -158,10 +179,85 @@ public class MemberService implements UserDetailsService {
      @Transactional
     public boolean infoupdate(int mno,String temp,int type){
         Optional<MemberEntity> memberEntities = memberRepository.findById(mno);
-        if(type==1){memberEntities.get().setMpassword(temp); return true;} // 비밀번호 변경
+         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        if(type==1){ memberEntities.get().setMpassword(passwordEncoder.encode(temp)); return true;} // 비밀번호 변경
         if(type == 2){memberEntities.get().setMphone(temp); return  true;} // 핸드폰 번호 변경
         if(type==3){memberEntities.get().setMaddress(temp);return true;} // 주소 변경
         return false;
      }
+     //회원 번호  -> 회원 엔티티 반환
+    public MemberEntity getmentity(int mno){
+        Optional<MemberEntity>entityOptional = memberRepository.findById(mno);
+        return  entityOptional.get();
+    }
+     // 회원 탈퇴
+
+    @Transactional
+    public boolean delete(int mno, String passwordconfirm){
+        Optional<MemberEntity>entityOptional = memberRepository.findById(mno);
+
+        JSONParser jsonParser = new JSONParser();
+
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        if(  passwordEncoder.matches( passwordconfirm , entityOptional.get().getMpassword() ) ){
+
+            List<TicketingEntity> ticketing= entityOptional.get().getTicketingEntities();
+            for(TicketingEntity ticket : ticketing){
+               try{
+                   JSONObject jsonObject =  (JSONObject) jsonParser.parse(ticket.getTage());
+                   int count = Integer.parseInt(String.valueOf(jsonObject.get("youth")))
+                           + Integer.parseInt(String.valueOf(jsonObject.get("adult"))) ;
+                   ticket.getDateEntityTicket().setDseat(ticket.getDateEntityTicket().getDseat()+count);
+               }catch (Exception e){}
+            }
+
+            memberRepository.delete( entityOptional.get() );
+            return true;
+        }
+            return false;
+    }
+    public MemberEntity getmementity(int mno){
+        MemberEntity memberenttity = memberRepository.findById(mno).get();
+        return memberenttity;
+    }
+
+
+      /*  ((entityOptional.get().getMpassword().equals(passwordconfirm)))*/
+   /* BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        memberDto.setMpassword(passwordEncoder.encode(memberDto.getMpassword()));
+        memberRepository.save(memberDto.toEntity());*/
+
+    @Autowired
+    ReviewRepository reviewRepository;
+
+    @Autowired
+    MovieRepository movieRepository;
+    @Autowired
+    TicketingRepository ticketingRepository;
+    @Autowired
+    PaymentRepository paymentRepository;
+    //리뷰 작성
+    @Transactional
+    public boolean reviewwrite(int tno,int grade,String reviewcontents){
+        HttpSession session = request.getSession();
+        MemberDto memberDto =(MemberDto) session.getAttribute("logindto");
+        TicketingEntity ticketing = ticketingRepository.findById(tno).get();
+
+        int pno = paymentRepository.findpnobytno(tno);
+        paymentRepository.getById(pno).setReviewact(2);
+
+        MovieEntity movieEntity =ticketing.getDateEntityTicket().getMovieEntityDate();
+        ReviewEntity reviewEntity = ReviewEntity.builder()
+                .recontents(reviewcontents)
+                .regrade(grade)
+                .memberEntityreview(memberRepository.getById(memberDto.getMno()))
+                .movieEntityreview(movieRepository.getById(movieEntity.getMvno()))
+                .build();
+        reviewRepository.save(reviewEntity);
+        movieEntity.getReviewEntities().add(reviewEntity);
+        MemberEntity memberEntity = memberRepository.findById(memberDto.getMno()).get();
+        memberEntity.getReviewEntities().add(reviewEntity);
+        return  true;
+    }
 
 }//class end

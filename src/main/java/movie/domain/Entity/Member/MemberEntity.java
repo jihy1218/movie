@@ -15,7 +15,7 @@ import java.util.List;
 @Entity
 @Table(name="member")
 @NoArgsConstructor@AllArgsConstructor
-@Setter@Getter@ToString@Builder
+@Setter@Getter@ToString(exclude = {"replyEntities", "reviewEntities"})@Builder
 public class MemberEntity extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,18 +45,16 @@ public class MemberEntity extends BaseTimeEntity {
         this.mname = name;
         return this;
     }
+
     //해당 Role에 key반환 메소드드
     public String getRoleKey(){return this.mgrade.getKey();}
-
-
-
-
-
 
     @OneToMany(mappedBy = "memberEntityReply", cascade = CascadeType.ALL) // 댓글리스트
     private List<ReplyEntity> replyEntities = new ArrayList<>();
     @OneToMany(mappedBy = "memberEntityTicket" , cascade = CascadeType.ALL) // 티켓 리스트
     private List<TicketingEntity> ticketingEntities = new ArrayList<>();
+    @OneToMany(mappedBy = "memberEntityreview" , cascade = CascadeType.ALL) // 티켓 리스트
+    private List<ReviewEntity> reviewEntities = new ArrayList<>();
 
 
 }

@@ -2,10 +2,17 @@ package movie.controller;
 
 import movie.domain.Dto.MemberDto;
 import movie.domain.Dto.MovieinfoDto;
+import movie.domain.Dto.TicketDto;
 import movie.domain.Entity.Member.MemberEntity;
+import movie.domain.Entity.Movie.ReplyEntity;
+import movie.domain.Entity.Payment.PaymentEntity;
 import movie.service.MemberService;
 import movie.service.MovieService;
+import movie.service.TicketingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -30,10 +37,10 @@ public class MemberController {
         for(int i=0; i<movieinfoDtos.size(); i++){
             movieinfoDtoList.add(movieinfoDtos.get(i));
         }
-        System.out.println(movieinfoDtoList+"영화이름 다나와");
         model.addAttribute("movie",movieinfoDtoList);
         return "main";
     }
+
     //로그인페이지 연결
     @GetMapping("/member/login")
     public String login() {
@@ -46,18 +53,32 @@ public class MemberController {
 
         return "member/signup";
     }
-    //회원정보 페이지 연결
-    @GetMapping("/member/myinfo")
-    public String myinfo(Model model) {
+
+    // 회원정보 더보기 만들기<--------------18일 부터
+    @GetMapping("/member/infoadd")
+    public String replyadd( Model model ,@RequestParam("tbody")int tbody){
         HttpSession session = request.getSession();
         MemberDto memberDto = (MemberDto) session.getAttribute("logindto");
-        MemberDto member = memberService.getMemberDto(memberDto.getMno());
-        model.addAttribute("info",member);
-        return "member/myinfo";
+        MemberDto member = memberService.getMemberDto(memberDto.getMno(),tbody);
+        return "member/myinfotable";
     }
 
 
-
+    @Autowired
+    TicketingService ticketingService;
+    //회원정보 페이지 연결
+    @GetMapping("/member/myinfo")
+    public String myinfo(@PageableDefault Pageable pageable, Model model) {
+        HttpSession session = request.getSession();
+        MemberDto memberDto = (MemberDto) session.getAttribute("logindto");
+        MemberDto member = memberService.getMemberDto(memberDto.getMno(),0);
+        int mno = memberDto.getMno();
+        List<TicketDto> ticketDto = ticketingService.getticketlist(mno);
+        Page<PaymentEntity> paymentEntities = ticketingService.memberpaymentmember(member.getMid(),pageable);
+        model.addAttribute("payment",paymentEntities);
+        model.addAttribute("info", member);
+        return "member/myinfo";
+    }
 
     //회원가입
     @PostMapping("/member/signupcontroller")
@@ -68,10 +89,10 @@ public class MemberController {
                                    @RequestParam("address4")String address4
                                    ){
         memberDto.setMaddress(address1+"/"+address2+"/"+address3+"/"+address4);
-        System.out.println(memberDto.toString());
         memberService.membersignup(memberDto);
         return "member/login";
     }
+
     //아이디 중복체크
     @GetMapping("/member/idcheck")
     @ResponseBody
@@ -83,6 +104,7 @@ public class MemberController {
             return "2";
         }
     }
+
     //이메일 중복체크
     @GetMapping("/member/emailcheck")
     @ResponseBody
@@ -134,13 +156,16 @@ public class MemberController {
         }
     }
     // 회원정보 수정
+    //비밀번호 수정
     @GetMapping("/member/passwordchange")
     @ResponseBody
     public String passwordchange(@RequestParam("mno")int mno,@RequestParam("password")String password,@RequestParam("type") int type){
+
         // type 1은 비밀번호 수정
         if(type==1) {
             boolean result = memberService.infoupdate(mno, password, type);
-            if (result) {return "1";}
+            if (result)
+            {return "1";}
         }return "2";
     }
     // 핸드폰 번호 수정
@@ -166,6 +191,49 @@ public class MemberController {
             }
         }return  "2";
     }
+    //회원 탈퇴
+    @GetMapping("/member/delete")
+    @ResponseBody
+    public int mdelete( @RequestParam("passwordconfirm") String passwordconfirm){
+        HttpSession session = request.getSession();
+        MemberDto memberDto = (MemberDto) session.getAttribute("logindto");
+        boolean result = memberService.delete(memberDto.getMno(),passwordconfirm);
+        if(result){ return 1;}
+       else{ return 2;}
+
+    }
+
+
+
+    @GetMapping("/member/reviewwrite")
+    @ResponseBody
+    public String reviewwrite(@RequestParam("tno")int tno,
+                              @RequestParam("grade")int grade,
+                              @RequestParam("reviewcontents")String reviewcontents){
+        boolean result = memberService.reviewwrite(tno,grade,reviewcontents);
+
+        if(result){
+            return "1";
+        }else{
+            return "2";
+        }
+    }
+    @GetMapping("/member/reviewtime")
+    @ResponseBody
+    public List<String> reviewtime(){
+        List<String> list = movieService.reviewtime(1);
+        System.out.println(list.toString());
+        return list;
+    }
+
+    @GetMapping("/member/reviewtime2")
+    @ResponseBody
+    public List<String> reviewtime2(){
+        List<String> list = movieService.reviewtime(2);
+        System.out.println(list.toString());
+        return list;
+    }
+
 
 
 }//class end

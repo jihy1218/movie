@@ -13,7 +13,7 @@ import java.util.List;
 @Entity
 @Table(name="date")
 @NoArgsConstructor@AllArgsConstructor
-@Setter@Getter@ToString@Builder
+@Setter@Getter@ToString(exclude = "ticketingEntities")@Builder
 public class DateEntity  extends BaseTimeEntity {
 
     @Id

@@ -8,50 +8,70 @@
  <div th:replace="header.html::header"></div><!--헤더-->
  <!-- 결제 API  -->
  <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
- 영화 자리 선택
- 인원수도 받아야함
- 결제도 여기서
- <div class="container">
-     <div class="col-md-10 offset-1 text-center" style="border:mediumturquoise solid 3px; height: 700px;">
-         <div class="col-md-2 offset-5 mt-3">
-             <div class="input-group">인원 선택 :
-                 <select class="form-select">
-                     <option value="1">1</option>
-                     <option value="2">2</option>
-                     <option value="3">3</option>
-                     <option value="4">4</option>
-                 </select>
+ <div style="background-color: #444444; padding: 40px 0 40px 0;">
+     <div class="container">
+         <div class=" text-center" style="height: 850px; background-color: white;" id="ticketbox">
+             <div class="col-md-12" style="background-color: black;color : white; padding: 13px 0 5px 0;">
+                 <h3 >인원/좌석 선택</h3>
+             </div>
+             <div class="row" style="padding: 10px 0 10px 0;">
+                     <div class="col-md-4 text-start" style="margin-left: 85px;">
+                         <span style="font-weight: bold;font-size: 1.5rem;" id="moviename" th:text="${movieinfo.movieNm}"></span><br><span id="tdate" th:text="${dateinfo.ddate} +'    '+ ${dateinfo.dtime}"></span><br>
+                         <span id="cnema" th:text="${dateinfo.cnemaEntityDate.cname}+' · '+${dateinfo.cnemaEntityDate.ctype}"></span>
+                     </div>
+                     <div class="col-md-2" style="margin-top: 25px;">
+                         성인
+                         <button class="btn" onclick="btnpcount('adult','-')">➖</button>
+                         <span id="adultcount">0</span>
+                         <button class="btn" onclick="btnpcount('adult','+')">➕</button>
+                     </div>
+                     <div class="col-md-2" style="margin-top: 25px;">
+                         청소년
+                         <button class="btn" onclick="btnpcount('youth','-')">➖</button>
+                         <span id="youthcount">0</span>
+                         <button class="btn" onclick="btnpcount('youth','+')">➕</button>
+                     </div>
+                 </div>
+             <div class="col-md-12" style="background-color: #6E6E6E; color : white; padding: 8px 0 3px 0;">
+                 <h4> S C R E E N </h4>
+             </div>
+             <div style="background-color: black; padding: 15px 0 15px 0;">
+                 <span style="margin-top: 10px;" th:each="list  , i : ${seatlist}"><!--자리깔기-->
+                     <button th:if="${list.equals('X')}" class="btn" style="background-color:rgba(0, 0, 0, 0); WIDTH: 40pt; HEIGHT: 40pt;" disabled="disabled"></button>
+                     <button th:if="${!list.equals('X') and !list.contains('@') }" th:text="${#strings.listSplit(list,'@')[0].replaceAll(',','')}" th:id="${list}" class="btn" style="background-color: white; border-radius: 30%; WIDTH: 40pt; HEIGHT: 40pt;" th:onclick="btntcount([[${list}]])"></button>
+                     <button th:if="${!list.equals('X') and list.contains('@')  }" disabled th:text="${#strings.listSplit(list,'@')[0].replaceAll(',','')}" th:id="${list}" class="btn" style="background-color: white; border-radius: 30%; WIDTH: 40pt; HEIGHT: 40pt;" th:onclick="btntcount([[${list}]])"></button>
+                     <br th:if="${i.index%20==19}">
+                </span>
+             </div>
+             <div style="margin-top: 15px;">
+                 <button class="btn btn-success" data-bs-target="#paymentmodal" data-bs-toggle="modal" th:onclick="ticketing([[${dateinfo.cnemaEntityDate.ctype}]])" id="paymentbtn" style="display : none;">결제하기</button>
+                 <a  th:href="@{/movie/ticketingdate}"><button class="btn btn-danger" data-bs-target="#paymentmodal" data-bs-toggle="modal">뒤로가기</button></a>
              </div>
          </div>
-         <div style="margin-top: 10px; height: 500px; "><!--자리깔기-->
-             <button class="btn" style="background-color: springgreen; border-radius: 30%;">A1</button>
-             <button class="btn" style="background-color: orangered; border-radius: 30%;">A2</button>
-             <button class="btn" style="background-color: darkgray; border-radius: 30%;">A3</button><br>
-         </div>
-         <button class="btn btn-success" data-bs-target="#paymentmodal" data-bs-toggle="modal">결제하기</button>
-         <a  th:href="@{/movie/ticketingdate}"><button class="btn btn-danger" data-bs-target="#paymentmodal" data-bs-toggle="modal">뒤로가기</button></a>
      </div>
  </div>
- <div class="modal fade" tabindex="-1" role="dialog" id="paymentmodal" data-bs-backdrop="static" >
-     <div class="modal-dialog" role="document">
-         <div class="modal-content rounded-4 shadow">
-             <div class="modal-body p-4 text-center">
-                 <h3 class="mb-0">최종 선택 확인</h3>
-                 <div>
-                     <span>선택한 영화 : 스파이더맨</span><br>
-                     <span>선택한 날짜 : 2202/01/26</span><br>
-                     <span>관/시간 : 2관/11:00~13:10</span><br>
-                     <span>인원 : 1명</span><br>
-                     <span>선택한 좌석 : A2</span><br>
+     <div class="modal fade" tabindex="-1" role="dialog" id="paymentmodal" data-bs-backdrop="static" >
+         <div class="modal-dialog" role="document">
+             <div class="modal-content rounded-4 shadow">
+                 <div class="modal-body p-4 text-center">
+                     <h3 class="mb-0">최종 선택 확인</h3>
+                     <div>
+                         <span id="resultmname"></span><br>
+                         <span id="resultdate"></span><br>
+                         <span id="resulttime"></span><br>
+                         <span id="resultcount"></span><br>
+                         <span id="resultplace"></span><br>
+                         <span id="resultprice"></span><br>
+                     </div>
+                 </div>
+                 <div class="modal-footer flex-nowrap p-0">
+                     <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-right" th:onclick="payment([[${dateinfo.cnemaEntityDate.ctype}]],[[${dateinfo.dno}]]);"><strong>결제</strong></button>
+                     <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0" data-bs-dismiss="modal">돌아가기</button>
                  </div>
              </div>
-             <div class="modal-footer flex-nowrap p-0">
-                 <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-right" onclick="payment();"><strong>결제</strong></button>
-                 <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0" data-bs-dismiss="modal">돌아가기</button>
-             </div>
          </div>
      </div>
- </div>
+
  <script th:src="@{/js/ticketing.js}"></script>
  <div th:replace="footer.html::footer"></div><!--푸터-->
 </body>

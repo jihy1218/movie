@@ -6,29 +6,33 @@
 </head>
 <body>
 <div th:replace="header.html::header"></div><!--헤더-->
-    <h3>관등록</h3>
     <div class="container">
+        <div class="row">
+            <span class="col-md-2" style="font-size: 1.5rem">관등록</span>
+        </div>
+        <br><br>
         <div>
             <span th:each="list  , i : ${list}">
-                <button  th:value="${list}" th:text="${list}" th:onclick="cnemabtn([[${list}]])" th:id="${list}" >
+                <button class="btn"  th:value="${list}" th:text="${list}" th:onclick="cnemabtn([[${list}]])" th:id="${list}" style="background-color: silver; border-radius: 30%; WIDTH: 40pt; HEIGHT: 40pt;" >
                 </button><br th:if="${i.index%20==19}">
             </span>
 
         </div>
         <br>
         <div>
-            관이름<input type="text" id="cnemaname">
+            <input type="text" id="cnemaname" placeholder="관이름">
         </div>
         <br>
         <div>
-            관타입<select id="cnematype">
-                <option value="NOMAL">NOMAL</option>
+            <select id="cnematype">
+                <option value="NORMAL">NORMAL</option>
                 <option value="IMAX">IMAX</option>
                 <option value="3D">3D</option>
             </select>
         </div>
         <br>
-        <button onclick="cnemawrite()">관등록</button>
+        <button onclick="cnemawrite()" class="btn btn-success">관등록</button>
+        <a th:href="@{/admin/adminmain}"><button  class="btn btn-danger">뒤로가기</button></a>
     </div>
 
 <div th:replace="footer.html::footer"></div><!--푸터-->

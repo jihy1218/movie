@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <script th:src = "@{/js/ticketupdate.js}"></script>
+    <div th:replace="header.html::header"></div><!--헤더-->
+    <h3>티켓 업데이트</h3>
+
+    <div class="container">
+        <div class=" text-center" style="border:mediumturquoise solid 3px; height: 700px;" id="ticketbox">
+            <div class="row">
+                <div class="col-md-4">
+                    <p id="moviename" th:text="${movieinfo.movieNm}"></p><p id="tdate" th:text="${dateinfo.ddate} +' '+ ${dateinfo.dtime}"></p>
+                    <p id="cnema" th:text="${dateinfo.cnemaEntityDate.cname}+' · '+${dateinfo.cnemaEntityDate.ctype}"></p>
+                </div>
+                <div class="col-md-2">
+                    성인
+                    <button class="btn" onclick="btnpcount('adult','-')">-</button>
+                    <span id="adultcount">0</span>
+                    <button class="btn" onclick="btnpcount('adult','+')">+</button>
+                </div>
+                <div class="col-md-2">
+                    청소년
+                    <button class="btn" onclick="btnpcount('youth','-')">-</button>
+                    <span id="youthcount">0</span>
+                    <button class="btn" onclick="btnpcount('youth','+')">+</button>
+                </div>
+            </div>
+            <span style="margin-top: 10px;" th:each="list  , i : ${seatlist}"><!--자리깔기-->
+             <button th:if="${list.equals('X')}" class="btn" style="background-color:rgba(0, 0, 0, 0); WIDTH: 40pt; HEIGHT: 40pt;" disabled="disabled"></button>
+             <button th:if="${!list.equals('X') and !list.contains('@') and !list.contains('#')}" th:text="${#strings.listSplit(list,'@')[0]}" th:id="${list}" class="btn" style="background-color: silver; border-radius: 30%; WIDTH: 40pt; HEIGHT: 40pt;" th:onclick="btnseatup([[${list}]])"></button>
+             <button th:if="${!list.equals('X') and list.contains('@') and !list.contains('#')}" disabled th:text="${#strings.listSplit(list,'@')[0]}" th:id="${list}" class="btn" style="background-color: silver; border-radius: 30%; WIDTH: 40pt; HEIGHT: 40pt;" th:onclick="btnseatup([[${list}]])"></button>
+             <button th:if="${!list.equals('X') and !list.contains('@') and list.contains('#')}" th:text="${#strings.listSplit(list,'@')[0]}" th:id="${list}" class="btn" style="background-color: red; border-radius: 30%; WIDTH: 40pt; HEIGHT: 40pt;" th:onclick="btnseatup([[${list}]])"></button>
+                <br th:if="${i.index%20==19}">
+         </span>
+            <button class="btn btn-success" data-bs-target="#paymentmodal" data-bs-toggle="modal" th:onclick="ticketing([[${dateinfo.cnemaEntityDate.ctype}]])" id="paymentbtn" style="display : none;">결제하기</button>
+            <a  th:href="@{/movie/ticketingdate}"><button class="btn btn-danger" data-bs-target="#paymentmodal" data-bs-toggle="modal">뒤로가기</button></a>
+        </div>
+    </div>
+
+
+    <div th:replace="footer.html::footer"></div><!--푸터-->
+
+</body>
+</html>
