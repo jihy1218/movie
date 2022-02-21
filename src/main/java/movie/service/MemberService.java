@@ -100,7 +100,7 @@ public class MemberService implements UserDetailsService {
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(memberEntity.getRoleKey()));
         //세션부여
-        MemberDto loginDto = MemberDto.builder().mid(memberEntity.getMid()).mno(memberEntity.getMno()).mage(memberEntity.getMage()).msex(memberEntity.getMsex()).build();
+        MemberDto loginDto = MemberDto.builder().mid(memberEntity.getMid()).mno(memberEntity.getMno()).mage(memberEntity.getMage()).msex(memberEntity.getMsex()).mphone(memberEntity.getMphone()).build();
         HttpSession session = request.getSession();
 
         session.setAttribute("logindto",loginDto);
@@ -217,7 +217,6 @@ public class MemberService implements UserDetailsService {
                 builder.append("<div>"+temppassword+"</div><br><h3 style='color : red;'>받으신후 비밀번호를 변경해 주세요!!</h3></body></html>");
                 BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
                 memberEntity.setMpassword(passwordEncoder.encode(temppassword.toString()));
-               /* memberEntity.setMpassword(temppassword.toString()); // 랜덤 난수로 비밀번호 변경*/
                 try{
                     MimeMessage message = javaMailSender.createMimeMessage();
                     MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(message,true,"UTF-8");
