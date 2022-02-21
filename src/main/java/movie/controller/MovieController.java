@@ -72,7 +72,7 @@ public class MovieController {
 
     @Autowired
     private DateService dateService;
-
+    //댓글 추가하기
     @GetMapping("/replyadd")
     public String replyadd(@RequestParam("mvid")String mvid , Model model ,
                            @RequestParam("tbody")int tbody){

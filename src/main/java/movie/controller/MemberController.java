@@ -7,6 +7,7 @@ import movie.domain.Dto.TicketDto;
 import movie.domain.Entity.Member.MemberEntity;
 import movie.domain.Entity.Movie.ReplyEntity;
 import movie.domain.Entity.Payment.PaymentEntity;
+import movie.domain.Entity.Ticketing.TicketingEntity;
 import movie.service.MemberService;
 import movie.service.MovieService;
 import movie.service.TicketingService;
@@ -57,6 +58,21 @@ public class MemberController {
         return "member/signup";
     }
 
+   /* // 회원정보 더보기 만들기<--------------18일 부터
+    @GetMapping("/member/infoadd")
+    public String replyadd( Model model ,@RequestParam("tbody")int tbody){
+        HttpSession session = request.getSession();
+        MemberDto memberDto = (MemberDto) session.getAttribute("logindto");
+        MemberDto member = memberService.getMemberDto(memberDto.getMno(),tbody);
+        List<TicketingEntity> paymentEntities = memberService.getinfolist(memberDto.getMno(),tbody);
+        System.out.println("controller!@@!@!_____"+paymentEntities);
+        model.addAttribute("payment",paymentEntities);
+
+
+        model.addAttribute("info", member);
+        return "member/myinfotable";
+    }
+*/
     // 회원정보 더보기 만들기<--------------18일 부터
 //    @GetMapping("/member/infoadd")
 //    public String replyadd( Model model ,@RequestParam("tbody")int tbody,
@@ -73,7 +89,7 @@ public class MemberController {
     public String myinfo(@PageableDefault Pageable pageable, Model model) {
         HttpSession session = request.getSession();
         MemberDto memberDto = (MemberDto) session.getAttribute("logindto");
-        MemberDto member = memberService.getMemberDto(memberDto.getMno(),0);
+        MemberDto member = memberService.getMemberDto(memberDto.getMno());
         int mno = memberDto.getMno();
         List<TicketDto> ticketDto = ticketingService.getticketlist(mno);
         List<PaymentEntity> paymentEntities = memberService.memberpaymentadd(member.getMid(),0);

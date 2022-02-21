@@ -4,6 +4,7 @@ import movie.domain.Dto.*;
 import movie.domain.Entity.Cnema.CnemaEntity;
 import movie.domain.Entity.Date.DateEntity;
 import movie.domain.Entity.Member.MemberEntity;
+import movie.domain.Entity.Movie.MovieEntity;
 import movie.domain.Entity.Ticketing.TicketingEntity;
 import movie.domain.Entity.Ticketing.TicketingRepository;
 import movie.domain.Entity.Payment.PaymentEntity;
@@ -44,13 +45,40 @@ public class AdminController {
     @Autowired
     MovieService movieService;
 
+
+    //관등록 더보기 페이지
+    @GetMapping("/cnemaadd")
+
+    public String cnemaadd(Model model,@RequestParam("tbody") int tbody){
+        List<CnemaEntity>cnemaEntityList =cnemaService.getCnemalistadd(tbody);
+        model.addAttribute("cnemalist",cnemaEntityList );
+        return "admin/admincnemaadd";
+    }
+
+    @GetMapping("/movieadd")
+    public String movieadd(Model model,@RequestParam("tbody")int tbody){
+
+        List<MovieinfoDto>movieDtos=movieService.getmovieinfoadd(tbody);
+        model.addAttribute("movieinfo",movieDtos);
+        return "admin/adminmovieadd";
+
+    }
+    // 영화 스케쥴
+    @GetMapping("/movieinfoadd")
+    public String movieinfoadd(Model model,@RequestParam("tbody")int tbody){
+        List<DateEntity> dateEntityList = dateService.getdatelist(tbody);
+        model.addAttribute("datelist",dateEntityList);
+        return "admin/movieinfoadd";
+
+    }
+
     @GetMapping("/adminmain")
     public String adminmain(Model model){
-        List<CnemaEntity> cnemaEntityList = cnemaService.getCnemalist();
+        List<CnemaEntity> cnemaEntityList = cnemaService.getCnemalistadd(0);
         model.addAttribute("cnemalist" , cnemaEntityList);
-        List<MovieinfoDto> movieDtos = movieService.getmovieinfo();
+        List<MovieinfoDto> movieDtos = movieService.getmovieinfoadd(0);
         model.addAttribute("movieinfo" , movieDtos);
-        List<DateEntity> dateEntityList = dateService.getdatelist();
+        List<DateEntity> dateEntityList = dateService.getdatelist(0);
         model.addAttribute("datelist",dateEntityList);
         movieService.gettop4();
         return "admin/adminmain";
@@ -64,6 +92,8 @@ public class AdminController {
         return "admin/movieregister";
 
     }
+
+
     // 관등록 페이지 이동
     @GetMapping("/cnemawrite")
     public String cnemawrite(Model model){

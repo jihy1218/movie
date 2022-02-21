@@ -110,16 +110,27 @@ public class MemberService implements UserDetailsService {
         return new IntergratedDto(memberEntity, authorities);
     }
 
+    @Autowired
+    TicketingRepository ticketingRepository;
+/*
+    public List<TicketingEntity> getinfolist(int mno,int tbody){
+        Optional<MemberEntity> memberEntity = memberRepository.findById(mno);
+        int rno = memberEntity.get().getTicketingEntities().get(mno).getTno();
+        List<TicketingEntity> tno = ticketingRepository.findticketlist(mno);
+
+        List<TicketingEntity> resultlist = new ArrayList<>();
+        int count = 3;
+        for (int i = tbody; i<tbody+count ; i ++){
+            resultlist.add(tno.get(i));
+            System.out.println(resultlist+"service");
+        }
+        return resultlist;
+    }*/
 
     // 회원 정보 불러오기 메소드 ( 진행중 지형 )
-    public MemberDto getMemberDto(int mno,int tbody){
+    public MemberDto getMemberDto(int mno){/*,int tbody*/
         Optional<MemberEntity> memberEntity = memberRepository.findById(mno);
-      /*
-      List<MemberEntity> resultlist = new ArrayList<>();
-      int count = 3;
-      for (int i = tbody; i<tbody+count ; i ++){
-          resultlist.add()
-      }*/
+
         return MemberDto.builder()
                 .mno(mno)
                 .mid(memberEntity.get().getMid())
@@ -131,6 +142,7 @@ public class MemberService implements UserDetailsService {
                 .mage(memberEntity.get().getMage())
                 .mpassword(memberEntity.get().getMpassword())
                 .build();
+
     }
 
     public List<PaymentEntity> memberpaymentadd(String mid,int tbody){
@@ -288,8 +300,7 @@ public class MemberService implements UserDetailsService {
 
     @Autowired
     MovieRepository movieRepository;
-    @Autowired
-    TicketingRepository ticketingRepository;
+
     @Autowired
     PaymentRepository paymentRepository;
     //리뷰 작성
