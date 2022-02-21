@@ -2,6 +2,7 @@ package movie.controller;
 
 import movie.domain.Dto.MemberDto;
 import movie.domain.Dto.MovieinfoDto;
+import movie.domain.Dto.NewsDto;
 import movie.domain.Dto.TicketDto;
 import movie.domain.Entity.Member.MemberEntity;
 import movie.domain.Entity.Movie.ReplyEntity;
@@ -37,6 +38,8 @@ public class MemberController {
         for(int i=0; i<movieinfoDtos.size(); i++){
             movieinfoDtoList.add(movieinfoDtos.get(i));
         }
+        List<NewsDto> news = movieService.crawlingdaum();
+        model.addAttribute("news",news);
         model.addAttribute("movie",movieinfoDtoList);
         return "main";
     }
@@ -55,13 +58,12 @@ public class MemberController {
     }
 
     // 회원정보 더보기 만들기<--------------18일 부터
-    @GetMapping("/member/infoadd")
-    public String replyadd( Model model ,@RequestParam("tbody")int tbody){
-        HttpSession session = request.getSession();
-        MemberDto memberDto = (MemberDto) session.getAttribute("logindto");
-        MemberDto member = memberService.getMemberDto(memberDto.getMno(),tbody);
-        return "member/myinfotable";
-    }
+//    @GetMapping("/member/infoadd")
+//    public String replyadd( Model model ,@RequestParam("tbody")int tbody,
+//                            @RequestParam("mid")String mid){
+//
+//        return "member/myinfotable";
+//    }
 
 
     @Autowired
@@ -74,10 +76,21 @@ public class MemberController {
         MemberDto member = memberService.getMemberDto(memberDto.getMno(),0);
         int mno = memberDto.getMno();
         List<TicketDto> ticketDto = ticketingService.getticketlist(mno);
-        Page<PaymentEntity> paymentEntities = ticketingService.memberpaymentmember(member.getMid(),pageable);
+        List<PaymentEntity> paymentEntities = memberService.memberpaymentadd(member.getMid(),0);
         model.addAttribute("payment",paymentEntities);
         model.addAttribute("info", member);
         return "member/myinfo";
+    }
+
+    @GetMapping("/member/infoadd")
+    public String infoadd(@RequestParam("mid")String mid , Model model ,
+                           @RequestParam("tbody")int tbody){
+        System.out.println("mid:"+mid);
+        System.out.println("tbody:"+tbody);
+        List<PaymentEntity> paymentEntities = memberService.memberpaymentadd(mid,tbody);
+        model.addAttribute("payment",paymentEntities );
+
+        return "member/myinfotable";
     }
 
     //회원가입
@@ -221,9 +234,29 @@ public class MemberController {
     @GetMapping("/member/reviewtime")
     @ResponseBody
     public List<String> reviewtime(){
-        List<String> list = movieService.reviewtime();
+        List<String> list = movieService.reviewtime(1);
         System.out.println(list.toString());
         return list;
+    }
+
+    @GetMapping("/member/reviewtime2")
+    @ResponseBody
+    public List<String> reviewtime2(){
+        List<String> list = movieService.reviewtime(2);
+        System.out.println(list.toString());
+        return list;
+    }
+
+    //맴버환불요청
+    @GetMapping("/member/refund")
+    @ResponseBody
+    public String refund(@RequestParam("tno")int tno){
+        boolean result = memberService.ticketcancel(tno);
+        if(result){
+            return "1";
+        }else{
+            return "2";
+        }
     }
 
 

@@ -52,19 +52,49 @@ function sample4_execDaumPostcode() {
 //일정시간이후부터 실행되는
 $( document ).ready(function() {
 
-    $.ajax({
-        url:"/member/reviewtime",
-        success: function(data){
-          for (var i = 0; i < data.length; i++) {
-            if (new Date() >= new Date(data[i])) {
-              document.getElementById("rvbtn"+data[i]).style.display ="";
-
-            }
-          }
-        }
-    })
+    reviewtime();
 
 });
+
+        function reviewtime(){
+                $.ajax({
+                    url:"/member/reviewtime",
+                    success: function(data){
+                      for (var i = 0; i < data.length; i++) {
+                          document.getElementById("paytd"+data[i]).innerHTML ="<button data-bs-target='#reviewmodal' data-bs-toggle='modal' onclick='ontno("+data[i]+")'>리뷰작성</button>";
+                      }
+                    }
+                })
+
+                    $.ajax({
+                        url:"/member/reviewtime2",
+                        success: function(data){
+                          for (var i = 0; i < data.length; i++) {
+                            document.getElementById("paytd"+data[i]).innerHTML ="<button data-bs-target='#refundmodal' data-bs-toggle='modal' onclick='ontno("+data[i]+")'>환불요청</button>";
+                          }
+                        }
+                    })
+        }
+
+
+
+        function refund(){
+            $.ajax({
+              url:"/member/refund",
+                data:{
+                    "tno" :tno
+                },
+                success: function(data){
+                    if(data==1){
+                         alert("예매최소 완료");
+                         location.reload();
+                    }
+                }
+            })
+
+        }
+
+
         var tno = 0;
 
         function ontno(tno1){
@@ -409,16 +439,20 @@ function mdelete(){
 
 
 function replyadd1( ){
-
-
-   const table = document.getElementById('spreadsheet1');
-    const tbody = table.tBodies[0].rows.length;
+    var mid = $("#midval").val();
+    const table = document.getElementById('spreadsheet1');
+    const tbody = table.tBodies[0].rows.length-1;
+    alert(mid);
+    alert(tbody);
       $.ajax({
         url: "/member/infoadd" ,
-        data : {  "tbody" : tbody } ,
+        data : {
+          "mid" : mid,
+          "tbody" : tbody
+          } ,
         success : function( data ){
-        alert(data);
-         /*  $("#spreadsheet>tbody").append(data);*/
+         $("#spreadsheet1>tbody").append(data);
+         reviewtime();
         }
       });
 
