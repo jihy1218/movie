@@ -37,7 +37,7 @@
                  aria-labelledby="userinfo-tab">
                 <div>
                     <a th:href="@{/admin/cnemawrite}" ><button class="btn btn-secondary" > 관등록 </button></a>
-                    <table class="table p-5">
+                    <table class="table p-5" id="spreadsheet1">
                         <tr>
                             <td>관</td><td>종류</td><td>좌석수</td>
                         </tr>
@@ -46,28 +46,30 @@
                             <td><a href="#" class="button" th:onclick="admindelete(1,[[${cnema.cno}]])">X</a></td>
                         </tr>
                     </table>
+                    <button class="form-control" onclick="movieadd()"> 더 보기 ⬇</button>
                 </div>
             </div>
             <div class="tab-pane fade" id="myreview" role="tabpanel"
                  aria-labelledby="myreview-tab" >
                 <div>
                     <a th:href="@{/admin/moviewrite}"><button class="btn btn-secondary"> 영화등록 </button></a>
-                    <table class="table p-5">
-                        <tr>
-                            <td>영화아이디</td><td>영화제목</td><td>영화개봉일</td>
-                        </tr>
-                        <tr th:each="movie : ${movieinfo}">
-                            <td th:text="${movie.mvid}"></td><td th:text="${movie.movieNm}"></td><td th:text="${movie.openDt}"></td>
-                            <td><a href="#" class="button" th:onclick="admindelete(2,[[${movie.mvno}]])">X</a></td>
-                        </tr>
+                    <table class="table p-5" id="spreadsheet2">
+                            <tr>
+                                <td>영화아이디</td><td>영화제목</td><td>영화개봉일</td>
+                            </tr>
+                            <tr th:each="movie : ${movieinfo}">
+                                <td th:text="${movie.mvid}"></td><td th:text="${movie.movieNm}"></td><td th:text="${movie.openDt}"></td>
+                                <td><a href="#" class="button" th:onclick="admindelete(2,[[${movie.mvno}]])">X</a></td>
+                            </tr>
                     </table>
+                    <button class="form-control" onclick="movieadd2()"> 더 보기 ⬇</button>
                 </div>
             </div>
             <div class="tab-pane fade" id="wishlist" role="tabpanel"
                  aria-labelledby="wishlist-tab">
                 <div>
                     <a th:href="@{/admin/moviedate}" ><button class="btn btn-secondary"> 시간등록 </button></a>
-                    <table class="table p-5">
+                    <table class="table p-5" id="spreadsheet3">
                         <tr>
                             <td>날짜</td><td>시간</td><td>관</td><td>영화아이디</td><td>좌석수</td>
                         </tr>
@@ -77,6 +79,7 @@
                             <td><a href="#" class="button" th:onclick="admindelete(3,[[${date.dno}]])">X</a></td>
                         </tr>
                     </table>
+                    <button class="form-control" onclick="movieadd3()"> 더 보기 ⬇</button>
                 </div>
             </div>
         </div>

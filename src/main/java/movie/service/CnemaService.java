@@ -37,8 +37,29 @@ public class CnemaService {
         Optional<CnemaEntity> cnemaEntity = cnemaRepository.findById(cno);
         return true;
     }
+    // 관 조회 더보기 추가한거
+
+    public List<CnemaEntity> getCnemalistadd(int tbody ){
+        List<CnemaEntity> cnemaEntityList = cnemaRepository.findAll();
+        List<CnemaEntity> resultlist = new ArrayList<>();
+        int count = 1;
+        if(cnemaEntityList.size()-tbody<count){
+            for(int i = tbody; i<cnemaEntityList.size()-tbody; i++){
+                resultlist.add(cnemaEntityList.get(i));
+            }
+
+        }else{
+            for( int i = tbody ; i<tbody+count ; i++ ){
+                resultlist.add(  cnemaEntityList.get(i) );
+            }
+        }
+
+
+        return resultlist;
+    }
+
     //관조회
-    public List<CnemaEntity> getCnemalist(){
+    public List<CnemaEntity> getCnemalist( ){
         List<CnemaEntity> cnemaEntityList = cnemaRepository.findAll();
         return cnemaEntityList;
     }

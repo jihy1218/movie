@@ -23,7 +23,6 @@ function moviewrite(){
 
 function movieinfodiv(){
     var mvid = $("#mvid").val();
-    alert(mvid);
     $.ajax({
         type:"POST",
         url : "/admin/moviewriteinfo",
@@ -190,6 +189,53 @@ function datesearch(){
    document.getElementById("datasearch1").value = date1;
    document.getElementById("datasearch2").value = date2;
 }
+
+/*어드민 관 더보기*/
+function movieadd(){
+
+    const table = document.getElementById('spreadsheet1');   // '@@'에는 테이블이름 넣기
+    const tbody = table.tBodies[0].rows.length-1;         //지금 갯수
+      $.ajax({
+        url: "/admin/cnemaadd" ,
+        data : { "tbody":tbody } ,
+        success : function( data ){               //데이타가  httml임
+           $("#spreadsheet1>tbody").append(data);
+        }
+      });
+
+}
+/*어드민 영화 더보기 */
+/*어드민 관 더보기*/
+function movieadd2(){
+
+
+    const table = document.getElementById('spreadsheet2');   // '@@'에는 테이블이름 넣기
+    const tbody = table.tBodies[0].rows.length-1;         //지금 갯수
+      $.ajax({
+        url: "/admin/movieadd" ,
+        data : {"tbody" : tbody } ,
+        success : function( data ){               //데이타가  httml임
+           $("#spreadsheet2>tbody").append(data);
+        }
+      });
+
+}
+function movieadd3(){
+
+    const table = document.getElementById('spreadsheet3');   // '@@'에는 테이블이름 넣기
+    const tbody = table.tBodies[0].rows.length-1;         //지금 갯수
+      $.ajax({
+        url: "/admin/movieinfoadd" ,
+        data : {"tbody" : tbody } ,
+        success : function( data ){               //데이타가  httml임
+           $("#spreadsheet3>tbody").append(data);
+        }
+      });
+
+}
+
+
+
 
 
 

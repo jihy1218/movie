@@ -1,0 +1,5 @@
+<tr th:each="date : ${datelist}">
+    <td th:text="${date.ddate}"></td><td th:text="${date.dtime}"></td>
+    <td th:text="${date.cnemaEntityDate.cname}"></td><td th:text="${date.movieEntityDate.mvid}"></td><td th:text="${date.dseat}"></td>
+    <td><a href="#" class="button" th:onclick="admindelete(3,[[${date.dno}]])">X</a></td>
+</tr>

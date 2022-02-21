@@ -23,24 +23,18 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
-import java.beans.Transient;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.text.DecimalFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -160,6 +154,100 @@ public class MovieService {
         } catch (Exception e) {
         }
         return null;
+    }
+    //영화 상세 정보 더보기 추가한거
+    public List<MovieinfoDto> getmovieinfoadd(int tbody){
+
+        List<MovieDto> list = this.getmovielist();
+        List<MovieinfoDto> movieDtos = new ArrayList<>();
+        JSONArray jsonArray = new JSONArray();
+
+        for(MovieDto temp : list){
+            String urlpa = "https://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?key=102a22e0d8e3693e65e4384ea0843554&movieCd="+temp.getMvid();
+            try {
+                URL url = new URL(urlpa);
+                BufferedReader bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
+                String result = bf.readLine();
+                JSONParser jsonParser = new JSONParser();
+                JSONObject jsonObject = (JSONObject) jsonParser.parse(result);
+                JSONObject jsonObject2 = (JSONObject) jsonObject.get("movieInfoResult");
+                JSONObject jsonObject3 = (JSONObject) jsonObject2.get("movieInfo");
+                JSONArray nations = (JSONArray) jsonObject3.get("nations");
+                JSONObject nation = (JSONObject)nations.get(0);
+                JSONArray genresJS = (JSONArray)  jsonObject3.get("genres");
+                JSONObject genres = (JSONObject)genresJS.get(0);
+                JSONArray directorsJS = (JSONArray)  jsonObject3.get("directors");
+                JSONObject directors = (JSONObject)directorsJS.get(0);
+                JSONArray actorsJSON = (JSONArray) jsonObject3.get("actors");
+                JSONArray companysJS = (JSONArray) jsonObject3.get("companys");
+                JSONObject companys = (JSONObject)companysJS.get(0);
+
+                JSONArray auditsJS = (JSONArray) jsonObject3.get("audits");
+                JSONObject audits = (JSONObject)auditsJS.get(0);
+                String actors = "" ;
+                for(int i = 0; i<3; i++){
+                    JSONObject abc = (JSONObject)actorsJSON.get(i);
+                    if(i==2) {
+                        actors += abc.get("peopleNm");
+                    }else {
+                        actors += abc.get("peopleNm") + " ,";
+                    }
+                }
+                Optional<MovieEntity>  movieEntity = movieRepository.findById(temp.getMno());
+                List<MoviefileEnity> moviefileEnity =  movieEntity.get().getMoviefileEnities();
+                List<MovieinfoDto.MoviefileDto> moviefileDtoList = new ArrayList<>();
+
+                String poster = null;
+                List<String> movieimg = new ArrayList<>();
+                List<String> movievideo  = new ArrayList<>();
+                for(MoviefileEnity temp2 : moviefileEnity){
+                    if(temp2.getMvtype()==1){
+                        poster = temp2.getMvfile();
+                    }else if(temp2.getMvtype()==2){
+                        movieimg.add(temp2.getMvfile());
+                    }else if(temp2.getMvtype()==3){
+                        movievideo.add(temp2.getMvfile());
+                    }
+                    moviefileDtoList.add(temp2.toDto());
+                }
+                MovieinfoDto movieDto = MovieinfoDto.builder()
+                        .mvno(temp.getMno())
+                        .movieNm((String)jsonObject3.get("movieNm"))
+                        .showTm(Integer.parseInt((String)jsonObject3.get("showTm")))
+                        .openDt((String)jsonObject3.get("openDt"))
+                        .nations((String) nation.get("nationNm"))
+                        .genres((String)genres.get("genreNm"))
+                        .directors((String)directors.get("peopleNm"))
+                        .actors(actors)
+                        .mvid(temp.getMvid())
+                        .companyNm((String)companys.get("companyNm"))
+                        .watchGradeNm((String)audits.get("watchGradeNm"))
+                        .poster(poster)
+                        .movieimg(movieimg)
+                        .movievideo(movievideo)
+                        .build();
+                movieDtos.add(movieDto);
+            } catch (Exception e) {
+            }
+        }
+
+        List<MovieinfoDto> list1 = new ArrayList<>();
+
+        int count = 3;
+        int 남은갯수 = movieDtos.size()-tbody;
+
+        if(남은갯수<count){
+            for(int i = tbody; i<tbody+(남은갯수); i++){
+                list1.add(movieDtos.get(i));
+            }
+        }else{
+            for( int i = tbody ; i<tbody+count ; i++ ){
+                list1.add(movieDtos.get(i));
+            }
+        }
+
+
+        return list1;
     }
 
 
@@ -414,8 +502,6 @@ public class MovieService {
             }
         }
 
-        System.out.println();
-        System.out.println("resultlist: "+resultlist.toString());
         return resultlist;
     }
 
@@ -634,7 +720,6 @@ public class MovieService {
         List<String> result = new ArrayList<String>();
         List<String> result2 = new ArrayList<String>();
         Date now = new Date();
-        System.out.println("ti :"+ticketlist);
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-M-dd HH:mm");
         try{
             for(PaymentEntity ticketing : paylist){
@@ -643,7 +728,6 @@ public class MovieService {
                     String time = ticketing.getPtime().split("•")[1].split("~")[1];
                     String date2 = date+" "+time;
                     Date date3 = formatter.parse(date2);
-                    System.out.println("date3: " + date3);
                     if(date3.before(now)){
                         result.add(ticketing.getTno()+"");
                     }else{
@@ -670,7 +754,7 @@ public class MovieService {
         return gradle;
     }
 
-    public List<NewsDto> crawlingdaum(){
+    public List<NewsDto> crawlingdaum() {
 
         // Jsoup를 이용해서 http://www.cgv.co.kr/movies/ 크롤링
         String url = "https://www.joongang.co.kr/culture/movie/"; //크롤링할 url지정
@@ -681,9 +765,7 @@ public class MovieService {
             //select를 이용하여 원하는 태그를 선택한다. select는 원하는 값을 가져오기 위한 중요한 기능이다.
             Elements element = doc.select("ul.story_list");
             List<NewsDto> newsDtos = new ArrayList<>();
-            System.out.println("============================================================");
-            System.out.println(element.select("p.date").get(0));
-            for(int i=0; i<4; i++){
+            for (int i = 0; i < 4; i++) {
                 NewsDto news = NewsDto.builder()
                         .headline(String.valueOf(element.select("h2.headline").get(i)))
                         .description(String.valueOf(element.select("p.description").get(i)))
@@ -697,9 +779,9 @@ public class MovieService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("============================================================");
 
         return null;
+    }
     // sms 전송
     public void sendSms(String phoneNumber,String movieNm, String cinema, String movieTime, String movieSeat) {
 

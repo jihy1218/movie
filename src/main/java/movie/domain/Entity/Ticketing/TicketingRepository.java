@@ -15,4 +15,5 @@ public interface TicketingRepository extends JpaRepository<TicketingEntity,Integ
     @Query( nativeQuery = true , value = "SELECT * FROM ticketing where mno = :mno" )
     List<TicketingEntity> findticketlist(@Param("mno") int mno);
 
+
 }

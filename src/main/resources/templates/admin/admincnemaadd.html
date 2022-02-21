@@ -1,0 +1,5 @@
+
+    <tr th:each="cnema : ${cnemalist}">
+        <td th:text="${cnema.cname}"></td><td th:text="${cnema.ctype}"></td><td th:text="${cnema.ccount}"></td>
+        <td><a href="#" class="button" th:onclick="admindelete(1,[[${cnema.cno}]])">X</a></td>
+    </tr>
