@@ -1,0 +1,5 @@
+
+<tr th:each="movie : ${movieinfo}">
+    <td th:text="${movie.mvid}"></td><td th:text="${movie.movieNm}"></td><td th:text="${movie.openDt}"></td>
+    <td><a href="#" class="button" th:onclick="admindelete(2,[[${movie.mvno}]])">X</a></td>
+</tr>

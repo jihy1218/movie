@@ -418,7 +418,7 @@ function replyadd1( ){
         data : {  "tbody" : tbody } ,
         success : function( data ){
         alert(data);
-         /*  $("#spreadsheet>tbody").append(data);*/
+           $("#spreadsheet1>tbody").append(data);
         }
       });
 

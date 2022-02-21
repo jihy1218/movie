@@ -1,6 +1,7 @@
 package movie.service;
 
 import movie.domain.Dto.DateDto;
+import movie.domain.Dto.MovieinfoDto;
 import movie.domain.Entity.Cnema.CnemaEntity;
 import movie.domain.Entity.Cnema.CnemaRepository;
 import movie.domain.Entity.Date.DateEntity;
@@ -12,6 +13,7 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,14 +51,32 @@ public class DateService {
     }
 
     //조회
-    public List<DateEntity> getdatelist(){
+    public List<DateEntity> getdatelist(int tbody){
         List<DateEntity> dateEntityList = dateRepository.findAll();
-        return dateEntityList;
+        List<DateEntity>result = new ArrayList<>();
+        int count = 3;
+        int 남은갯수 = dateEntityList.size()-tbody;
+
+        if(남은갯수<count){
+            for(int i = tbody; i<tbody+(남은갯수); i++){
+                result.add(dateEntityList.get(i));
+            }
+        }else{
+            for( int i = tbody ; i<tbody+count ; i++ ){
+                result.add(dateEntityList.get(i));
+            }
+        }
+
+        return result;
     }
+
+
+
 
     //dno로 조회
     public DateEntity getdateentity(int dno){
         DateEntity dateentity = dateRepository.findById(dno).get();
+
         return dateentity;
     }
 
