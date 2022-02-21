@@ -283,10 +283,18 @@ public class TicketingService {
         return 0;
     }
 
-    //어드민예약ㅇ취소
+    //어드민예약취소
     @Transactional
     public boolean ticketcancel(int tno){
+
         TicketingEntity ticketing = ticketingRepository.findById(tno).get();
+        JSONParser jsonParser = new JSONParser();
+        try{
+            JSONObject jsonObject = (JSONObject)jsonParser.parse(ticketing.getTage());
+            int count = Integer.parseInt(String.valueOf(jsonObject.get("youth")))+Integer.parseInt(String.valueOf(jsonObject.get("adult")));
+            ticketing.getDateEntityTicket().setDseat(ticketing.getDateEntityTicket().getDseat()+count);
+        }catch(Exception e){}
+
         ticketingRepository.delete(ticketing);
 
         PaymentEntity paymentEntity = paymentRepository.findBytno(tno);

@@ -144,12 +144,13 @@
                     </div>
                     <div id="retable" >
                         <table class="table" id="spreadsheet" >
-                            <!-- <tr>
+
+                            <tbody>
+                             <tr>
                                  <th widh="10%">작성자 <br><span style="font-size:5px;">작성일</span></th>
                                  <th widh="70%">내용 </th>
                                  <th widh="10%">비고</th>
-                             </tr>-->
-                            <tbody>
+                            </tr>
                                 <tr th:each="reply:${replyEntitiys}">
                                     <td>
                                         <div th:text="${reply.rno}"></div>
