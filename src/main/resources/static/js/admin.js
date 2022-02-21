@@ -23,7 +23,6 @@ function moviewrite(){
 
 function movieinfodiv(){
     var mvid = $("#mvid").val();
-    alert(mvid);
     $.ajax({
         type:"POST",
         url : "/admin/moviewriteinfo",

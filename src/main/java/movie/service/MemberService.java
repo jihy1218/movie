@@ -163,14 +163,12 @@ public class MemberService implements UserDetailsService {
                 resultlist.add(  paylist.get(i) );
             }
         }
-        System.out.println("memblis :"+replacePate(resultlist));
-        return resultlist;
+        return replacePate(resultlist);
     }
 
     //페이지 가공
     public  List<PaymentEntity> replacePate(List<PaymentEntity> page){
         List<PaymentEntity> list = page;
-        System.out.println(list.toString());
         JSONParser jsonParser = new JSONParser();
         try{
             for(int i=0; i<list.size(); i++){
@@ -193,7 +191,6 @@ public class MemberService implements UserDetailsService {
             }
 
         }catch (Exception e){}
-        System.out.println(list.toString());
         return page;
     }
 

@@ -101,8 +101,6 @@ public class MemberController {
     @GetMapping("/member/infoadd")
     public String infoadd(@RequestParam("mid")String mid , Model model ,
                            @RequestParam("tbody")int tbody){
-        System.out.println("mid:"+mid);
-        System.out.println("tbody:"+tbody);
         List<PaymentEntity> paymentEntities = memberService.memberpaymentadd(mid,tbody);
         model.addAttribute("payment",paymentEntities );
 
@@ -146,24 +144,6 @@ public class MemberController {
             return "2";
         }
     }
-
- /*  //로그인
-   @PostMapping("/member/logincontroller")
-    @ResponseBody
-    public String logincontroller(@RequestBody MemberDto memberDto){
-        //폼 사용시에는 자동 주입 0
-        // AJAX 사용시에는 자동주입X -> @RequestBody
-       MemberDto loginDto = memberService.login(memberDto);
-       if(loginDto !=null){
-           HttpSession session = request.getSession();
-           session.setAttribute("logindto",loginDto);
-           System.out.print("Login success");
-           return "1";
-       }else{
-           System.out.print("Login fail");
-           return "2";
-       }
-    }*/
 
 
    // 아이디 찾기
@@ -251,7 +231,6 @@ public class MemberController {
     @ResponseBody
     public List<String> reviewtime(){
         List<String> list = movieService.reviewtime(1);
-        System.out.println(list.toString());
         return list;
     }
 
@@ -259,7 +238,6 @@ public class MemberController {
     @ResponseBody
     public List<String> reviewtime2(){
         List<String> list = movieService.reviewtime(2);
-        System.out.println(list.toString());
         return list;
     }
 

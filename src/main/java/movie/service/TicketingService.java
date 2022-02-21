@@ -72,7 +72,6 @@ public class TicketingService {
                     updateticketlist.add((String)jsonObject1.get("seat"));
                 }
             }
-            System.out.println("updateticketlist"+ updateticketlist.toString());
 
             //좌표 제이슨 -> 제이슨어레이
             JSONObject jsonObject = (JSONObject) jsonParser.parse(cnemaact);
@@ -237,22 +236,17 @@ public class TicketingService {
                     ticketing.getDateEntityTicket().getDdate()+" "+ticketing.getDateEntityTicket().getDtime()
             );
             JSONObject jsonObject2 = (JSONObject)jsonParser.parse(ticketing.getTseat());
-            System.out.println("jsonObject2 (: "+jsonObject2);
-            System.out.println("jsonObject2.get (: "+jsonObject2.get("tseat"));
             JSONArray jsonArray = (JSONArray) jsonObject2.get("tseat");
             String seat = "";
             for( int i = 0; i<jsonArray.size(); i++){
                 JSONObject jsonObject = (JSONObject)jsonArray.get(i);
-                System.out.println("jsonObject: "+jsonObject);
                 seat = seat + " " +jsonObject.get("seat")+"석";
-                System.out.println("seat: "+seat);
             }
             dto.setSeat(seat);
             JSONObject jsonObject = (JSONObject)jsonParser.parse(ticketing.getTage());
             dto.setCount("어른 :"+String.valueOf(jsonObject.get("adult"))+
                     " 청소년 :"+String.valueOf(jsonObject.get("youth")));
             JSONObject mvjson = movieService.getmovieinfoselect(ticketing.getDateEntityTicket().getMovieEntityDate().getMvid());
-            System.out.println("mvjson:"+mvjson);
             dto.setMovietitle(String.valueOf(mvjson.get("movieNm")));
             dto.setCnemaname(ticketing.getDateEntityTicket().getCnemaEntityDate().getCname());
             dto.setPrice(ticketing.getTprice());
@@ -313,17 +307,14 @@ public class TicketingService {
 
         // 검색이 있을경우
         if(keyword!=null&&keyword.equals("pmoviename")){
-            System.out.println("2");
             Page<PaymentEntity> paymentEntity = replacePate(paymentRepository.findByPmoviename(search,pageable));
             return paymentEntity;
         }
         if(keyword!=null&&keyword.equals("tno")){
-            System.out.println("3");
             Page<PaymentEntity> paymentEntity = replacePate(paymentRepository.findByTno(search,pageable));
             return paymentEntity;
         }
         if(keyword!=null&&keyword.equals("mid")){
-            System.out.println("4");
             Page<PaymentEntity> paymentEntity = replacePate(paymentRepository.findByMid(search,pageable));
             return paymentEntity;
         }
@@ -341,10 +332,7 @@ public class TicketingService {
         else{page=pageable.getPageNumber()-1;}      // 1페이지 이상일때는 -1해서
         // 페이지 속성 페이지번호, 페이지당 게시물수, 정렬
         pageable = PageRequest.of(page,10);
-        System.out.println("mid:"+mid);
-        System.out.println("page :"+pageable);
         Page<PaymentEntity> paymentEntity = replacePate(paymentRepository.findBymno(mid,pageable));
-        System.out.println(paymentEntity.toString());
         return paymentEntity;
     }
 
@@ -353,7 +341,6 @@ public class TicketingService {
     //페이지 가공
     public Page<PaymentEntity> replacePate(Page<PaymentEntity> page){
         List<PaymentEntity> list = page.getContent();
-        System.out.println(list.toString());
         try{
             for(int i=0; i<list.size(); i++){
                 JSONObject jsonObject = (JSONObject)jsonParser.parse(list.get(i).getPpeople());
@@ -375,7 +362,6 @@ public class TicketingService {
             }
 
         }catch (Exception e){}
-        System.out.println(list.toString());
         return page;
     }
 

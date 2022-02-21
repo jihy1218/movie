@@ -100,7 +100,6 @@ public class AdminController {
         CnemaDto cnemaDto = new CnemaDto(20,10);
         List<String> cnemalist = cnemaDto.getCnemaact();
         model.addAttribute("list" , cnemalist);
-        System.out.println(cnemalist+"테스트");
         return "admin/cnemaregister";
     }
 
@@ -260,9 +259,6 @@ public class AdminController {
         int adult = ticketingService.getseatcount(tno,1);
         int youth = ticketingService.getseatcount(tno,2);
 
-        System.out.println("adult :"+adult);
-        System.out.println("youth :"+youth);
-
         model.addAttribute("adult",adult);
         model.addAttribute("youth",youth);
         model.addAttribute("movieinfo",movieinfo);
@@ -275,9 +271,6 @@ public class AdminController {
     @GetMapping("/ticketcancel")
     @ResponseBody
     public String ticketcancel(@RequestParam("tno")int tno){
-
-        System.out.println("abc  :"+tno);
-
         boolean result = ticketingService.ticketcancel(tno);
         if(result){
             return  "1";
@@ -321,7 +314,6 @@ public class AdminController {
     @ResponseBody
     public List<String> salesdata(@RequestParam("year")String year){
         List<String> ass = ticketingService.monthSales(year);
-        System.out.println(ass.toString());
         return ass;
     }
 

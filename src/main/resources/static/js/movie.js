@@ -106,12 +106,8 @@ $(document).ready(function(){
 
 
     function replywrite(){
-
      var rcontents =$("#rcontents").val();
      var mvno =$("#mvno").val();
-
-     alert(mvno);
-
      //댓글내용 미 입력시 댓글 저장 막기
         if(rcontents==""){alert("댓글 내용을 입력해주세요!");return;}
          $.ajax({
@@ -156,10 +152,8 @@ function replyadd( ){
     var mvid = $("#mvid").val();
 
     const table = document.getElementById('spreadsheet');
-    alert(table);
 
     const tbody = table.tBodies[0].rows.length-1;
-    alert(tbody);
       $.ajax({
         url: "/movie/replyadd" ,
         data : { "mvid" : mvid , "tbody" : tbody } ,
