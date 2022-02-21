@@ -86,7 +86,7 @@ $( document ).ready(function() {
                 },
                 success: function(data){
                     if(data==1){
-                         alert("예매최소 완료");
+                         alert("예매취소 완료");
                          location.reload();
                     }
                 }
@@ -106,7 +106,6 @@ $( document ).ready(function() {
         function review(){
             var reviewcontents = document.getElementById("reviewcontents").value;
             var temp = $(':radio[name="rating"]:checked').val();
-            alert(tno);
             if(reviewcontents==""){
                 alert("리뷰를 작성해주세요");
                 return;
@@ -278,31 +277,7 @@ $(function(){
     });
 });
 /*회원가입 유효성 검사끝*/
-/*로그인*/
-/*function login(){
 
-       var mid = $("#login_mid").val();
-        var mpassword = $("#login_mpassword").val();
-        var memberdto = { "mid" : mid  , "mpassword" : mpassword  };
-        $.ajax({
-        url: "/member/logincontroller",             // 보내는곳
-        data : JSON.stringify(memberdto)  ,   //  전송 데이터 값
-           //  JSON.stringify( JSON 자료형 -> 문자열 )
-        method: "post",        //  Get , Post 방식중 선택
-        contentType: "application/json" ,  //  ajax 타입
-        success: function(result){
-       if(result==1){
-       alert(result);
-       }
-          location.href="/"
-        }else{
-            $("#loginfailmsg").html("아이디 혹은 비밀번호가 다릅니다.");
-        }
-     }
-
-   });
-}*/
-/*로그인 끝*/
 // 아이디찾기
 function findid(){
     var name = $("#findidname").val();
@@ -442,8 +417,6 @@ function replyadd1( ){
     var mid = $("#midval").val();
     const table = document.getElementById('spreadsheet1');
     const tbody = table.tBodies[0].rows.length-1;
-    alert(mid);
-    alert(tbody);
       $.ajax({
         url: "/member/infoadd" ,
         data : {

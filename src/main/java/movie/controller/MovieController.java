@@ -89,10 +89,6 @@ public class MovieController {
 
         // 댓글
        List<ReplyEntity> replyEntitiys = movieService.getreplylist(mvid , 0);
-
-       System.out.println(" mvid controller:"+mvid);
-
-       System.out.println("controller2 :"+replyEntitiys);
         MovieinfoDto movieinfoDto = MovieinfoDto.builder()
                 .mvno(movieService.getMvno(mvid))
                 .mvid(mvid)
@@ -123,7 +119,6 @@ public class MovieController {
     @GetMapping("replydelete")
     @ResponseBody
     public int replydelete(@RequestParam("rno") int rno){
-        System.out.println("controller:"+rno);
         boolean result = movieService.replydelete(rno);
         if(result){
             return 1;
@@ -231,7 +226,6 @@ public class MovieController {
             movieinfoDtoList.add(movieinfoDtos.get(i));
         }
         List<MovieinfoDto> top4list = movieService.gettop4();
-        System.out.println(top4list.toString());
         model.addAttribute("top4",top4list);
         model.addAttribute("movie",movieinfoDtoList);
        return "movie/moviehome";

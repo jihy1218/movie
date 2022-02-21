@@ -4,7 +4,6 @@ function payment(ctype,dno){
     var ageJson = new Object();
     ageJson.youth = ycount;
     ageJson.adult = acount;
-    alert(dno);
     var price = 0;
     if(ctype=="IMAX"){
         price = (10000+imx)*acount+(8000+imx)*ycount;
@@ -118,7 +117,6 @@ function btntcount(place){
 
     var tageJson = new Object();
     var tseatJson = new Object();
-    //alert(totalcount);
 
     const style = document.getElementById(place).style;
 
@@ -137,10 +135,6 @@ function btntcount(place){
         tseatJsonArray.push(tseatJson);
         tsJson.tseat = tseatJsonArray;
     }
-    //alert(count);
-    //alert(JSON.stringify(tseatJsonArray));
-    //alert(JSON.stringify(tsJson));
-    //alert(tseatJsonArray)
 
         if(totalcount==count&&totalcount!=0){
             document.getElementById("paymentbtn").style.display = '';

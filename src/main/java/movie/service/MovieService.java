@@ -226,7 +226,6 @@ public class MovieService {
                         .movieimg(movieimg)
                         .movievideo(movievideo)
                         .build();
-                System.out.println("2132132131"+movieDto.toString());
                 movieDtos.add(movieDto);
             } catch (Exception e) {
             }
@@ -503,8 +502,6 @@ public class MovieService {
             }
         }
 
-        System.out.println();
-        System.out.println("resultlist: "+resultlist.toString());
         return resultlist;
     }
 
@@ -723,7 +720,6 @@ public class MovieService {
         List<String> result = new ArrayList<String>();
         List<String> result2 = new ArrayList<String>();
         Date now = new Date();
-        System.out.println("ti :"+ticketlist);
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-M-dd HH:mm");
         try{
             for(PaymentEntity ticketing : paylist){
@@ -732,7 +728,6 @@ public class MovieService {
                     String time = ticketing.getPtime().split("•")[1].split("~")[1];
                     String date2 = date+" "+time;
                     Date date3 = formatter.parse(date2);
-                    System.out.println("date3: " + date3);
                     if(date3.before(now)){
                         result.add(ticketing.getTno()+"");
                     }else{
@@ -759,7 +754,7 @@ public class MovieService {
         return gradle;
     }
 
-    public List<NewsDto> crawlingdaum(){
+    public List<NewsDto> crawlingdaum() {
 
         // Jsoup를 이용해서 http://www.cgv.co.kr/movies/ 크롤링
         String url = "https://www.joongang.co.kr/culture/movie/"; //크롤링할 url지정
@@ -770,9 +765,7 @@ public class MovieService {
             //select를 이용하여 원하는 태그를 선택한다. select는 원하는 값을 가져오기 위한 중요한 기능이다.
             Elements element = doc.select("ul.story_list");
             List<NewsDto> newsDtos = new ArrayList<>();
-            System.out.println("============================================================");
-            System.out.println(element.select("p.date").get(0));
-            for(int i=0; i<4; i++){
+            for (int i = 0; i < 4; i++) {
                 NewsDto news = NewsDto.builder()
                         .headline(String.valueOf(element.select("h2.headline").get(i)))
                         .description(String.valueOf(element.select("p.description").get(i)))
@@ -786,9 +779,9 @@ public class MovieService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("============================================================");
 
         return null;
+    }
     // sms 전송
     public void sendSms(String phoneNumber,String movieNm, String cinema, String movieTime, String movieSeat) {
 
