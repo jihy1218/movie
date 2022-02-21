@@ -80,7 +80,7 @@ public class AdminController {
         model.addAttribute("movieinfo" , movieDtos);
         List<DateEntity> dateEntityList = dateService.getdatelist(0);
         model.addAttribute("datelist",dateEntityList);
-
+        movieService.gettop4();
         return "admin/adminmain";
     }
 

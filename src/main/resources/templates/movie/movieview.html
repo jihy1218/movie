@@ -21,7 +21,7 @@
                         <img th:src="@{'/poster/'+${movieview.movieimg[0]}}" class="d-block w-100">
                     </div>
                     <div class="carousel-item" th:each="num : ${#numbers.sequence(1,movieview.movieimg.size()-1)}">
-<!--                        <img th:src="@{'/poster/'+${movieview.movieimg[num]}}" class="d-block w-100">-->
+                        <img th:src="@{'/poster/'+${movieview.movieimg[num]}}" class="d-block w-100">
                     </div>
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
@@ -144,12 +144,13 @@
                     </div>
                     <div id="retable" >
                         <table class="table" id="spreadsheet" >
-                            <!-- <tr>
+
+                            <tbody>
+                             <tr>
                                  <th widh="10%">작성자 <br><span style="font-size:5px;">작성일</span></th>
                                  <th widh="70%">내용 </th>
                                  <th widh="10%">비고</th>
-                             </tr>-->
-                            <tbody>
+                            </tr>
                                 <tr th:each="reply:${replyEntitiys}">
                                     <td>
                                         <div th:text="${reply.rno}"></div>

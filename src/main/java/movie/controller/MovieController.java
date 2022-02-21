@@ -230,7 +230,9 @@ public class MovieController {
         for(int i=0; i<movieinfoDtos.size(); i++){
             movieinfoDtoList.add(movieinfoDtos.get(i));
         }
-        movieService.gettop4();
+        List<MovieinfoDto> top4list = movieService.gettop4();
+        System.out.println(top4list.toString());
+        model.addAttribute("top4",top4list);
         model.addAttribute("movie",movieinfoDtoList);
        return "movie/moviehome";
     }
@@ -240,6 +242,13 @@ public class MovieController {
        return "repair";
     }
 
+    // 문자 전송 매핑
+    @GetMapping("/sms")
+    @ResponseBody
+    public String sendsms(@RequestParam("movieNm")String movieNm,@RequestParam("cinema")String cinema,@RequestParam("movieTime")String movieTime,@RequestParam("movieSeat")String movieSeat,@RequestParam("phoneNumber")String phoneNumber){
+        movieService.sendSms(phoneNumber,movieNm,cinema,movieTime,movieSeat);
+        return "1";
+    }
 
 
 

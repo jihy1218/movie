@@ -3,16 +3,25 @@ package movie.service;
 import movie.domain.Dto.MemberDto;
 import movie.domain.Dto.MovieDto;
 import movie.domain.Dto.MovieinfoDto;
+import movie.domain.Dto.NewsDto;
 import movie.domain.Entity.Date.DateEntity;
 import movie.domain.Entity.Member.MemberEntity;
 import movie.domain.Entity.Member.MemberRepository;
 import movie.domain.Entity.Member.ReviewEntity;
 import movie.domain.Entity.Movie.*;
+import movie.domain.Entity.Payment.PaymentEntity;
+import movie.domain.Entity.Payment.PaymentRepository;
 import movie.domain.Entity.Ticketing.TicketingEntity;
 import movie.domain.Entity.Ticketing.TicketingRepository;
+import net.nurigo.java_sdk.api.Message;
+import net.nurigo.java_sdk.exceptions.CoolsmsException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,6 +31,7 @@ import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.text.DecimalFormat;
@@ -127,7 +137,8 @@ public class MovieService {
     //박스오피스 api가져오기
     public JSONArray getmovie(){
         try {
-            URL url = new URL("https://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchWeeklyBoxOfficeList.json?key=7e83198258b5dd58ff5ca336a95ff5e8&targetDt=20220123");
+            //URL url = new URL("https://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchWeeklyBoxOfficeList.json?key=7e83198258b5dd58ff5ca336a95ff5e8&targetDt=20220123"); 욱
+            URL url = new URL("https://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchWeeklyBoxOfficeList.json?key=102a22e0d8e3693e65e4384ea0843554&targetDt=20220123");
             BufferedReader bf = new BufferedReader( new InputStreamReader(  url.openStream() , "UTF-8") );
 
             String result = bf.readLine();
@@ -249,7 +260,8 @@ public class MovieService {
         JSONArray jsonArray = new JSONArray();
 
         for(MovieDto temp : list){
-            String urlpa = "https://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?key=7e83198258b5dd58ff5ca336a95ff5e8&movieCd="+temp.getMvid();
+            //String urlpa = "https://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?key=7e83198258b5dd58ff5ca336a95ff5e8&movieCd="+temp.getMvid(); 욱
+            String urlpa = "https://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?key=102a22e0d8e3693e65e4384ea0843554&movieCd="+temp.getMvid();
             try {
                 URL url = new URL(urlpa);
                 BufferedReader bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
@@ -322,7 +334,8 @@ public class MovieService {
     //영화 상세정보api 끌어오기
     public JSONObject getmovieinfoselect(String mvid){
         JSONObject jsonObject0 = new JSONObject();
-        String urlpa = "https://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?key=7e83198258b5dd58ff5ca336a95ff5e8&movieCd="+mvid;
+        // String urlpa = "https://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?key=7e83198258b5dd58ff5ca336a95ff5e8&movieCd="+mvid; 욱
+        String urlpa = "https://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?key=102a22e0d8e3693e65e4384ea0843554&movieCd="+mvid;
         try {
             URL url = new URL(urlpa);
             BufferedReader bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
@@ -387,7 +400,8 @@ public class MovieService {
     //선택영화상세정보api
     public JSONObject getmovieinfoselec(String mvid){
         JSONObject jsonObject0 = new JSONObject();
-        String urlpa = "https://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?key=7e83198258b5dd58ff5ca336a95ff5e8&movieCd="+mvid;
+       // String urlpa = "https://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?key=7e83198258b5dd58ff5ca336a95ff5e8&movieCd="+mvid; 욱
+        String urlpa = "https://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?key=102a22e0d8e3693e65e4384ea0843554&movieCd="+mvid;
         try {
             URL url = new URL(urlpa);
             BufferedReader bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
@@ -468,13 +482,6 @@ public class MovieService {
     //해당 영화 댓글 출력
     public List<ReplyEntity>getreplylist(String mvid ,int tbody ){
 
-//        // 페이지 번호
-//        int page =  0;
-//        if( pageable.getPageNumber() == 0) page = 0;        // 0이면 1 페이지
-//        else page = pageable.getPageNumber()-1 ;                // 1이면-1 ,1 페이지 2이면-1 2페이지
-//        // 페이지 속성 [ PageRequest.of( 페이지번호 , 페이당 게시물수 , 정렬기준 )
-//        pageable = PageRequest.of(  page, 5 , Sort.by( Sort.Direction.DESC , "rno") );
-
         Optional<MovieEntity>movieOptional=movieRepository.findBymvid(mvid);
 
         int mvno = movieOptional.get().getMvno();
@@ -483,9 +490,21 @@ public class MovieService {
         List<ReplyEntity> resultlist = new ArrayList<>();
         int count = 3;
 
-        for( int i = tbody ; i<tbody+count ; i++ ){
-            resultlist.add(  rno.get(i) );
+        //전체댓글개수 - 현재댓글 = 남은댓글개수
+            //11    -  11    =     0
+        int 남은댓글개수 =rno.size()-tbody;
+        if(남은댓글개수<count){
+            for( int i = tbody ; i<tbody+(남은댓글개수) ; i++ ){
+                resultlist.add(  rno.get(i) );
+            }
+        }else{
+            for( int i = tbody ; i<tbody+count ; i++ ){
+                resultlist.add(  rno.get(i) );
+            }
         }
+
+        System.out.println();
+        System.out.println("resultlist: "+resultlist.toString());
         return resultlist;
     }
 
@@ -644,11 +663,10 @@ public class MovieService {
 
     //탑4 무비
     //예매율,순위,누적관객
-    public JSONObject gettop4(){
-        List<String> list = new ArrayList<>();
+    public  List<MovieinfoDto> gettop4(){
         Map<String,Integer> rankmap = new HashMap();
         List<MovieEntity> movielist = movieRepository.findAll();
-
+        List<MovieinfoDto> movieinfoDtoList = new ArrayList<MovieinfoDto>();
         for(MovieEntity movie : movielist){
             List<DateEntity> date = movie.getDateEntityList();
             int moviecount = 0;
@@ -665,32 +683,70 @@ public class MovieService {
             }
             rankmap.put(movie.getMvno()+"",moviecount);
         }
+        List<String> listKeySet = new ArrayList<>(rankmap.keySet());
+        Collections.sort(listKeySet, (value1, value2) -> (rankmap.get(value2).compareTo(rankmap.get(value1))));
+        for(int i =0; i<4; i++){
+            int num =Integer.parseInt(listKeySet.get(i));
+            JSONObject jsonObject =this.getmovieinfoselect(movieRepository.getById(num).getMvid());
+            MovieinfoDto movieinfoDto = MovieinfoDto.builder()
+                    .mvno(num)
+                    .mvid(movieRepository.getById(num).getMvid())
+                    .movieNm((String)jsonObject.get("movieNm"))
+                    .openDt((String)jsonObject.get("openDt"))
+                    .showTm(Integer.valueOf((String) jsonObject.get("showTm")))
+                    .nations((String)jsonObject.get("nations"))
+                    .genres((String)jsonObject.get("genres"))
+                    .directors((String)jsonObject.get("directors"))
+                    .actors((String)jsonObject.get("actors"))
+                    .companyNm((String)jsonObject.get("companyNm"))
+                    .watchGradeNm((String)jsonObject.get("watchGradeNm"))
+                    .poster((String)jsonObject.get("poster"))
+                    .movieimg((List<String>)jsonObject.get("movieimg"))
+                    .movievideo((List<String>)jsonObject.get("movievideo"))
+                    .build();
+            movieinfoDtoList.add(movieinfoDto);
+        }
 
-        return null;
+        return movieinfoDtoList;
     }
     @Autowired
     HttpServletRequest request;
 
-    public List<String> reviewtime(){
+    @Autowired
+    PaymentRepository paymentRepository;
+
+    public List<String> reviewtime(int type){
         HttpSession session = request.getSession();
         MemberDto memberDto =(MemberDto)session.getAttribute("logindto");
         List<TicketingEntity> ticketlist= memberRepository.findById(memberDto.getMno()).get().getTicketingEntities();
+        List<PaymentEntity> paylist = paymentRepository.findpaylist(memberDto.getMid());
         List<String> result = new ArrayList<String>();
+        List<String> result2 = new ArrayList<String>();
         Date now = new Date();
-//        List<TicketingEntity> ticketlist= memberRepository.findById(8).get().getTicketingEntities();
         System.out.println("ti :"+ticketlist);
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-M-dd HH:mm");
         try{
-            for(TicketingEntity ticketing : ticketlist){
-                String time =ticketing.getDateEntityTicket().getDtime().split("~")[1];
-                String date = ticketing.getDateEntityTicket().getDdate()+" "+time;
-                Date date2 = formatter.parse(date);
-                if(date2.before(now)){
-                    result.add(ticketing.getTno()+"");
+            for(PaymentEntity ticketing : paylist){
+                if(ticketing.getReviewact()==1&&ticketing.getPtype().equals("결제완료")){
+                    String date =ticketing.getPtime().split("•")[0];
+                    String time = ticketing.getPtime().split("•")[1].split("~")[1];
+                    String date2 = date+" "+time;
+                    Date date3 = formatter.parse(date2);
+                    System.out.println("date3: " + date3);
+                    if(date3.before(now)){
+                        result.add(ticketing.getTno()+"");
+                    }else{
+                        result2.add(ticketing.getTno()+"");
+                    }
                 }
             }
         }catch (Exception e){}
-        return result;
+        if(type==1){
+            return result;
+        }else{
+            return result2;
+        }
+
     }
 
     public double getstar(String mvid){
@@ -701,6 +757,60 @@ public class MovieService {
         }
         double gradle = (double) total / (double) (5*movieEntity.getReviewEntities().size()) * 100.0;
         return gradle;
+    }
+
+    public List<NewsDto> crawlingdaum(){
+
+        // Jsoup를 이용해서 http://www.cgv.co.kr/movies/ 크롤링
+        String url = "https://www.joongang.co.kr/culture/movie/"; //크롤링할 url지정
+        Document doc = null;        //Document에는 페이지의 전체 소스가 저장된다
+
+        try {
+            doc = Jsoup.connect(url).get();
+            //select를 이용하여 원하는 태그를 선택한다. select는 원하는 값을 가져오기 위한 중요한 기능이다.
+            Elements element = doc.select("ul.story_list");
+            List<NewsDto> newsDtos = new ArrayList<>();
+            System.out.println("============================================================");
+            System.out.println(element.select("p.date").get(0));
+            for(int i=0; i<4; i++){
+                NewsDto news = NewsDto.builder()
+                        .headline(String.valueOf(element.select("h2.headline").get(i)))
+                        .description(String.valueOf(element.select("p.description").get(i)))
+                        .date(String.valueOf(element.select("p.date").get(i)))
+                        .image(String.valueOf(element.select("div.card_image").get(i)))
+                        .build();
+                newsDtos.add(news);
+            }
+            return newsDtos;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("============================================================");
+
+        return null;
+    // sms 전송
+    public void sendSms(String phoneNumber,String movieNm, String cinema, String movieTime, String movieSeat) {
+
+        String api_key = "NCSQOZOP6GXW1JQW";
+        String api_secret = "3SIZV6N77WVJAKSIMXTVG9XTQPGVZLV2";
+        Message coolsms = new Message(api_key, api_secret);
+
+        StringBuilder builder = new StringBuilder();
+        builder.append(movieNm+","+cinema+"\r\n"+movieTime+"\r\n"+movieSeat);
+        // 4 params(to, from, type, text) are mandatory. must be filled
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("to", phoneNumber);    // 수신전화번호
+        params.put("from", "01046203976");    // 발신전화번호. 테스트시에는 발신,수신 둘다 본인 번호로 하면 됨
+        params.put("type", "SMS");
+        params.put("text", "[영화 예매내역]\r\n" +builder.toString());
+        params.put("app_version", "test app 1.2"); // application name and version
+
+        try {
+            JSONObject obj = (JSONObject) coolsms.send(params);
+        } catch (CoolsmsException e) {
+        }
+
     }
 
 

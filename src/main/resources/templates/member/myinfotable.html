@@ -5,6 +5,8 @@
     <td th:text="${pay.ptime}"></td>
     <td th:text="${pay.ppeople}"></td>
     <td th:text="${pay.pseat}"></td><td th:text="${#numbers.formatInteger(pay.pprice, 0, 'COMMA')+'원'}"></td><td th:text="${pay.mid}"></td><td th:text="${pay.ptype}"></td>
-    <td th:if="${pay.reviewact==1}"><button data-bs-target="#reviewmodal" data-bs-toggle="modal" style="display: none" th:id="${'rvbtn'+pay.tno}" th:onclick="ontno([[${pay.tno}]])">리뷰작성</button></td>
-    <td th:if="${pay.reviewact==2}" th:id="${'rvbtn'+pay.tno}" >리뷰작성완료</td>
+    <td th:id="${'paytd0'+pay.tno}" th:if="${pay.reviewact==1 and pay.ptype.equals('환불요청')}">환불요청중</td>
+    <td th:id="${'paytd'+pay.tno}" th:if="${pay.reviewact==1 and pay.ptype.equals('결제완료')}"></td>
+    <td th:id="${'paytd0'+pay.tno}" th:if="${pay.reviewact==2}">리뷰작성완료</td>
+    <td th:id="${'paytd0'+pay.tno}" th:if="${pay.reviewact==1 and pay.ptype.equals('환불완료')}">환불완료</td>
 </tr>

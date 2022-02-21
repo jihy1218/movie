@@ -34,7 +34,7 @@
     <div class="main-content"  style="height: 400px; background-color: white;">
         <div class="container  text-center">
             <div class="owl-carousel owl-theme">
-                <div class="item" th:each="movie : ${movie}" style="margin: 50px 50px 10px 50px">
+                <div class="item" th:each="movie : ${top4}" style="margin: 50px 50px 10px 50px">
                     <a th:href="@{'/movie/movieview/'+${movie.mvid}}" style="text-decoration: none;"><img th:src="@{'/poster/'+${movie.poster}}" style="width: 100%;">
                         <h6 style="color : #4E5B60; font-weight: bold; margin-top: 20px;" th:text="${movie.movieNm}"></h6></a>
                 </div>

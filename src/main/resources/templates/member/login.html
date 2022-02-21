@@ -8,11 +8,11 @@
 
 <div th:replace="header.html::header"></div><!--헤더-->
 <script th:src="@{/js/member.js}"></script>
-<br><br><br><br>
+<br><br>
 
 <div class="container">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-4 offset-2">
             <form action="/member/logincontroller" method="post">
             <div class="form-floating mb-3">
                 <input type="text" class="form-control rounded-4" name="mid" id="login_mid" placeholder="아이디">
@@ -34,20 +34,14 @@
         </div>
         <hr class="my-4">
         <h2 class="fs-5 fw-bold mb-3">SNS 연동로그인</h2>
-        <a href="/oauth2/authorization/naver"> <button class="w-20 py-2 mb-2 btn btn-outline-secondary rounded-4" type="submit">
-        <svg class="bi me-1" width="10" height="16"></svg>네이버 </button></a>
-        <a href="/oauth2/authorization/kakao"> <button class="w-20 py-2 mb-2 btn btn-outline-secondary rounded-4" type="submit">
-        <svg class="bi me-1" width="10" height="16"></svg>카카오 </button></a>
-
-        <a href="/oauth2/authorization/google "> <button class="w-20 py-2 mb-2 btn btn-outline-secondary rounded-4" type="submit">
-        <svg class="bi me-1" width="10" height="16"></svg>구글 </button></a>
+        <a href="/oauth2/authorization/naver"><img th:src="@{/img/naver1.png}" width="380px;" style="margin-bottom: 10px;"></a><br>
+        <a href="/oauth2/authorization/kakao"><img th:src="@{/img/kakao.png}"  width="380px;" style="margin-bottom: 10px;"></a><br>
+        <a href="/oauth2/authorization/google "><img th:src="@{/img/google3.png}" width="380px;" ></a>
 
        </div>
-        <div class="col-md-6">
-            <img  src="/img/Batman.jpg" width="100%">
+        <div class="col-md-4">
+            <img  th:src="@{/img/adimg.png}" width="100%;">
         </div>
-        <img  src="/img/Batman2.jpg" max-width="100%">
-
 </div>
 </div>
 

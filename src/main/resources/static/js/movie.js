@@ -156,7 +156,10 @@ function replyadd( ){
     var mvid = $("#mvid").val();
 
     const table = document.getElementById('spreadsheet');
-    const tbody = table.tBodies[0].rows.length;
+    alert(table);
+
+    const tbody = table.tBodies[0].rows.length-1;
+    alert(tbody);
       $.ajax({
         url: "/movie/replyadd" ,
         data : { "mvid" : mvid , "tbody" : tbody } ,
@@ -166,6 +169,7 @@ function replyadd( ){
       });
 
 }
+
 //댓글 삭제 끝 ------------------------------------------------------------
 // 무한 스크롤시작 -------------------------------------------------------
 

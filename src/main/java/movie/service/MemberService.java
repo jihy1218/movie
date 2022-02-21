@@ -9,12 +9,16 @@ import movie.domain.Entity.Member.ReviewEntity;
 import movie.domain.Entity.Member.ReviewRepository;
 import movie.domain.Entity.Movie.MovieEntity;
 import movie.domain.Entity.Movie.MovieRepository;
+import movie.domain.Entity.Movie.ReplyEntity;
+import movie.domain.Entity.Payment.PaymentEntity;
 import movie.domain.Entity.Payment.PaymentRepository;
 import movie.domain.Entity.Ticketing.TicketingEntity;
 import movie.domain.Entity.Ticketing.TicketingRepository;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -96,7 +100,7 @@ public class MemberService implements UserDetailsService {
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(memberEntity.getRoleKey()));
         //세션부여
-        MemberDto loginDto = MemberDto.builder().mid(memberEntity.getMid()).mno(memberEntity.getMno()).mage(memberEntity.getMage()).msex(memberEntity.getMsex()).build();
+        MemberDto loginDto = MemberDto.builder().mid(memberEntity.getMid()).mno(memberEntity.getMno()).mage(memberEntity.getMage()).msex(memberEntity.getMsex()).mphone(memberEntity.getMphone()).build();
         HttpSession session = request.getSession();
 
         session.setAttribute("logindto",loginDto);
@@ -140,6 +144,59 @@ public class MemberService implements UserDetailsService {
                 .build();
 
     }
+
+    public List<PaymentEntity> memberpaymentadd(String mid,int tbody){
+        List<PaymentEntity> paylist = paymentRepository.findpaylist(mid);
+
+        List<PaymentEntity> resultlist = new ArrayList<>();
+        int count = 3;
+
+        //전체댓글개수 - 현재댓글 = 남은댓글개수
+        //11    -  11    =     0
+        int 남은댓글개수 =paylist.size()-tbody;
+        if(남은댓글개수<count){
+            for( int i = tbody ; i<tbody+(남은댓글개수) ; i++ ){
+                resultlist.add(  paylist.get(i) );
+            }
+        }else{
+            for( int i = tbody ; i<tbody+count ; i++ ){
+                resultlist.add(  paylist.get(i) );
+            }
+        }
+        System.out.println("memblis :"+replacePate(resultlist));
+        return resultlist;
+    }
+
+    //페이지 가공
+    public  List<PaymentEntity> replacePate(List<PaymentEntity> page){
+        List<PaymentEntity> list = page;
+        System.out.println(list.toString());
+        JSONParser jsonParser = new JSONParser();
+        try{
+            for(int i=0; i<list.size(); i++){
+                JSONObject jsonObject = (JSONObject)jsonParser.parse(list.get(i).getPpeople());
+                String peple = "성인 :"+String.valueOf(jsonObject.get("adult"))+" 청소년 :"
+                        +String.valueOf(jsonObject.get("youth")) ;
+                list.get(i).setPpeople(peple);
+                jsonObject = (JSONObject)jsonParser.parse(list.get(i).getPseat());
+                JSONArray jsonArray = (JSONArray) jsonObject.get("tseat");
+                String seat = "";
+                for(int j=0; j<jsonArray.size();j++){
+                    JSONObject jsonObject1 = (JSONObject)jsonArray.get(j);
+                    if(j==0){
+                        seat = String.valueOf(jsonObject1.get("seat")).replace(",","");
+                    }else{
+                        seat += ","+String.valueOf(jsonObject1.get("seat")).replace(",","");
+                    }
+                }
+                list.get(i).setPseat(seat);
+            }
+
+        }catch (Exception e){}
+        System.out.println(list.toString());
+        return page;
+    }
+
     // 아이디 찾기 메소드
     public String findid(String name, String email){
         List<MemberEntity> memberEntities = memberRepository.findAll();
@@ -172,7 +229,6 @@ public class MemberService implements UserDetailsService {
                 builder.append("<div>"+temppassword+"</div><br><h3 style='color : red;'>받으신후 비밀번호를 변경해 주세요!!</h3></body></html>");
                 BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
                 memberEntity.setMpassword(passwordEncoder.encode(temppassword.toString()));
-               /* memberEntity.setMpassword(temppassword.toString()); // 랜덤 난수로 비밀번호 변경*/
                 try{
                     MimeMessage message = javaMailSender.createMimeMessage();
                     MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(message,true,"UTF-8");
@@ -269,6 +325,26 @@ public class MemberService implements UserDetailsService {
         MemberEntity memberEntity = memberRepository.findById(memberDto.getMno()).get();
         memberEntity.getReviewEntities().add(reviewEntity);
         return  true;
+    }
+
+    //예약취소
+    @Transactional
+    public boolean ticketcancel(int tno){
+
+        TicketingEntity ticketing = ticketingRepository.findById(tno).get();
+        JSONParser jsonParser = new JSONParser();
+        try{
+            JSONObject jsonObject = (JSONObject)jsonParser.parse(ticketing.getTage());
+            int count = Integer.parseInt(String.valueOf(jsonObject.get("youth")))+Integer.parseInt(String.valueOf(jsonObject.get("adult")));
+            ticketing.getDateEntityTicket().setDseat(ticketing.getDateEntityTicket().getDseat()+count);
+        }catch(Exception e){}
+
+        ticketingRepository.delete(ticketing);
+
+        PaymentEntity paymentEntity = paymentRepository.findBytno(tno);
+        paymentEntity.setPtype("환불요청");
+
+        return true;
     }
 
 }//class end
