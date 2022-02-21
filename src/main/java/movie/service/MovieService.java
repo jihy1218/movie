@@ -135,7 +135,8 @@ public class MovieService {
     //박스오피스 api가져오기
     public JSONArray getmovie(){
         try {
-            URL url = new URL("https://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchWeeklyBoxOfficeList.json?key=7e83198258b5dd58ff5ca336a95ff5e8&targetDt=20220123");
+            //URL url = new URL("https://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchWeeklyBoxOfficeList.json?key=7e83198258b5dd58ff5ca336a95ff5e8&targetDt=20220123"); 욱
+            URL url = new URL("https://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchWeeklyBoxOfficeList.json?key=102a22e0d8e3693e65e4384ea0843554&targetDt=20220123");
             BufferedReader bf = new BufferedReader( new InputStreamReader(  url.openStream() , "UTF-8") );
 
             String result = bf.readLine();
@@ -162,7 +163,8 @@ public class MovieService {
         JSONArray jsonArray = new JSONArray();
 
         for(MovieDto temp : list){
-            String urlpa = "https://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?key=7e83198258b5dd58ff5ca336a95ff5e8&movieCd="+temp.getMvid();
+            //String urlpa = "https://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?key=7e83198258b5dd58ff5ca336a95ff5e8&movieCd="+temp.getMvid(); 욱
+            String urlpa = "https://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?key=102a22e0d8e3693e65e4384ea0843554&movieCd="+temp.getMvid();
             try {
                 URL url = new URL(urlpa);
                 BufferedReader bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
@@ -235,7 +237,8 @@ public class MovieService {
     //영화 상세정보api 끌어오기
     public JSONObject getmovieinfoselect(String mvid){
         JSONObject jsonObject0 = new JSONObject();
-        String urlpa = "https://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?key=7e83198258b5dd58ff5ca336a95ff5e8&movieCd="+mvid;
+        // String urlpa = "https://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?key=7e83198258b5dd58ff5ca336a95ff5e8&movieCd="+mvid; 욱
+        String urlpa = "https://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?key=102a22e0d8e3693e65e4384ea0843554&movieCd="+mvid;
         try {
             URL url = new URL(urlpa);
             BufferedReader bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
@@ -300,7 +303,8 @@ public class MovieService {
     //선택영화상세정보api
     public JSONObject getmovieinfoselec(String mvid){
         JSONObject jsonObject0 = new JSONObject();
-        String urlpa = "https://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?key=7e83198258b5dd58ff5ca336a95ff5e8&movieCd="+mvid;
+       // String urlpa = "https://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?key=7e83198258b5dd58ff5ca336a95ff5e8&movieCd="+mvid; 욱
+        String urlpa = "https://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?key=102a22e0d8e3693e65e4384ea0843554&movieCd="+mvid;
         try {
             URL url = new URL(urlpa);
             BufferedReader bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
@@ -634,10 +638,7 @@ public class MovieService {
 
         try {
             JSONObject obj = (JSONObject) coolsms.send(params);
-            System.out.println(obj.toString());
         } catch (CoolsmsException e) {
-            System.out.println(e.getMessage());
-            System.out.println(e.getCode());
         }
 
     }

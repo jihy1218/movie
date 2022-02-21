@@ -17,13 +17,15 @@
     <div class="row">
         <div class="col-md-4 offset-2 text-start">
             <h2 class="text-center">예약 내역</h2>
-            <span class="movie">영화명 : </span><span class="movie" th:text="${ticket.movietitle}" id="movieNm"></span><br>
-            <span class="movie">상영관 : </span><span class="movie" th:text="${ticket.cnemaname}" id="cinema"></span><br>
-            <span class="movie">상영 일시 : </span><span class="movie" th:text="${ticket.date}" id="movieTime"></span><br>
-            <span class="movie">결제 금액 : </span><span class="movie" th:text="${#numbers.formatInteger(ticket.price, 0, 'COMMA')+'원'}"></span><br>
-            <span class="movie">예약한 좌석 : </span><span class="movie" th:text="${ticket.seat}" id="movieSeat"></span><br>
-            <span class="movie">예약한 인원 : </span><span class="movie" th:text="${ticket.count}"></span><br>
-            <span id="phoneNumber" th:text="${session.logindto.mphone}" style="display: none;"></span>
+            <div style="margin-left: 50px;">
+                <span class="movie">영화명 : </span><span class="movie" th:text="${ticket.movietitle}" id="movieNm"></span><br>
+                <span class="movie">상영관 : </span><span class="movie" th:text="${ticket.cnemaname}" id="cinema"></span><br>
+                <span class="movie">상영 일시 : </span><span class="movie" th:text="${ticket.date}" id="movieTime"></span><br>
+                <span class="movie">결제 금액 : </span><span class="movie" th:text="${#numbers.formatInteger(ticket.price, 0, 'COMMA')+'원'}"></span><br>
+                <span class="movie">예약한 좌석 : </span><span class="movie" th:text="${ticket.seat}" id="movieSeat"></span><br>
+                <span class="movie">예약한 인원 : </span><span class="movie" th:text="${ticket.count}"></span><br>
+                <span id="phoneNumber" th:text="${session.logindto.mphone}" style="display: none;"></span>
+            </div>
             <div class="text-center mt-5">
                 <button class="btn btn-dark btn-lg" onclick="sendsms();">SMS 전송</button>
                 <a  th:href="@{/member/myinfo}" ><button class="btn btn-dark btn-lg">예매내역 전체보기</button></a>

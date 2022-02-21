@@ -160,7 +160,6 @@ public class MemberService implements UserDetailsService {
                 builder.append("<div>"+temppassword+"</div><br><h3 style='color : red;'>받으신후 비밀번호를 변경해 주세요!!</h3></body></html>");
                 BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
                 memberEntity.setMpassword(passwordEncoder.encode(temppassword.toString()));
-               /* memberEntity.setMpassword(temppassword.toString()); // 랜덤 난수로 비밀번호 변경*/
                 try{
                     MimeMessage message = javaMailSender.createMimeMessage();
                     MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(message,true,"UTF-8");
