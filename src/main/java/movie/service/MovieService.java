@@ -10,6 +10,8 @@ import movie.domain.Entity.Member.ReviewEntity;
 import movie.domain.Entity.Movie.*;
 import movie.domain.Entity.Ticketing.TicketingEntity;
 import movie.domain.Entity.Ticketing.TicketingRepository;
+import net.nurigo.java_sdk.api.Message;
+import net.nurigo.java_sdk.exceptions.CoolsmsException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -611,6 +613,33 @@ public class MovieService {
         }
         double gradle = (double) total / (double) (5*movieEntity.getReviewEntities().size()) * 100.0;
         return gradle;
+    }
+
+    // sms 전송
+    public void sendSms(String phoneNumber,String movieNm, String cinema, String movieTime, String movieSeat) {
+
+        String api_key = "NCSQOZOP6GXW1JQW";
+        String api_secret = "3SIZV6N77WVJAKSIMXTVG9XTQPGVZLV2";
+        Message coolsms = new Message(api_key, api_secret);
+
+        StringBuilder builder = new StringBuilder();
+        builder.append(movieNm+","+cinema+"\r\n"+movieTime+"\r\n"+movieSeat);
+        // 4 params(to, from, type, text) are mandatory. must be filled
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("to", phoneNumber);    // 수신전화번호
+        params.put("from", "01046203976");    // 발신전화번호. 테스트시에는 발신,수신 둘다 본인 번호로 하면 됨
+        params.put("type", "SMS");
+        params.put("text", "[영화 예매내역]\r\n" +builder.toString());
+        params.put("app_version", "test app 1.2"); // application name and version
+
+        try {
+            JSONObject obj = (JSONObject) coolsms.send(params);
+            System.out.println(obj.toString());
+        } catch (CoolsmsException e) {
+            System.out.println(e.getMessage());
+            System.out.println(e.getCode());
+        }
+
     }
 
 

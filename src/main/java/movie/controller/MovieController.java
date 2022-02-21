@@ -240,6 +240,13 @@ public class MovieController {
        return "repair";
     }
 
+    // 문자 전송 매핑
+    @GetMapping("/sms")
+    @ResponseBody
+    public String sendsms(@RequestParam("movieNm")String movieNm,@RequestParam("cinema")String cinema,@RequestParam("movieTime")String movieTime,@RequestParam("movieSeat")String movieSeat,@RequestParam("phoneNumber")String phoneNumber){
+        movieService.sendSms(phoneNumber,movieNm,cinema,movieTime,movieSeat);
+        return "1";
+    }
 
 
 

@@ -8,9 +8,13 @@
 <div th:replace="header.html::header"></div><!--헤더-->
 <!--개발자 js 가져오기-->
 <script th:src="@{/js/member.js}"></script>
-<div class="container">
+<div class="container" style="margin-bottom: 30px;">
     <div class="row">
-        <div class="col-md-5 mx-3 border p-3 rounded-3 shadow p-3 mb-5 bg-body rounded" style="margin-top: 20px;">
+        <div class="col-md-12 text-center">
+            <h2>회원가입</h2>
+            <h6><span class="text-danger">*</span>항목은 필수 입력 항목입니다. </h6>
+        </div>
+        <div class="col-md-5  border p-3 rounded-3 shadow p-3 bg-body rounded" style="margin-top: 20px; margin-left: 100px;">
             <h6 style="font-weight: bold;">회원가입 및 정상적인 서비스 이용을 위해 아래 약관을 읽어 보시고,<br> 동의 여부를 결정해 주세요 </h6>
                <h6>필수 약관을 동의 하셔야 회원가입이 가능합니다.</h6>
             <hr>
@@ -18,7 +22,7 @@
             <textarea  class="form-control" rows="8"  style="resize: none;">
 제 1 장 총칙
 제 1 조 (목적)
-본 약관은 영화사이트가 운영하는 웹 사이트 (http://localhost:9090)의 제반 서비스의 이용조건 및 절차에 관한 사항 및 기타 필요한 사항을 규정함을 목적으로 한다.
+본 약관은 영화사이트가 운영하는 웹 사이트 (Spring Cinema)의 제반 서비스의 이용조건 및 절차에 관한 사항 및 기타 필요한 사항을 규정함을 목적으로 한다.
 
 제 2 조 (용어의 정의)
 본 약관에서 사용하는 용어는 다음과 같이 정의한다.
@@ -732,58 +736,59 @@
                 </textarea>
             <input type="checkbox" class="m-3" name="infosign" >개인정보처리방침 동의 합니다.
         </div>
-    <div class="col-md-5" style="margin-top: 20px;">
-        <form method="post"action="/member/signupcontroller">
-            <div class="form-floating mb-3">
-                <input type="text" class="form-control rounded-4" id="mid" name="mid" placeholder="아이디를 입력하세요.">
-                <label for="floatingInput" id="idcheck">아이디를 입력하세요.</label>
-            </div>
-            <div class="form-floating mb-3">
-                <input type="password" class="form-control rounded-4" id="mpassword" name="mpassword" placeholder="비밀번호를 입력하세요.">
-                <label for="floatingInput" id="passwordcheck">비밀번호를 입력하세요.</label>
-            </div>
-            <div class="form-floating mb-3">
-                <input type="password" class="form-control rounded-4" id="mpasswordconfirm" name="mpasswordconfirm" placeholder="한번더 비밀번호를 입력하세요.">
-                <label for="floatingInput" id="passwordconfirmcheck">한번더 비밀번호를 입력하세요.</label>
-            </div>
-            <div class="form-floating mb-3">
-                <input type="text" class="form-control rounded-4" id="mname" name="mname"placeholder="이름을 입력하세요.">
-                <label for="floatingInput" id="namecheck">이름을 입력하세요.</label>
-            </div>
-            <div class=" mb-3 text-center ">
-                <input type="radio"  name="msex" id="m_sex1" value="남" checked="checked">남자
-                <input type="radio"  name="msex" id="m_sex2"  value="여" >여자
-            </div>
-            <div class="form-floating mb-3">
-                <input type="text" class="form-control rounded-4" id="mphone" name="mphone" placeholder="연락처를 입력하세요.">
-                <label for="floatingInput" id="phonecheck">연락처를 입력하세요.</label>
-            </div>
-            <div class="form-floating mb-3">
-                <input type="text" class="form-control rounded-4" id="memail" name="memail" placeholder="이메일을 입력하세요.">
-                <label for="floatingInput" id="emailcheck">이메일을 입력하세요.</label>
-            </div>
-            <div class="form-floating mb-3">
-                <input type="text" class="form-control rounded-4" id="mage" name="mage"  placeholder="나이를 입력하세요.">
-                <label for="floatingInput">나이를 입력하세요.</label>
-            </div>
-
-            <div class="row">   <!-- 3:8 -->
-                <div class="col-md-3 m-2"> <label>주소</label> </div>
-                <div class="col-md-8">
-                    <div class="row mb-2">
-                        <div class="col-md-6"> <input type="text" id="sample4_postcode" name="address1" placeholder="우편번호" class="form-control"></div>
-                        <div class="col-md-6"> <input type="button"  onclick="sample4_execDaumPostcode()" value="우편번호 찾기" class="form-control"></div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-md-6"> <input type="text" id="sample4_roadAddress" name="address2" placeholder="도로명주소" class="form-control"> </div>
-                        <div class="col-md-6"> <input type="text" id="sample4_jibunAddress" name="address3" placeholder="지번주소" class="form-control"> </div>
-                    </div>
-                    <input type="text" id="sample4_detailAddress" name="address4" placeholder="상세주소" class="form-control">
-                    <div class="text-center" id="addresscheck" style="display: none;"></div>
+        <div class="col-md-5" style="margin-top: 20px;">
+            <form method="post" action="/member/signupcontroller">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control rounded-4" id="mid" name="mid" placeholder="아이디를 입력하세요.">
+                    <label for="floatingInput" id="idcheck">아이디를 입력하세요.<span class="text-danger">*</span></label>
                 </div>
-            </div>
-            <input id="submit1" type="button" class="form-control p-3 my-3" value="회원가입">
-        </form>
+                <div class="form-floating mb-3">
+                    <input type="password" class="form-control rounded-4" id="mpassword" name="mpassword" placeholder="비밀번호를 입력하세요.">
+                    <label for="floatingInput" id="passwordcheck">비밀번호를 입력하세요.<span class="text-danger">*</span></label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="password" class="form-control rounded-4" id="mpasswordconfirm" name="mpasswordconfirm" placeholder="한번더 비밀번호를 입력하세요.">
+                    <label for="floatingInput" id="passwordconfirmcheck">한번더 비밀번호를 입력하세요.<span class="text-danger">*</span></label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control rounded-4" id="mname" name="mname"placeholder="이름을 입력하세요.">
+                    <label for="floatingInput" id="namecheck">이름을 입력하세요.<span class="text-danger">*</span></label>
+                </div>
+                <div class=" mb-3 text-center ">
+                    <input type="radio"  name="msex" id="m_sex1" value="남" checked="checked">남자
+                    <input type="radio"  name="msex" id="m_sex2"  value="여" >여자
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control rounded-4" id="mphone" name="mphone" placeholder="연락처를 입력하세요.">
+                    <label for="floatingInput" id="phonecheck">연락처를 입력하세요.<span class="text-danger">*</span></label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control rounded-4" id="memail" name="memail" placeholder="이메일을 입력하세요.">
+                    <label for="floatingInput" id="emailcheck">이메일을 입력하세요.<span class="text-danger">*</span></label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control rounded-4" id="mage" name="mage"  placeholder="나이를 입력하세요.">
+                    <label for="floatingInput">나이를 입력하세요.<span class="text-danger">*</span></label>
+                </div>
+
+                <div class="row">   <!-- 3:8 -->
+                    <div class="col-md-3 m-2"> <label>주소</label><span class="text-danger">*</span> </div>
+                    <div class="col-md-8">
+                        <div class="row mb-2">
+                            <div class="col-md-6"> <input type="text" id="sample4_postcode" name="address1" placeholder="우편번호" class="form-control"></div>
+                            <div class="col-md-6"> <input type="button"  onclick="sample4_execDaumPostcode()" value="우편번호 찾기" class="form-control"></div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-md-6"> <input type="text" id="sample4_roadAddress" name="address2" placeholder="도로명주소" class="form-control"> </div>
+                            <div class="col-md-6"> <input type="text" id="sample4_jibunAddress" name="address3" placeholder="지번주소" class="form-control"> </div>
+                        </div>
+                        <input type="text" id="sample4_detailAddress" name="address4" placeholder="상세주소" class="form-control">
+                        <div class="text-center" id="addresscheck" style="display: none;"></div>
+                    </div>
+                </div>
+                <input id="submit1" type="button" class="form-control p-3 my-3" value="회원가입">
+            </form>
+        </div>
     </div>
 </div>
 

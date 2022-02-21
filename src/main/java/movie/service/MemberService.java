@@ -96,7 +96,7 @@ public class MemberService implements UserDetailsService {
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(memberEntity.getRoleKey()));
         //세션부여
-        MemberDto loginDto = MemberDto.builder().mid(memberEntity.getMid()).mno(memberEntity.getMno()).mage(memberEntity.getMage()).msex(memberEntity.getMsex()).build();
+        MemberDto loginDto = MemberDto.builder().mid(memberEntity.getMid()).mno(memberEntity.getMno()).mage(memberEntity.getMage()).msex(memberEntity.getMsex()).mphone(memberEntity.getMphone()).build();
         HttpSession session = request.getSession();
 
         session.setAttribute("logindto",loginDto);

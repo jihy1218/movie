@@ -11,19 +11,21 @@
 </style>
 <body>
 <div th:replace="header.html::header"></div><!--헤더-->
+<script th:src = "@{/js/sms.js}"></script>
 <div class="container text-center">
     <h1 style="margin: 50px 0 50px 0;">예매가 완료되었습니다.</h1>
     <div class="row">
         <div class="col-md-4 offset-2 text-start">
             <h2 class="text-center">예약 내역</h2>
-            <span class="movie">영화명 : </span><span class="movie" th:text="${ticket.movietitle}"></span><br>
-            <span class="movie">상영관 : </span><span class="movie" th:text="${ticket.cnemaname}"></span><br>
-            <span class="movie">상영 일시 : </span><span class="movie" th:text="${ticket.date}"></span><br>
+            <span class="movie">영화명 : </span><span class="movie" th:text="${ticket.movietitle}" id="movieNm"></span><br>
+            <span class="movie">상영관 : </span><span class="movie" th:text="${ticket.cnemaname}" id="cinema"></span><br>
+            <span class="movie">상영 일시 : </span><span class="movie" th:text="${ticket.date}" id="movieTime"></span><br>
             <span class="movie">결제 금액 : </span><span class="movie" th:text="${#numbers.formatInteger(ticket.price, 0, 'COMMA')+'원'}"></span><br>
-            <span class="movie">예약한 좌석 : </span><span class="movie" th:text="${ticket.seat}"></span><br>
+            <span class="movie">예약한 좌석 : </span><span class="movie" th:text="${ticket.seat}" id="movieSeat"></span><br>
             <span class="movie">예약한 인원 : </span><span class="movie" th:text="${ticket.count}"></span><br>
+            <span id="phoneNumber" th:text="${session.logindto.mphone}" style="display: none;"></span>
             <div class="text-center mt-5">
-                <a href="/"><button class="btn btn-dark btn-lg">SMS 전송</button></a>
+                <button class="btn btn-dark btn-lg" onclick="sendsms();">SMS 전송</button>
                 <a  th:href="@{/member/myinfo}" ><button class="btn btn-dark btn-lg">예매내역 전체보기</button></a>
             </div>
             <div class="text-center mt-3">
