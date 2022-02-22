@@ -54,9 +54,9 @@ public class TicketingService {
         String cnemaact = dateentity.getCnemaEntityDate().getCactive();
         //좌석크기 설정
         CnemaDto cnemaDto = new CnemaDto(20,10);
+        System.out.println(cnemaDto.getCnemaact().toString());
         //최종 좌석 세팅값
         List<String> cnemaactlist = cnemaDto.getCnemaact();
-
 
         //JSONParser 선언
         JSONParser jsonParser = new JSONParser();
@@ -87,6 +87,15 @@ public class TicketingService {
                 String   exceptString= (String) exceptjson.get("location");
                 exceptlist.add(exceptString);
             }
+            // 5. 비활성화된 좌석의 인덱스값을 리스트에 담기
+            ArrayList<Integer> exceptIndexlist = new ArrayList<>();
+            for(int i = 0; i< cnemaactlist.size();i++){
+                for(String temp2 : exceptlist){
+                    if(cnemaactlist.get(i).equals(temp2)){
+                        exceptIndexlist.add(i);
+                    }
+                }
+            }
 ///////////////////////////////////////////////// 좌석배치 끝 ////////////////////////////////////////////////////
 
 
@@ -103,39 +112,38 @@ public class TicketingService {
                 for(int i = 0; i<jsonArray1.size(); i++){
                     JSONObject json = (JSONObject)jsonArray1.get(i);
                     String seatString= (String) json.get("seat");
-                    // db에 저장된
+                   // 가져온 예약정보 ticketing를 String으로 풀어서 담기
                     ticketlist.add(seatString);
                 }
             }
-            //예약좌석 제이슨 -> 리스트
-            ArrayList<Integer> list = new ArrayList<>();
-            for(int i = 0; i< cnemaactlist.size();i++){
-                for(String temp2 : exceptlist){
-                    if(cnemaactlist.get(i).equals(temp2)){
-                        list.add(i);
-                    }
-                }
-            }
-            // 좌석한칸씩밀기
-            for(Integer temp : list){
+///////////////////////////////////////////////// 예약된 좌석 비활성화  끝 ////////////////////////////////////////////////////
+
+///////////////////////////////////////////////// 비활성화된 좌석 번호 넘기기 ////////////////////////////////////////////////
+            // 1. 비활성 좌석의 인덱스값 리스트만큼
+            for(Integer temp : exceptIndexlist){
+                // a = 인덱스 번호
                 int a = temp;
+                // alength = 가로 좌석 번호
                 int alength = a%20;
+                // alength = 19 이면 오른쪽 끝좌석
                 if(alength!=19){
-                    int abc =20-alength;
+                    // 밀어야할길이  = 가로길이(20) - 좌석 번호
+                    int abc = 20-alength;
+                    System.out.println("abc :"+abc);
+                    // 한칸씩 밀기 i = 시작 인덱스번호 에서 abc()
                     for(int i =temp+1; i<temp+abc; i++){
+                        // 좌석의 실제값
                         String value = cnemaactlist.get(i);
+                        // value A,12
                         int ch = Integer.parseInt(value.split(",")[1])-1;
                         String fr = value.split(",")[0];
                         cnemaactlist.set(i,fr+","+ch);
                     }
                 }
                 cnemaactlist.set(temp,"X");
-
             }
-
-            // 좌석업데이트용
+            // 예약된 좌석 처리"#"
             for(int i =0; i<cnemaactlist.size(); i++){
-
                 for(String temp2 : ticketlist){
                     if(tno!=0){
                         for(String update : updateticketlist){
