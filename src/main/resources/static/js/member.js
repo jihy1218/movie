@@ -197,10 +197,10 @@ $(function(){
 
     //연락처 유효성검사
     $("#mphone").keyup(function(){
-         var phonej = /^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$/; // 연락처
+         var phonej = /^01([0|1|6|7|8|9]?)?([0-9]{3,4})?([0-9]{4})$/; // 연락처
          var mphone = $("#mphone").val();
          if(!phonej.test(mphone)){
-            $("#phonecheck").html("01x-xxxx-xxxx 형식으로 입력해주세요");
+            $("#phonecheck").html("01xxxxxxxxx 형식으로 입력해주세요");
          }else{
             $("#phonecheck").html("사용가능");
          }
@@ -430,3 +430,6 @@ function replyadd1( ){
       });
 
 }
+
+
+
