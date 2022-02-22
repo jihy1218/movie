@@ -3,7 +3,8 @@ function sendsms(){
     var cinema = $("#cinema").html();
     var movieTime = $("#movieTime").html();
     var movieSeat = $("#movieSeat").html();
-    var phoneNumber = $("#phoneNumber").html();
+    var phoneNumber = $("#phoneNumber").val();
+    alert(phoneNumber);
     $.ajax({
         url : "/movie/sms",
         data: {"movieNm" : movieNm, "cinema" : cinema , "movieTime" : movieTime, "movieSeat" : movieSeat, "phoneNumber" : phoneNumber},
@@ -14,3 +15,4 @@ function sendsms(){
         }
     });
 }
+

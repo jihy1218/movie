@@ -20,6 +20,8 @@ public class Oauth2Dto {
     String sex;
     // 나이대
     String age;
+    // 핸드폰
+    String phone;
 
     // 회원정보
     private Map<String , Object> attribute;
@@ -31,11 +33,12 @@ public class Oauth2Dto {
 
     //풀생성자
     @Builder
-    public Oauth2Dto(String name, String email,String sex,String age, Map<String, Object> attribute, String nameattributekey) { //-----------------------추가하기
+    public Oauth2Dto(String name, String email,String sex,String age,String phone, Map<String, Object> attribute, String nameattributekey) { //-----------------------추가하기
         this.name = name;
         this.email = email;
         this.sex = sex;
         this.age = age;
+        this.phone=phone;
         this.attribute = attribute;
         this.nameattributekey = nameattributekey;
     }
@@ -72,8 +75,7 @@ public class Oauth2Dto {
         return Oauth2Dto.builder()
                 .name( (String) response.get("name") )
                 .email((String) response.get("email"))
-                .sex((String) response.get("gender"))
-                .age((String) response.get("age"))
+                .phone((String) response.get("mobile"))
                 .attribute( attribute )
                 .nameattributekey( nameattributekey )
                 .build();
@@ -95,7 +97,7 @@ public class Oauth2Dto {
     // 첫 로그인했을때 회원가입 dto -> entitiy
     public MemberEntity toEntity(){
 
-        return MemberEntity.builder().mname(name).memail(email).msex(sex).mage(age).mgrade(Role.Member).mid(email.split("@")[0]).build();
+        return MemberEntity.builder().mname(name).memail(email).msex(sex).mage(age).mphone(phone).mgrade(Role.Member).mid(email.split("@")[0]).build();
         //-----------------------추가하기
     }
 
