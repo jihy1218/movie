@@ -44,17 +44,6 @@ public class MemberController {
         model.addAttribute("news",news);
         model.addAttribute("movie",movieinfoDtoList);
 
-
-       /* //세션   소셜 로그인 상태에서 메인에 들어왔을떄 만약에 전화번호가 없으면  실행~!
-        HttpSession session = request.getSession();
-        MemberDto memberDto1 = (MemberDto) session.getAttribute("logindto");
-        if(memberDto1!=null&&memberDto1.getMgrade().equals("Member")&&memberDto1.getMphone()==" "){
-            return"member/infoadd";
-        }else{
-
-        }
-*/
-
         return "main";
 
     }
@@ -72,28 +61,6 @@ public class MemberController {
         return "member/signup";
     }
 
-   /* // 회원정보 더보기 만들기<--------------18일 부터
-    @GetMapping("/member/infoadd")
-    public String replyadd( Model model ,@RequestParam("tbody")int tbody){
-        HttpSession session = request.getSession();
-        MemberDto memberDto = (MemberDto) session.getAttribute("logindto");
-        MemberDto member = memberService.getMemberDto(memberDto.getMno(),tbody);
-        List<TicketingEntity> paymentEntities = memberService.getinfolist(memberDto.getMno(),tbody);
-        System.out.println("controller!@@!@!_____"+paymentEntities);
-        model.addAttribute("payment",paymentEntities);
-
-
-        model.addAttribute("info", member);
-        return "member/myinfotable";
-    }
-*/
-    // 회원정보 더보기 만들기<--------------18일 부터
-//    @GetMapping("/member/infoadd")
-//    public String replyadd( Model model ,@RequestParam("tbody")int tbody,
-//                            @RequestParam("mid")String mid){
-//
-//        return "member/myinfotable";
-//    }
 
 
     @Autowired
