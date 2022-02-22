@@ -1,13 +1,11 @@
 package movie.service;
 
-import movie.domain.Dto.MemberDto;
-import movie.domain.Dto.MovieDto;
-import movie.domain.Dto.MovieinfoDto;
-import movie.domain.Dto.NewsDto;
+import movie.domain.Dto.*;
 import movie.domain.Entity.Date.DateEntity;
 import movie.domain.Entity.Member.MemberEntity;
 import movie.domain.Entity.Member.MemberRepository;
 import movie.domain.Entity.Member.ReviewEntity;
+import movie.domain.Entity.Member.ReviewRepository;
 import movie.domain.Entity.Movie.*;
 import movie.domain.Entity.Payment.PaymentEntity;
 import movie.domain.Entity.Payment.PaymentRepository;
@@ -782,6 +780,58 @@ public class MovieService {
 
         return null;
     }
+
+    @Autowired
+    ReviewRepository reviewRepository;
+
+    public  List<ReviewDto> reviewlist(int movieno,int tbody){
+
+        List<ReviewEntity> Reviewlist = movieRepository.findById(movieno).get().getReviewEntities();
+
+        List<ReviewDto> reviewDtos = new ArrayList<>();
+        int count = 1;
+
+        //전체댓글개수 - 현재댓글 = 남은댓글개수
+        //11    -  11    =     0
+        int 남은댓글개수 =Reviewlist.size()-tbody;
+        System.out.println("Reviewlist: "+Reviewlist);
+        String abc =  "*";
+        if(남은댓글개수<count){
+            for( int i = tbody ; i<tbody+(남은댓글개수) ; i++ ){
+                ReviewDto reviewDto = ReviewDto.builder()
+                        .recontents(Reviewlist.get(i).getRecontents())
+                        .regrade(Reviewlist.get(i).getRegrade())
+                        .mname(Reviewlist.get(i).getMemberEntityreview().getMname())
+                        .mid(
+                                Reviewlist.get(i).getMemberEntityreview().getMid().substring(0,4)
+                                +abc.repeat(Reviewlist.get(i).getMemberEntityreview().getMid().substring(4).length())
+                        )
+                        .repercent(((double)Reviewlist.get(i).getRegrade()/5)*100.0)
+                        .build();
+                reviewDtos.add(reviewDto);
+            }
+        }else{
+            for( int i = tbody ; i<tbody+count ; i++ ){
+                ReviewDto reviewDto = ReviewDto.builder()
+                        .recontents(Reviewlist.get(i).getRecontents())
+                        .regrade(Reviewlist.get(i).getRegrade())
+                        .mname(Reviewlist.get(i).getMemberEntityreview().getMname())
+                        .mid(
+                                Reviewlist.get(i).getMemberEntityreview().getMid().substring(0,4)
+                                +abc.repeat(Reviewlist.get(i).getMemberEntityreview().getMid().substring(4).length())
+                        )
+                        .repercent(((double)Reviewlist.get(i).getRegrade()/5)*100.0)
+                        .build();
+                reviewDtos.add(reviewDto);
+            }
+        }
+
+        System.out.println(reviewDtos);
+        return reviewDtos;
+
+    }
+
+
     // sms 전송
     public void sendSms(String phoneNumber,String movieNm, String cinema, String movieTime, String movieSeat) {
 
@@ -801,7 +851,7 @@ public class MovieService {
 
         try {
             JSONObject obj = (JSONObject) coolsms.send(params);
-        } catch (CoolsmsException e) {
+        } catch (Exception e) {
         }
 
     }

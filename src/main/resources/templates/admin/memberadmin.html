@@ -28,30 +28,30 @@
                             last=${ start + 9 < memberlist.totalPages ? start + 9 : memberlist.totalPages}">
           <!--첫페이지 -->
           <li class="page-item">
-              <a class="page-link" th:href="@{/admin/memberadmin(page=1)}"><<</a>
+              <a class="page-link" th:href="@{/admin/datelist(page=1)}"><<</a>
           </li>
 
           <li class="page-item "th:class="${memberlist.first} ? 'disabled' ">
-              <a class="page-link" th:href="${memberlist.first} ? '#' : @{/admin/memberadmin(page=${ memberlist.number })}"> < </a>
+              <a class="page-link" th:href="${memberlist.first} ? '#' : @{/admin/datelist(page=${ memberlist.number })}"> < </a>
           </li>
 
           <li class="page-item" th:each="page : ${#numbers.sequence(start,last)}">
-              <a class="page-link" th:href="@{/admin/memberadmin(page=${page})}" th:text="${page}"></a>
+              <a class="page-link" th:href="@{/admin/datelist(page=${page})}" th:text="${page}"></a>
           </li>
 
           <li class="page-item" th:class="${memberlist.last} ? 'disabled'">
-              <a class="page-link" th:href="${memberlist.last} ? '#' : @{/admin/memberadmin(page=${memberlist.number+2})}">></a>
+              <a class="page-link" th:href="${memberlist.last} ? '#' : @{/admin/datelist(page=${memberlist.number+2})}">></a>
           </li>
 
           <li class="page-item">
-              <a class="page-link" th:href="@{/admin/memberadmin(page=${memberlist.totalPages})}">>></a>
+              <a class="page-link" th:href="@{/admin/datelist(page=${memberlist.totalPages})}">>></a>
           </li>
 
       </ul>
 
   </div>
 
-  <form action="/admin/memberadmin" method="get" class="col-md-5 offset-4 input-group my-3 g-0" >
+  <form action="/admin/datelist" method="get" class="col-md-5 offset-4 input-group my-3 g-0" >
       <div class="col-md-1">
           <select name="keyword" class="form-select">
               <option value="mno">회원번호</option>
