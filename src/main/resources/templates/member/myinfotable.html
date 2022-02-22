@@ -1,10 +1,6 @@
-
 <tr th:each="pay : ${payment}">
-    <td th:text="${pay.tno}"></td>
-    <td th:text="${pay.pmoviename}"></td>
-    <td th:text="${pay.ptime}"></td>
-    <td th:text="${pay.ppeople}"></td>
-    <td th:text="${pay.pseat}"></td><td th:text="${#numbers.formatInteger(pay.pprice, 0, 'COMMA')+'원'}"></td><td th:text="${pay.mid}"></td><td th:text="${pay.ptype}"></td>
+    <td th:text="${pay.tno}"></td><td th:text="${pay.pmoviename}" style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;"></td><td th:text="${pay.ptime}"></td><td th:text="${pay.ppeople}"></td>
+    <td th:text="${pay.pseat}" style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;"></td><td th:text="${#numbers.formatInteger(pay.pprice, 0, 'COMMA')+'원'}"></td><td th:text="${pay.ptype}"></td>
     <td th:id="${'paytd0'+pay.tno}" th:if="${pay.reviewact==1 and pay.ptype.equals('환불요청')}">환불요청중</td>
     <td th:id="${'paytd'+pay.tno}" th:if="${pay.reviewact==1 and pay.ptype.equals('결제완료')}"></td>
     <td th:id="${'paytd0'+pay.tno}" th:if="${pay.reviewact==2}">리뷰작성완료</td>

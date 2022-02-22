@@ -18,14 +18,14 @@
         <div class="tab-content col-md-9" id="v-pills-tabContent">
             <input type="hidden" th:value="${info.mid}" id="midval">
             <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
-                <table class="table" id="spreadsheet1">
+                <table class="table" id="spreadsheet1" style="width: 100%; table-layout: fixed;">
                     <tbody>
                         <tr>
-                            <th>예약번호</th><th>영화명</th><th>일시</th><th>인원</th><th>좌석</th><th>금액</th><th>아이디</th><th>상태</th><th>비고</th>
+                            <th width="8%">번호</th><th width="20%">영화명</th><th width="25%">일시</th><th width="18%">인원</th><th width="13%">좌석</th><th width="10%">금액</th><th width="11%">상태</th><th width="13%">비고</th>
                         </tr>
                         <tr th:each="pay : ${payment}">
-                            <td th:text="${pay.tno}"></td><td th:text="${pay.pmoviename}"></td><td th:text="${pay.ptime}"></td><td th:text="${pay.ppeople}"></td>
-                            <td th:text="${pay.pseat}"></td><td th:text="${#numbers.formatInteger(pay.pprice, 0, 'COMMA')+'원'}"></td><td th:text="${pay.mid}"></td><td th:text="${pay.ptype}"></td>
+                            <td th:text="${pay.tno}"></td><td th:text="${pay.pmoviename}" style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;"></td><td th:text="${pay.ptime}"></td><td th:text="${pay.ppeople}"></td>
+                            <td th:text="${pay.pseat}" style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;"></td><td th:text="${#numbers.formatInteger(pay.pprice, 0, 'COMMA')+'원'}"></td><td th:text="${pay.ptype}"></td>
                             <td th:id="${'paytd0'+pay.tno}" th:if="${pay.reviewact==1 and pay.ptype.equals('환불요청')}">환불요청중</td>
                             <td th:id="${'paytd'+pay.tno}" th:if="${pay.reviewact==1 and pay.ptype.equals('결제완료')}"></td>
                             <td th:id="${'paytd0'+pay.tno}" th:if="${pay.reviewact==2}">리뷰작성완료</td>
@@ -51,7 +51,16 @@
                         <td>패스워드</td><td id="tdpassword">·····</td><td><button onclick="passwordchange();" class="btn btn-primary">수정</button></td>
                     </tr>
                     <tr>
+                        <td>이름</td><td id="mname" th:text="${info.mname}"></td><td><button disabled class="btn btn-danger">수정불가</button></td>
+                    </tr>
+                    <tr>
                         <td>연락처</td><td id="tdphone" th:text="${info.mphone}"></td><td><button onclick="phonechange();" class="btn btn-primary">수정</button></td>
+                    </tr>
+                    <tr>
+                        <td>성별</td><td id="msex" th:text="${info.msex}"></td><td><button disabled class="btn btn-danger">수정불가</button></td>
+                    </tr>
+                    <tr>
+                        <td>나이</td><td id="mage" th:text="${info.mage}"></td><td><button disabled class="btn btn-danger">수정불가</button></td>
                     </tr>
                     <tr>
                         <td>주소</td><td th:text="${info.maddress}"></td><td><button onclick="addresschange();" class="btn btn-primary">수정</button></td>

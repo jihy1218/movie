@@ -801,7 +801,7 @@ public class MovieService {
 
         try {
             JSONObject obj = (JSONObject) coolsms.send(params);
-        } catch (CoolsmsException e) {
+        } catch (Exception e) {
         }
 
     }

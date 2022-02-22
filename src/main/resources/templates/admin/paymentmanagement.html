@@ -14,7 +14,7 @@
 
      <table class="table text-center table-hover" style="width: 100%; table-layout: fixed;">
         <tr class="table-secondary">
-            <th width="8%">예약번호</th><th width="13%">영화명</th><th width="17%">일시</th><th width="13%">인원</th><th  width="15%">좌석</th><th  width="10%">금액</th><th  width="8%">아이디</th><th  width="8%">상태</th><th  width="10%">비고</th>
+            <th width="8%">예약번호</th><th width="15%">영화명</th><th width="17%">일시</th><th width="13%">인원</th><th  width="15%">좌석</th><th  width="10%">금액</th><th  width="8%">아이디</th><th  width="8%">상태</th><th  width="10%">비고</th>
         </tr>
         <tr th:each="pay : ${payment}">
             <td th:text="${pay.tno}"></td><td th:text="${pay.pmoviename}"></td><td th:text="${pay.ptime}"></td><td th:text="${pay.ppeople}"></td>
