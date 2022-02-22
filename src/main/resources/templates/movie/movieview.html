@@ -63,9 +63,9 @@
         <!--영화 정보 평점  및 관람평  네비 버튼부분-->
         <nav>
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                <button class="nav-link  " id="nav-home-tab" data-bs-toggle="tab"style="width: 50%; left: 0%; )"  data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">영화정보</button>
-                <button class="nav-link  " id="nav-review-tab" data-bs-toggle="tab"style="width: 50%; left: 0%; )"  data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">리뷰 및 평점</button>
-                <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" style="width: 50%; left: 0%;" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">댓글</button>
+                <button class="nav-link  " id="nav-home-tab" data-bs-toggle="tab"style="width: 33%; left: 0%; )"  data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">영화정보</button>
+                <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" style="width: 33%; left: 0%;" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">댓글</button>
+                <button class="nav-link" id="nav-profile-tab1" data-bs-toggle="tab" style="width: 33%; left: 0%;" data-bs-target="#nav-review" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">평점 및 관람평</button>
             </div>
         </nav>
         <!--영화 정보 평점  및 관람평  네비 버튼부분  끝-->
@@ -129,7 +129,6 @@
            
             <!--영화댓글 부분 시작-->
             <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-
                 <div class="col-md-6 offset-3">
                     <div  class="input-group offset-1">
                         <input type="hidden" th:value="${movieview.mvno}" id="mvno">
@@ -170,42 +169,42 @@
                         </table>
                         <button class="form-control" onclick="replyadd()"> 더 보기 ⬇</button>
                     </div>
-
-
                 </div>
+            </div>
 
+            <!--            리플-->
+            <div class="tab-pane fade" id="nav-review" role="tabpanel" aria-labelledby="nav-profile-tab">
+                <div class="col-md-6 offset-3">
+                    <div id="reviewtable">
+                        <table class="table" id="spreadsheet0" >
+                            <tbody>
+                                <tr th:each="review : ${reviewlist}">
+                                    <td width="50px;">
+                                        <div class="star-ratings">
+                                            <div class="star-ratings-fill space-x-2 text-lg" id="stargrade2"
+                                                 th:style="'width:'+${review.repercent}+'%'">
+                                                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                            </div>
+                                            <div class="star-ratings-base space-x-2 text-lg">
+                                                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td width="50px;" th:text="${review.regrade}">
 
+                                    </td>
+                                    <td th:text="${review.recontents}" width="350px;">
 
+                                    </td>
+                                    <td th:text="${review.mname}+'('+${review.mid}+')'">
 
-
-
-
-           <!-- <ul class="pagination justify-content-center"
-                th:with="start=${T(Math).floor(replyEntitiys.number/10) * 10 + 1 } ,
-                    last=${ start + 9 < replyEntitiys.totalPages ?  start + 9 : replyEntitiys.totalPages }">
-            &lt;!&ndash;  첫페이지이동 &ndash;&gt;
-                <li class="page-item">
-                    <a class="page-link" th:href="@{'/movie/movieview/'+${movieview.mvid}(page=1)}"> << </a>
-                </li>
-              &lt;!&ndash; 이전페이지이동&ndash;&gt;
-                <li class="page-item" >
-                    <a class="page-link" th:href="${replyEntitiys.first} ? '#' : @{'/movie/movieview/'+${movieview.mvid}(page=${ replyEntitiys.number })}"> < </a>
-                </li>
-              &lt;!&ndash;  페이지번호 &ndash;&gt;
-                <li class="page-item" th:each="page : ${#numbers.sequence( start , last ) }">
-                    <a class="page-link" th:href="@{'/movie/movieview/'+${movieview.mvid}(page=${page})}" th:text="${page}"> </a>
-                </li>
-
-               &lt;!&ndash;다음페이지이동&ndash;&gt;
-                <li class="page-item">
-                    <a class="page-link" th:href="${replyEntitiys.last} ? '#' : @{'/movie/movieview/'+${movieview.mvid}(page=${replyEntitiys.number+2})}"> > </a>
-                </li>
-               &lt;!&ndash;마지막페이지 이동&ndash;&gt;
-                <li class="page-item">
-                    <a class="page-link" th:href="@{'/movie/movieview/'+${movieview.mvid}(page=${replyEntitiys.totalPages})}"> >> </a>
-                </li>
-            </ul>-->
-
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <button class="form-control" onclick="reviewadd()"> 더 보기 ⬇</button>
+                    </div>
+                </div>
             </div>
 
 

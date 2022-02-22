@@ -48,20 +48,20 @@ public class TicketingService {
 
     public List<String> getseatlist(int dno ,int tno){
 
-        //date 가져오기
+        //예약날짜 정보 가져오기
         DateEntity dateentity = dateRepository.findById(dno).get();
+        //해당 날짜에 비활성화좌석목록 가져오기 (String상태 Json으로 변경해야함)
         String cnemaact = dateentity.getCnemaEntityDate().getCactive();
-        //좌석 가져오기
+        //좌석크기 설정
         CnemaDto cnemaDto = new CnemaDto(20,10);
+        //최종 좌석 세팅값
         List<String> cnemaactlist = cnemaDto.getCnemaact();
-        //예약정보 가져오기
-        List<TicketingEntity> ticketing = dateentity.getTicketingEntities();
-        ArrayList<String> ticketlist = new ArrayList<>();
 
-        //json으로 바꾸기
+
+        //JSONParser 선언
         JSONParser jsonParser = new JSONParser();
         try{
-            //좌석변경용
+            /////////////////////////  좌석변경용  //////////////////////////////
             List<String> updateticketlist = new ArrayList<>();
             if(tno!=0){
                 TicketingEntity updateticket =ticketingRepository.findById(tno).get();
@@ -72,17 +72,30 @@ public class TicketingService {
                     updateticketlist.add((String)jsonObject1.get("seat"));
                 }
             }
+            ///////////////////////// 좌석변경용 끝 //////////////////////////////
 
-            //좌표 제이슨 -> 제이슨어레이
+///////////////////////////////////////////////// 좌석배치 ////////////////////////////////////////////////////
+            // 1.위에서 가져온 비활성화좌석목록 문자열 cnemaact 를 JSONObject로 변환
             JSONObject jsonObject = (JSONObject) jsonParser.parse(cnemaact);
+            // 2.JSONObject를 ArrayList로 변환하여
             JSONArray jsonArray = (JSONArray) jsonObject.get("cnemalocation") ;
+            // 3.비활성화 좌석을 담을 리스트 선언
             ArrayList<String> exceptlist = new ArrayList<>();
-            //좌표 제이슨 -> 리스트
+            // 4.비활성화 좌석을 다시 문자열으로 변환 후 리스트에 담기
             for(int i = 0; i<jsonArray.size(); i++){
                 JSONObject exceptjson = (JSONObject)jsonArray.get(i);
                 String   exceptString= (String) exceptjson.get("location");
                 exceptlist.add(exceptString);
             }
+///////////////////////////////////////////////// 좌석배치 끝 ////////////////////////////////////////////////////
+
+
+///////////////////////////////////////////////// 예약된 좌석 비활성화 ////////////////////////////////////////////////////
+            //해당 날짜에 예약정보 가져오기
+            List<TicketingEntity> ticketing = dateentity.getTicketingEntities();
+            //예약된 좌석 좌표리스트 선언
+            ArrayList<String> ticketlist = new ArrayList<>();
+
             //예약좌석 제이슨 -> 리스트
             for(TicketingEntity temp : ticketing){
                 JSONObject jsonObject1 = (JSONObject)jsonParser.parse(temp.getTseat());
@@ -90,12 +103,11 @@ public class TicketingService {
                 for(int i = 0; i<jsonArray1.size(); i++){
                     JSONObject json = (JSONObject)jsonArray1.get(i);
                     String seatString= (String) json.get("seat");
+                    // db에 저장된
                     ticketlist.add(seatString);
                 }
             }
             //예약좌석 제이슨 -> 리스트
-
-
             ArrayList<Integer> list = new ArrayList<>();
             for(int i = 0; i< cnemaactlist.size();i++){
                 for(String temp2 : exceptlist){
@@ -104,7 +116,7 @@ public class TicketingService {
                     }
                 }
             }
-            // list = [0,9,19]
+            // 좌석한칸씩밀기
             for(Integer temp : list){
                 int a = temp;
                 int alength = a%20;
@@ -120,6 +132,8 @@ public class TicketingService {
                 cnemaactlist.set(temp,"X");
 
             }
+
+            // 좌석업데이트용
             for(int i =0; i<cnemaactlist.size(); i++){
 
                 for(String temp2 : ticketlist){

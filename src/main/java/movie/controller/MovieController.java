@@ -1,9 +1,6 @@
 package movie.controller;
 
-import movie.domain.Dto.MemberDto;
-import movie.domain.Dto.MovieDto;
-import movie.domain.Dto.MovieinfoDto;
-import movie.domain.Dto.TicketDto;
+import movie.domain.Dto.*;
 import movie.domain.Entity.Date.DateEntity;
 import movie.domain.Entity.Member.MemberEntity;
 import movie.domain.Entity.Movie.ReplyEntity;
@@ -45,6 +42,7 @@ public class MovieController {
         }
         model.addAttribute("datelist",dates);
         return "movie/ticketingdate";
+
     }
 
     @Autowired
@@ -83,6 +81,19 @@ public class MovieController {
         return "movie/replytable";
     }
 
+
+
+    //리플추가하기
+    @GetMapping("/reviewadd")
+    public String reviewadd(@RequestParam("mvno")int mvno , Model model,
+                            @RequestParam("tbody")int tbody ){
+
+        List<ReviewDto> list = movieService.reviewlist(mvno,tbody);
+        model.addAttribute("reviewlist" ,list);
+
+        return "movie/reviewtable";
+    }
+
    @GetMapping("/movieview/{mvid}")
     public String movieview(@PathVariable("mvid")String mvid, Model model){ // 영화번호에 해당하는 엔티티 뽑아와야뎀
         JSONObject jsonObject = movieService.getmovieinfoselect(mvid);
@@ -105,12 +116,14 @@ public class MovieController {
                 .movieimg((List<String>)jsonObject.get("movieimg"))
                 .movievideo((List<String>)jsonObject.get("movievideo"))
                 .build();
+        List<ReviewDto> reviewlist = movieService.reviewlist(movieinfoDto.getMvno(),0);
         JSONObject rankjson = movieService.getranking(movieinfoDto.getMvno());
         double star = movieService.getstar(mvid);
         model.addAttribute("star",star);
         model.addAttribute("rank" ,rankjson);
         model.addAttribute("movieview",movieinfoDto);
-       model.addAttribute("replyEntitiys",replyEntitiys );
+        model.addAttribute("replyEntitiys",replyEntitiys );
+        model.addAttribute("reviewlist",reviewlist);
         return "movie/movieview";
     }
 
