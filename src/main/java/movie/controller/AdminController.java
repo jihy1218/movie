@@ -72,6 +72,8 @@ public class AdminController {
 
     }
 
+
+
     @GetMapping("/adminmain")
     public String adminmain(Model model){
         List<CnemaEntity> cnemaEntityList = cnemaService.getCnemalistadd(0);
@@ -195,6 +197,28 @@ public class AdminController {
 
     @Autowired
     TicketingService ticketingService;
+
+    @GetMapping("/datelist")
+    public String datelist(@PageableDefault Pageable pageable , Model model){
+
+        String keyword =request.getParameter("keyword");
+        String search = request.getParameter("search");
+
+        HttpSession session = request.getSession();
+
+        if(keyword!=null || search!=null){
+            session.setAttribute("keyword",keyword);
+            session.setAttribute("search",search);
+        }else{
+            keyword=(String)session.getAttribute("keyword");
+            search=(String)session.getAttribute("search");
+        }
+        Page<DateEntity> dateEntityList = dateService.getDatelist(pageable,keyword,search);
+
+        model.addAttribute("datelist" ,dateEntityList);
+
+        return "admin/Datelist";
+    }
 
     @GetMapping("/memberadmin")
     public String memberadmin(@PageableDefault Pageable pageable , Model model){

@@ -61,7 +61,7 @@ $( document ).ready(function() {
                     url:"/member/reviewtime",
                     success: function(data){
                       for (var i = 0; i < data.length; i++) {
-                          document.getElementById("paytd"+data[i]).innerHTML ="<button data-bs-target='#reviewmodal' data-bs-toggle='modal' onclick='ontno("+data[i]+")'>리뷰작성</button>";
+                          document.getElementById("paytd"+data[i]).innerHTML ="<button data-bs-target='#reviewmodal' class='btn btn-warning' data-bs-toggle='modal' onclick='ontno("+data[i]+")'>리뷰작성</button>";
                       }
                     }
                 })
@@ -70,7 +70,7 @@ $( document ).ready(function() {
                         url:"/member/reviewtime2",
                         success: function(data){
                           for (var i = 0; i < data.length; i++) {
-                            document.getElementById("paytd"+data[i]).innerHTML ="<button data-bs-target='#refundmodal' data-bs-toggle='modal' onclick='ontno("+data[i]+")'>환불요청</button>";
+                            document.getElementById("paytd"+data[i]).innerHTML ="<button data-bs-target='#refundmodal' class='btn btn-success' data-bs-toggle='modal' onclick='ontno("+data[i]+")'>환불요청</button>";
                           }
                         }
                     })

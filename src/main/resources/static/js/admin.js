@@ -13,7 +13,7 @@ function moviewrite(){
                 success: function(data){
                     if(data==1){
                         alert("영화등록되었습니다.");
-                        location.href = "/admin/adminmain";
+                        location.href = "/admin/Datelist";
                     }
 
                 }

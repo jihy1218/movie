@@ -1,0 +1,22 @@
+<tr th:each="review : ${reviewlist}">
+    <td width="50px;">
+        <div class="star-ratings">
+            <div class="star-ratings-fill space-x-2 text-lg" id="stargrade2"
+                 th:style="'width:'+${review.repercent}+'%'">
+                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+            </div>
+            <div class="star-ratings-base space-x-2 text-lg">
+                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+            </div>
+        </div>
+    </td>
+    <td width="50px;" th:text="${review.regrade}">
+
+    </td>
+    <td th:text="${review.recontents}" width="350px;">
+
+    </td>
+    <td th:text="${review.mname}+'('+${review.mid}+')'">
+
+    </td>
+</tr>

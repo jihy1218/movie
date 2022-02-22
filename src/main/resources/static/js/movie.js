@@ -164,6 +164,20 @@ function replyadd( ){
 
 }
 
+function reviewadd( ){
+    var mvno = $("#movieno").val();
+    const table = document.getElementById('spreadsheet0');
+    const tbody = table.tBodies[0].rows.length;
+      $.ajax({
+        url: "/movie/reviewadd" ,
+        data : { "mvno" : mvno , "tbody" : tbody } ,
+        success : function( data ){
+           $("#spreadsheet0>tbody").append(data);
+        }
+      });
+
+}
+
 //댓글 삭제 끝 ------------------------------------------------------------
 // 무한 스크롤시작 -------------------------------------------------------
 

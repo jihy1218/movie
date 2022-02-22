@@ -6,11 +6,15 @@ import movie.domain.Entity.Cnema.CnemaEntity;
 import movie.domain.Entity.Cnema.CnemaRepository;
 import movie.domain.Entity.Date.DateEntity;
 import movie.domain.Entity.Date.DateRepository;
+import movie.domain.Entity.Member.MemberEntity;
 import movie.domain.Entity.Movie.MovieEntity;
 import movie.domain.Entity.Movie.MovieRepository;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -48,6 +52,22 @@ public class DateService {
         movieEntity.getDateEntityList().add(dateRepository.findById(dno).get());
 
         return true;
+    }
+
+    public Page<DateEntity> getDatelist(Pageable pageable , String keyword, String search){
+        //페이지 번호
+        int page = 0;
+        if(pageable.getPageNumber() ==0) page = 0;
+        else page = pageable.getPageNumber()-1;
+        //페이지 속성
+        pageable = PageRequest.of(page,10); //, Sort.by(Sort.Direction.DESC,"mno")
+        String abc = "20028";
+
+        if (  keyword !=null && keyword.equals("dno") ) return dateRepository.findBydno( search , pageable );
+        if (  keyword !=null && keyword.equals("mvid") ) return dateRepository.findBymvno( movieRepository.findmvidbymvno(search) , pageable );
+        if (  keyword !=null && keyword.equals("ddate") ) return dateRepository.findByddate( search , pageable );
+
+        return dateRepository.findAll(pageable);
     }
 
     //조회
