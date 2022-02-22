@@ -89,6 +89,7 @@ public class MemberService implements UserDetailsService {
 
     }*/
 
+
     @Autowired
     private HttpServletRequest request;
     @Override //member/logincontroller url 호출시 실행되는 메소드
@@ -97,18 +98,21 @@ public class MemberService implements UserDetailsService {
         //회원 아이디로 회원 엔티티 찾기
         Optional<MemberEntity> entityOptional = memberRepository.findBymid(mid);
         MemberEntity memberEntity = entityOptional.orElse(null); //orElse(null)만약에 엔티티 가 없으면 null
+
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(memberEntity.getRoleKey()));
         //세션부여
         MemberDto loginDto = MemberDto.builder().mid(memberEntity.getMid()).mno(memberEntity.getMno()).mage(memberEntity.getMage()).msex(memberEntity.getMsex()).mphone(memberEntity.getMphone()).build();
         HttpSession session = request.getSession();
-
         session.setAttribute("logindto",loginDto);
+
 
 
         //회원정보와 권한을 갖는 UserDetails 반환
         return new IntergratedDto(memberEntity, authorities);
+
     }
+
 
     @Autowired
     TicketingRepository ticketingRepository;

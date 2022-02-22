@@ -24,14 +24,13 @@
                 <span class="movie">결제 금액 : </span><span class="movie" th:text="${#numbers.formatInteger(ticket.price, 0, 'COMMA')+'원'}"></span><br>
                 <span class="movie">예약한 좌석 : </span><span class="movie" th:text="${ticket.seat}" id="movieSeat"></span><br>
                 <span class="movie">예약한 인원 : </span><span class="movie" th:text="${ticket.count}"></span><br>
-                <span id="phoneNumber" th:text="${session.logindto.mphone}" style="display: none;"></span>
             </div>
             <div class="text-center mt-5">
-                <button class="btn btn-dark btn-lg" onclick="sendsms();">SMS 전송</button>
+               <button class="btn btn-dark btn-lg" data-bs-target="#modaladdinfo" data-bs-toggle="modal">SMS 전송</button>
                 <a  th:href="@{/member/myinfo}" ><button class="btn btn-dark btn-lg">예매내역 전체보기</button></a>
             </div>
             <div class="text-center mt-3">
-                <a href="/"><button class="btn btn-danger btn-lg" style="width: 308px;">메인으로</button></a>
+               <a th:href="@{/}" ><button class="btn btn-danger btn-lg" style="width: 308px;">메인으로</button></a>
             </div>
         </div>
         <div class="col-md-3 offset-1">
@@ -39,6 +38,28 @@
         </div>
     </div>
 </div>
+
+<!--정보 추가 모달-->
+<div class="modal fade"  data-bs-keyboard="false" data-bs-backdrop="static" tabindex="-1" role="dialog" id="modaladdinfo" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content rounded-5 shadow">
+            <div class="modal-header p-5 pb-4 border-bottom-0">
+                <h2 class="fw-bold mb-0"> 예약 내역 받으실 번호를 입력해주세요</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-5 pt-0">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control rounded-4" id="phoneNumber" name="mphone" placeholder="(-제외)연락처를 입력하세요." th:value="${phone}">
+                    <label for="floatingInput" id="phonecheck">(-제외)연락처를 입력하세요.<span class="text-danger">*</span></label>
+                </div>
+                <button class="w-100 mb-2 btn btn-lg rounded-4 btn-primary" onclick="sendsms();">완료 </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--정보 추가 모달끝-->
+
+
 
 <div th:replace="footer.html::footer"></div><!--푸터-->
 </body>

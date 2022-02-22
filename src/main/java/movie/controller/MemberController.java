@@ -32,6 +32,7 @@ public class MemberController {
     HttpServletRequest request;
     @Autowired
     MovieService movieService;
+
     @GetMapping("/")
     public String main(Model model){
         List<MovieinfoDto> movieinfoDtos = movieService.getmovieinfo();
@@ -42,7 +43,20 @@ public class MemberController {
         List<NewsDto> news = movieService.crawlingdaum();
         model.addAttribute("news",news);
         model.addAttribute("movie",movieinfoDtoList);
+
+
+       /* //세션   소셜 로그인 상태에서 메인에 들어왔을떄 만약에 전화번호가 없으면  실행~!
+        HttpSession session = request.getSession();
+        MemberDto memberDto1 = (MemberDto) session.getAttribute("logindto");
+        if(memberDto1!=null&&memberDto1.getMgrade().equals("Member")&&memberDto1.getMphone()==" "){
+            return"member/infoadd";
+        }else{
+
+        }
+*/
+
         return "main";
+
     }
 
     //로그인페이지 연결
