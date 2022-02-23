@@ -15,16 +15,14 @@
 ## 2. 개발 환경
 - 운영체제 : Windows10
 - Front-end : html, CSS, Bootstrap
-- Back-end : JDK 11, IntelliJ IDEA Ultimate Edition 2021.3.1
+- Back-end : JDK 1.8.0 , IntelliJ IDEA Ultimate Edition 2021.3.1
 - Database : MySQL
-- Server : Apache Tomcat 9.0
 - Version Control : Git
 - API : [영화진흥위원회 오픈API](https://www.kobis.or.kr/kobisopenapi/homepg/apiservice/searchServiceInfo.do#;)
-- 화면 크기 :
 
 ## 3. 역할
 -민욱 : admin 구현
--지형 : main  프론트 구현
+-지형 : 예매, 매출, 영화상세페이지 구현
 -동진 : member 구현
 
 ## 4. 개발 일정
