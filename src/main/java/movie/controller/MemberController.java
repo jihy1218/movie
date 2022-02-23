@@ -43,7 +43,6 @@ public class MemberController {
         List<NewsDto> news = movieService.crawlingdaum();
         model.addAttribute("news",news);
         model.addAttribute("movie",movieinfoDtoList);
-
         return "main";
 
     }
