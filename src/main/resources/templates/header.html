@@ -30,7 +30,7 @@
                     <li class="nav-item"><a th:if="${session.logindto != null }" th:href="@{/member/myinfo}"  class="nav-link px-2" style="font-size: 1rem; color :#4E5B60;">내정보</a></li>
                     <li class="nav-item"><a th:if="${session.logindto != null }" th:href="@{/member/logout}"  class="nav-link px-2" style="font-size:  1rem; color :#4E5B60;">로그아웃</a></li>
                     <!--ADMIN 만들어갈수있는 페이지--> <!--session.loginDto.getMgrade().equals(Role.ADMIN)-->
-                    <li class="nav-item"><a    th:href="@{/admin/adminmain}"  class="nav-link px-2" style="font-size: 1rem; color :#4E5B60;">관리자</a></li>
+                    <li class="nav-item"><a  th:if="${session.logindto!=null  && session.logindto.getMgrade() == 'ROLE_ADMIN'}"  th:href="@{/admin/adminmain}"  class="nav-link px-2" style="font-size: 1rem; color :#4E5B60;">관리자</a></li>
                 </ul>
             </div>
             <div class="col-md-4  offset-4">

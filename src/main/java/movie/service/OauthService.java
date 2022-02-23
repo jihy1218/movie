@@ -39,7 +39,7 @@ import java.util.Collections;
             MemberEntity memberEntity = saveorupdate(oauth2Dto);
             //세션 할당
             String snid = memberEntity.getMemail().split("@")[0];
-            MemberDto loginDto = MemberDto.builder().mid(snid).mno(memberEntity.getMno()).build();
+            MemberDto loginDto = MemberDto.builder().mid(snid).mno(memberEntity.getMno()).mgrade(memberEntity.getMgrade().toString()).build();
 
             HttpSession session = request.getSession();
             session.setAttribute("logindto",loginDto);

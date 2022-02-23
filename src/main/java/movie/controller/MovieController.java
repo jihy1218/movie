@@ -226,7 +226,17 @@ public class MovieController {
     @GetMapping("/reservation/{tno}")
     public String reservation(@PathVariable("tno")int tno,Model model){
         TicketDto ticketing = ticketingService.getTicket(tno);
+        HttpSession session = request.getSession();
+        MemberDto memberDto = (MemberDto)session.getAttribute("logindto");
+        String phoneNum = memberDto.getMphone();
         model.addAttribute("ticket",ticketing);
+        if(phoneNum!=null){
+            model.addAttribute("phone",phoneNum);
+        }else{
+            model.addAttribute("phone","");
+        }
+
+
        return "movie/reservation";
     }
 
